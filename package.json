@@ -1,0 +1,25 @@
+{
+  "name": "adventurerpg",
+  "version": "1.0.0",
+  "description": "A discord bot to play RPG",
+  "main": "bot.ts",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "firebase": "^5.5.2",
+    "firebase-tools": "^4.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lgmagalhaes88/AdventureRPG.git"
+  },
+  "author": "lgmagalhaes88",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lgmagalhaes88/AdventureRPG/issues"
+  },
+  "homepage": "https://github.com/lgmagalhaes88/AdventureRPG#readme"
+}

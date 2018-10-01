@@ -1,10 +1,10 @@
-import { Shield } from "interfaces/shield";
-import { Weapon } from "interfaces/weapon";
-import { Proficience } from "interfaces/proficience";
-import { HeroClass } from "enums/heroclass";
-import { ProficienceType } from "enums/proficienceType";
+import { Shield } from "../interfaces/shield";
+import { Weapon } from "../interfaces/weapon";
+import { Proficience } from "../interfaces/proficience";
+import { HeroClass } from "../enums/heroclass";
+import { ProficienceType } from "../enums/proficienceType";
 
-class Player {
+export class Player {
   private _name: string;
   private _level: number;
   private _xp: number;

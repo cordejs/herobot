@@ -1,9 +1,13 @@
 import * as Discord from "discord.js";
 import * as connections from "./../connection";
-import { HeroClass } from "enums/heroclass";
+import { HeroClass } from "./enums/heroclass";
+import { PlayerService } from "./services/playerService";
+import { Player } from "./models/player";
 const client = new Discord.Client();
 
 const prefix = "_";
+
+const playerService: PlayerService = new PlayerService();
 
 client.on("ready", () => {
   console.log(`Ready for play! ${client.user.tag}!`);
@@ -30,7 +34,7 @@ client.login(connections.SuperSecretDiscordToken.token);
 export function createPlayer(msg: Discord.Message) {
   // First ask for player's name
   msg.channel.send("What is your player name ?").then(() => {
-    // The user has 10 seconds to answer before creation procedure be canceled  
+    // The user has 10 seconds to answer before creation procedure be canceled
     msg.channel.awaitMessages(responseName => responseName.author.id === msg.author.id, {
         max: 1,
         time: 10000,
@@ -54,12 +58,12 @@ export function createPlayer(msg: Discord.Message) {
                   if (
                     className.trim().toUpperCase() === HeroClass.HUNTER.toUpperCase() ||
                     className.trim().toUpperCase() === HeroClass.MAGE.toUpperCase() ||
-                    className.trim().toUpperCase() === HeroClass.THIEF.toUpperCase() || 
+                    className.trim().toUpperCase() === HeroClass.THIEF.toUpperCase() ||
                     className.trim().toUpperCase() === HeroClass.WARRIOR.toUpperCase()
                   ) {
                     msg.channel.send("You're now a " + className);
 
-
+                    playerService.create(new Player(playerName, getHeroClass(className.toString())));
                   }
                 }).catch(() => msg.channel.send("You said your name, but not witch class you wanna be. We can not" +
                  "create a player for you in that way"));
@@ -67,4 +71,11 @@ export function createPlayer(msg: Discord.Message) {
         }
       }).catch(() => msg.channel.send("Player creation cancelled beause you are not speaking to me :("));
   });
+}
+
+function getHeroClass(className: string): HeroClass {
+  if (className.trim().toUpperCase() === HeroClass.HUNTER.toUpperCase()) return HeroClass.HUNTER;
+  else if (className.trim().toUpperCase() === HeroClass.MAGE.toUpperCase()) return HeroClass.MAGE;
+  else if (className.trim().toUpperCase() === HeroClass.THIEF.toUpperCase()) return HeroClass.THIEF;
+  else if (className.trim().toUpperCase() === HeroClass.WARRIOR.toUpperCase()) return HeroClass.WARRIOR;
 }

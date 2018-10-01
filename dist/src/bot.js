@@ -10,8 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const Discord = require("discord.js");
 const connections = require("./../connection");
+const playerService_1 = require("./services/playerService");
+const player_1 = require("./models/player");
 const client = new Discord.Client();
 const prefix = "_";
+const playerService = new playerService_1.PlayerService();
 client.on("ready", () => {
     console.log(`Ready for play! ${client.user.tag}!`);
 });
@@ -35,7 +38,7 @@ client.login(connections.SuperSecretDiscordToken.token);
 function createPlayer(msg) {
     // First ask for player's name
     msg.channel.send("What is your player name ?").then(() => {
-        // The user has 10 seconds to answer before creation procedure be canceled  
+        // The user has 10 seconds to answer before creation procedure be canceled
         msg.channel.awaitMessages(responseName => responseName.author.id === msg.author.id, {
             max: 1,
             time: 10000,
@@ -60,6 +63,7 @@ function createPlayer(msg) {
                             className.trim().toUpperCase() === "Thief" /* THIEF */.toUpperCase() ||
                             className.trim().toUpperCase() === "Warrior" /* WARRIOR */.toUpperCase()) {
                             msg.channel.send("You're now a " + className);
+                            playerService.create(new player_1.Player(playerName, getHeroClass(className.toString())));
                         }
                     }).catch(() => msg.channel.send("You said your name, but not witch class you wanna be. We can not" +
                         "create a player for you in that way"));
@@ -69,4 +73,14 @@ function createPlayer(msg) {
     });
 }
 exports.createPlayer = createPlayer;
+function getHeroClass(className) {
+    if (className.trim().toUpperCase() === "Hunter" /* HUNTER */.toUpperCase())
+        return "Hunter" /* HUNTER */;
+    else if (className.trim().toUpperCase() === "Mage" /* MAGE */.toUpperCase())
+        return "Mage" /* MAGE */;
+    else if (className.trim().toUpperCase() === "Thief" /* THIEF */.toUpperCase())
+        return "Thief" /* THIEF */;
+    else if (className.trim().toUpperCase() === "Warrior" /* WARRIOR */.toUpperCase())
+        return "Warrior" /* WARRIOR */;
+}
 //# sourceMappingURL=bot.js.map

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const proficienceType_1 = require("enums/proficienceType");
+const proficienceType_1 = require("../enums/proficienceType");
 class Player {
     constructor(name, heroclass) {
         this._name = name;
@@ -93,4 +93,5 @@ class Player {
         this._shieldProficience = value;
     }
 }
+exports.Player = Player;
 //# sourceMappingURL=player.js.map

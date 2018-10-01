@@ -1,4 +1,10 @@
+# build folder
+dist/
+
+#Dependencies
 node_modules/
+
+# Connection informations
 connection.ts
 dist/connection.js
 dist/connection.js.map

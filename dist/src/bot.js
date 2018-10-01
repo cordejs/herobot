@@ -12,6 +12,19 @@ const Discord = require("discord.js");
 const connections = require("./../connection");
 const playerService_1 = require("./services/playerService");
 const player_1 = require("./models/player");
+/**
+ * Bot commands:
+ * @function create Creates a new User. Needs to informn the name and the class
+ * @function profile TO DO -> Shows user's profile
+ * @function delete TO DO -> Removes user's player
+ *
+ * @function reset TO DO -> Reset all user's informations
+ * @function xp TO DO -> Shows user's actual experience
+ * @function level TO DO -> Shows user's actual level
+ *
+ * @function gold TO DO -> shows user's actual gold
+ * @function train TO DO -> Sends user's player to train a specific proficience(Damage or Defence)
+ */
 const client = new Discord.Client();
 const prefix = "_";
 const playerService = new playerService_1.PlayerService();

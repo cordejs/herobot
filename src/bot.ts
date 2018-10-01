@@ -3,10 +3,22 @@ import * as connections from "./../connection";
 import { HeroClass } from "./enums/heroclass";
 import { PlayerService } from "./services/playerService";
 import { Player } from "./models/player";
+
+/**
+ * Bot commands:
+ * @function create Creates a new User. Needs to informn the name and the class
+ * @function profile TO DO -> Shows user's profile
+ * @function delete TO DO -> Removes user's player
+ *
+ * @function reset TO DO -> Reset all user's informations
+ * @function xp TO DO -> Shows user's actual experience
+ * @function level TO DO -> Shows user's actual level
+ *
+ * @function gold TO DO -> shows user's actual gold
+ * @function train TO DO -> Sends user's player to train a specific proficience(Damage or Defence)
+ */
 const client = new Discord.Client();
-
 const prefix = "_";
-
 const playerService: PlayerService = new PlayerService();
 
 client.on("ready", () => {

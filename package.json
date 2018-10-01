@@ -18,8 +18,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build:live",
     "build": "tsc -p .",
-    "runbot": "tsc -p . node dist/src/bot.js",
-    "runbotwatch": "nodemon --watch 'src/**/*.ts' node dist/src/bot.js"
+    "bot": "node dist/src/bot.js"
   },
   "repository": {
     "type": "git",

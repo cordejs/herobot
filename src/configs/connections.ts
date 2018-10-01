@@ -1,10 +1,10 @@
 export const firebaseConnection = {
   apiKey: "",
-  authDomain: "",
-  databaseURL: "",
-  projectId: "",
-  storageBucket: "",
+  authDomain: "di",
+  databaseURL: "h",
+  projectId: "d",
+  storageBucket: "d",
   messagingSenderId: ""
 };
 
-export const SuperSecretDiscordToken = "";
+export const SuperSecretDiscordToken = "NoxUohmK_eM";

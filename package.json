@@ -2,17 +2,24 @@
   "name": "adventurerpg",
   "version": "1.0.0",
   "description": "A discord bot to play RPG",
-  "main": "bot.ts",
+  "main": "./src/bot.ts",
   "dependencies": {
+    "@types/node": "^10.11.3",
     "discord.js": "^11.4.2",
     "firebase": "^5.5.2",
     "firebase-tools": "^4.2.1",
+    "nodemon": "^1.18.4",
+    "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "typescript": "^3.1.1"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build:live",
+    "build": "tsc -p .",
+    "runbot": "node dist/src/bot.js",
+    "build:live": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' ./src/bot.ts"
   },
   "repository": {
     "type": "git",

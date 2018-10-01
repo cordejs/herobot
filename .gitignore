@@ -1,2 +1,4 @@
 node_modules/
-.ts
+connection.ts
+dist/connection.js
+dist/connection.js.map

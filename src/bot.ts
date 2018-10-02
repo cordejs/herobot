@@ -24,8 +24,6 @@ import { Player } from "./models/player";
  * @function boosters TO DO -> lists the boosters and his prices
  *
  * @function sell TO DO -> sell a player's equip
- * 
- * 
  */
 const client = new Discord.Client();
 const prefix = "_";

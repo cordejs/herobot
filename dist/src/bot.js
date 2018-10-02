@@ -24,6 +24,14 @@ const player_1 = require("./models/player");
  *
  * @function gold TO DO -> shows user's actual gold
  * @function train TO DO -> Sends user's player to train a specific proficience(Damage or Defence)
+ * Here the user will only get proficience level. No xp or gold
+ * @function explore TO DO -> sned player to kill monsters. There he will receive xp, gold and equips
+ *
+ * @function shop TO DO -> see the equips for sell
+ * @function buy TO DO -> buy an equip by his ID
+ * @function boosters TO DO -> lists the boosters and his prices
+ *
+ * @function sell TO DO -> sell a player's equip
  */
 const client = new Discord.Client();
 const prefix = "_";
@@ -71,10 +79,7 @@ function createPlayer(msg) {
                         errors: ["time"]
                     }).then(getClass => {
                         const className = getClass.first().content;
-                        if (className.trim().toUpperCase() === "Hunter" /* HUNTER */.toUpperCase() ||
-                            className.trim().toUpperCase() === "Mage" /* MAGE */.toUpperCase() ||
-                            className.trim().toUpperCase() === "Thief" /* THIEF */.toUpperCase() ||
-                            className.trim().toUpperCase() === "Warrior" /* WARRIOR */.toUpperCase()) {
+                        if (getHeroClass(className) !== undefined) {
                             msg.channel.send("You're now a " + className);
                             playerService.create(new player_1.Player(playerName, getHeroClass(className.toString())));
                         }
@@ -95,5 +100,6 @@ function getHeroClass(className) {
         return "Thief" /* THIEF */;
     else if (className.trim().toUpperCase() === "Warrior" /* WARRIOR */.toUpperCase())
         return "Warrior" /* WARRIOR */;
+    return undefined;
 }
 //# sourceMappingURL=bot.js.map

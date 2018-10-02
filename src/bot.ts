@@ -67,14 +67,8 @@ export function createPlayer(msg: Discord.Message) {
                     errors: ["time"]
                   }).then(getClass => {
                   const className = getClass.first().content;
-                  if (
-                    className.trim().toUpperCase() === HeroClass.HUNTER.toUpperCase() ||
-                    className.trim().toUpperCase() === HeroClass.MAGE.toUpperCase() ||
-                    className.trim().toUpperCase() === HeroClass.THIEF.toUpperCase() ||
-                    className.trim().toUpperCase() === HeroClass.WARRIOR.toUpperCase()
-                  ) {
+                  if (getHeroClass(className) !== undefined) {
                     msg.channel.send("You're now a " + className);
-
                     playerService.create(new Player(playerName, getHeroClass(className.toString())));
                   }
                 }).catch(() => msg.channel.send("You said your name, but not witch class you wanna be. We can not" +
@@ -90,4 +84,5 @@ function getHeroClass(className: string): HeroClass {
   else if (className.trim().toUpperCase() === HeroClass.MAGE.toUpperCase()) return HeroClass.MAGE;
   else if (className.trim().toUpperCase() === HeroClass.THIEF.toUpperCase()) return HeroClass.THIEF;
   else if (className.trim().toUpperCase() === HeroClass.WARRIOR.toUpperCase()) return HeroClass.WARRIOR;
+  return undefined;
 }

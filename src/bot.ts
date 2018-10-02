@@ -16,6 +16,16 @@ import { Player } from "./models/player";
  *
  * @function gold TO DO -> shows user's actual gold
  * @function train TO DO -> Sends user's player to train a specific proficience(Damage or Defence)
+ * Here the user will only get proficience level. No xp or gold
+ * @function explore TO DO -> sned player to kill monsters. There he will receive xp, gold and equips
+ * 
+ * @function shop TO DO -> see the equips for sell
+ * @function buy TO DO -> buy an equip by his ID
+ * @function boosters TO DO -> lists the boosters and his prices
+ *
+ * @function sell TO DO -> sell a player's equip
+ * 
+ * 
  */
 const client = new Discord.Client();
 const prefix = "_";

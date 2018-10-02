@@ -7,22 +7,20 @@ import { Player } from "./models/player";
 /**
  * Bot commands:
  * @function create Creates a new User. Needs to informn the name and the class
- * @function profile TO DO -> Shows user's profile
- * @function delete TO DO -> Removes user's player
+ * @function profile DOING(NEED TEST) -> Shows user's profile
+ * @function delete DOING(NEED TEST) -> Removes user's player
  *
- * @function reset TO DO -> Reset all user's informations
- * @function xp TO DO -> Shows user's actual experience
- * @function level TO DO -> Shows user's actual level
+ * @function reset DOING(NEED TEST) -> Reset all user's informations
+ * @function xp DOING(NEED TEST)-> Shows user's actual experience
+ * @function gold DOING(NEED TEST) -> shows user's actual gold
  *
- * @function gold TO DO -> shows user's actual gold
  * @function train TO DO -> Sends user's player to train a specific proficience(Damage or Defence)
  * Here the user will only get proficience level. No xp or gold
  * @function explore TO DO -> sned player to kill monsters. There he will receive xp, gold and equips
- * 
  * @function shop TO DO -> see the equips for sell
+ *
  * @function buy TO DO -> buy an equip by his ID
  * @function boosters TO DO -> lists the boosters and his prices
- *
  * @function sell TO DO -> sell a player's equip
  */
 const client = new Discord.Client();
@@ -43,19 +41,27 @@ client.on("message", async msg => {
   const command = args.shift().toLowerCase();
 
   if (command === "create" || command === "c") createPlayer(msg);
+  else if (command === "profile" || command === "p") profile(msg);
+  else if (command === "delete" || command === "d") deletePlayer(msg);
+
+  else if (command === "reset" || command === "r") reset(msg);
+  else if (command === "xp") xp(msg);
+  else if (command === "gold" || command === "g") gold(msg);
+
+  else if(command === "train" || command === "t" && (args.length > 1 && isNaN(+args[1]))) train(msg, +args[1]);
 });
 
 client.login(connections.SuperSecretDiscordToken.token);
 
 /**
  * Create a new user selecting a name and a class for him.
- * @param msg
  */
-export function createPlayer(msg: Discord.Message) {
+function createPlayer(msg: Discord.Message) {
   // First ask for player's name
   msg.channel.send("What is your player name ?").then(() => {
     // The user has 10 seconds to answer before creation procedure be canceled
-    msg.channel.awaitMessages(responseName => responseName.author.id === msg.author.id, {
+    msg.channel
+      .awaitMessages(responseName => responseName.author.id === msg.author.id, {
         max: 1,
         time: 10000,
         errors: ["time"]
@@ -64,33 +70,197 @@ export function createPlayer(msg: Discord.Message) {
         const playerName = getName.first().content;
 
         if (playerName === undefined || playerName.trim() === "") {
-          msg.channel.send("You can not create a player without name :(. I know that you exists");
+          msg.channel.send(
+            "You can not create a player without name :(. I know that you exists"
+          );
         } else {
-          msg.channel.send("Hello " + playerName + ". What is your class ?")
+          msg.channel
+            .send("Hello " + playerName + ". What is your class ?")
             .then(() => {
-              msg.channel.awaitMessages(
-                  classResponse => classResponse.author.id === msg.author.id, {
+              msg.channel
+                .awaitMessages(
+                  classResponse => classResponse.author.id === msg.author.id,
+                  {
                     max: 1,
                     time: 10000,
                     errors: ["time"]
-                  }).then(getClass => {
+                  }
+                )
+                .then(getClass => {
                   const className = getClass.first().content;
                   if (getHeroClass(className) !== undefined) {
                     msg.channel.send("You're now a " + className);
-                    playerService.create(new Player(playerName, getHeroClass(className.toString())));
+                    playerService.create(
+                      new Player(
+                        playerName,
+                        getHeroClass(className.toString()),
+                        msg.author.id
+                      )
+                    );
                   }
-                }).catch(() => msg.channel.send("You said your name, but not witch class you wanna be. We can not" +
-                 "create a player for you in that way"));
+                })
+                .catch(() =>
+                  msg.channel.send(
+                    "You said your name, but not witch class you wanna be. We can not" +
+                      "create a player for you in that way"
+                  )
+                );
             });
         }
-      }).catch(() => msg.channel.send("Player creation cancelled beause you are not speaking to me :("));
+      })
+      .catch(() =>
+        msg.channel.send(
+          "Player creation cancelled beause you are not speaking to me :("
+        )
+      );
   });
 }
 
 function getHeroClass(className: string): HeroClass {
-  if (className.trim().toUpperCase() === HeroClass.HUNTER.toUpperCase()) return HeroClass.HUNTER;
-  else if (className.trim().toUpperCase() === HeroClass.MAGE.toUpperCase()) return HeroClass.MAGE;
-  else if (className.trim().toUpperCase() === HeroClass.THIEF.toUpperCase()) return HeroClass.THIEF;
-  else if (className.trim().toUpperCase() === HeroClass.WARRIOR.toUpperCase()) return HeroClass.WARRIOR;
+  if (className.trim().toUpperCase() === HeroClass.HUNTER.toUpperCase())
+    return HeroClass.HUNTER;
+  else if (className.trim().toUpperCase() === HeroClass.MAGE.toUpperCase())
+    return HeroClass.MAGE;
+  else if (className.trim().toUpperCase() === HeroClass.THIEF.toUpperCase())
+    return HeroClass.THIEF;
+  else if (className.trim().toUpperCase() === HeroClass.WARRIOR.toUpperCase())
+    return HeroClass.WARRIOR;
   return undefined;
+}
+
+/**
+ * Shows player's profile
+ */
+function profile(msg: Discord.Message) {
+  const userID = msg.author.id;
+  playerService.findbyUserID(userID).then(player => {
+    msg.channel.send(player);
+  });
+}
+
+function deletePlayer(msg: Discord.Message) {
+  msg.channel
+    .send("Are you sure that want to delete your amazing character ?")
+    .then(() => {
+      msg.channel
+        .awaitMessages(answer => msg.author.id === answer.author.id, {
+          max: 1,
+          time: 10000,
+          errors: ["time"]
+        })
+        .then(answer => {
+          const ans = answer.first().content;
+          if (ans.toLowerCase() === "yes" || ans.toLowerCase() === "y") {
+            const userId = msg.author.id;
+            playerService.removeByUserID(userId).then(() => {
+              msg.channel.send(
+                "Player was removed with sucess. When you be ready to start again, " +
+                  +"tip " +
+                  prefix +
+                  "create to make a new character"
+              );
+            });
+          } else if (ans.toLowerCase() === "no" || ans.toLowerCase() === "n") {
+            msg.channel.send("We're so happy that you don't give up :)");
+          }
+        });
+    });
+}
+
+function reset(msg: Discord.Message) {
+  msg.channel
+    .send("Are you sure that want to reset all your progress ?")
+    .then(() => {
+      msg.channel
+        .awaitMessages(answer => msg.author.id === answer.author.id, {
+          max: 1,
+          time: 10000,
+          errors: ["time"]
+        })
+        .then(answer => {
+          const ans = answer
+            .first()
+            .content.trim()
+            .toLowerCase();
+
+          if (ans.toLowerCase() === "yes" || ans.toLowerCase() === "y") {
+            const userId = msg.author.id;
+
+            playerService.findbyUserID(userId).then(player => {
+              if (player === undefined) {
+                msg.channel
+                  .send(
+                    "Hmmm. Locks like that you haven't a character created. Would you like to " +
+                      +"create one now ?"
+                  )
+                  .then(() => {
+                    msg.channel
+                      .awaitMessages(
+                        answer => msg.author.id === answer.author.id,
+                        {
+                          max: 1,
+                          time: 10000,
+                          errors: ["time"]
+                        }
+                      )
+                      .then(ans => {
+                        const response = ans
+                          .first()
+                          .content.trim()
+                          .toLowerCase();
+                        if (response === "y" || response === "yes") {
+                          createPlayer(msg);
+                        }
+                      });
+                  });
+                //Player exists
+              } else {
+                const updatePlayer = new Player(
+                  player.name,
+                  player.heroClass,
+                  player.id
+                );
+
+                playerService.updatePlayer(updatePlayer).then(() => {
+                  msg.channel.send("Player" + updatePlayer.name + "reseted");
+                });
+              }
+            });
+          } else if (ans === "no" || ans === "n") {
+            msg.channel.send("Well done");
+          }
+        });
+    });
+}
+
+/**
+ * Inform player's experience
+ */
+function xp(msg: Discord.Message) {
+  playerService.findbyUserID(msg.author.id).then(player => {
+    if(player !== undefined) {
+      let percentage = (player.xp * 100) / player.levelMaxXp;
+      msg.channel.send("You are current in level " + player.level + ". Your experience is" + player.xp + "/" 
+        + player.levelMaxXp + " (" + percentage + "%)"
+      );
+    }
+  });
+}
+
+function gold(msg: Discord.Message){
+  playerService.findbyUserID(msg.author.id).then(player => {
+    if(player !== undefined) {
+      msg.channel.send("Your current gold is " + player.gold);
+    }
+  });
+}
+
+function train(msg: Discord.Message, level: number) {
+  if (level > 0 && level <= 20) {
+    playerService.findbyUserID(msg.author.id).then(player => {
+      if(player !== undefined) {
+        // TO DO
+      }
+    });
+  }
 }

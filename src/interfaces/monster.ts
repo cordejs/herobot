@@ -1,7 +1,7 @@
 import { EquipDrop } from "./equipDrop";
 
 export interface Monster {
-  id: string;
+  id?: string;
   name: string;
   level: number;
   damage: number;

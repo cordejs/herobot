@@ -3,9 +3,12 @@ import { Weapon } from "../interfaces/weapon";
 import { Proficience } from "../interfaces/proficience";
 import { HeroClass } from "../enums/heroclass";
 import { ProficienceType } from "../enums/proficienceType";
+import { Entity } from "./entity";
+import { Adventure } from "models/adventure";
 
-export class Player {
+export class Player extends Entity {
   private _name: string;
+  private _userID: string;
   private _level: number;
   private _xp: number;
   private _levelMaxXp: number;
@@ -13,14 +16,17 @@ export class Player {
   private _gold: number;
   private _shield: Shield;
   private _weapon: Weapon;
+  private _adventure: Adventure;
   private _damageProficience: Proficience;
   private _shieldProficience: Proficience;
 
-  constructor(name: string, heroclass: HeroClass) {
+  constructor(name: string, heroclass: HeroClass, userID: string) {
+    super();
     this._name = name;
     this._heroClass = heroclass;
     this._level = 1;
     this._levelMaxXp = 100;
+    this._userID = userID;
     this._damageProficience = {
       level: 0,
       levelMaxXp: 200,
@@ -108,5 +114,17 @@ export class Player {
   }
   set shieldProficience(value: Proficience) {
     this._shieldProficience = value;
+  }
+  public get userID(): string {
+    return this._userID;
+  }
+  public set userID(value: string) {
+    this._userID = value;
+  }
+  public get adventure(): Adventure {
+    return this._adventure;
+  }
+  public set adventure(value: Adventure) {
+    this._adventure = value;
   }
 }

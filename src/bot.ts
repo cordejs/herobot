@@ -56,7 +56,7 @@ client.on("message", async msg => {
   else if (command === "delete" || command === "d") deletePlayer(msg);
   else if (command === "reset" || command === "r") reset(msg);
   else if (command === "experience" || command === "exp" || command === "xp") xp(msg);
-  else if (command === "gold" || command === "g") gold(msg);
+  else if (command === "gold" || command === "g" || command === "money") gold(msg);
   else if (command === "farm" || (command === "f" && (args.length > 1 && isNaN(+args[1])))) farm(msg, +args[1]);
 });
 
@@ -352,8 +352,8 @@ function xp(msg: Discord.Message) {
  */
 function gold(msg: Discord.Message) {
   playerService.findbyUserID(msg.author.id).then(player => {
-    if (player !== undefined) {
-      msg.channel.send("Your current gold is " + player.gold);
+    if (player !== null) {
+      msg.channel.send("Your current gold is $" + player.gold);
     }
   });
 }

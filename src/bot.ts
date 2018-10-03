@@ -1,8 +1,11 @@
 import * as Discord from "discord.js";
 import * as connections from "../connection";
+import * as adventures from "../data/adventures.json";
+
 import { HeroClass } from "./enums/heroclass";
 import { PlayerService } from "./services/playerService";
 import { createObjectPlayer } from "./interfaces/player";
+import { Adventure } from "./interfaces/adventure";
 
 /**
  * Bot commands:
@@ -10,23 +13,28 @@ import { createObjectPlayer } from "./interfaces/player";
  * @function profile -> Shows user's profile
  * @function delete -> Removes user's player
  *
- * @function reset -> Reset all user's informations
+ * @function reset -> Resets all user's informations
  * @function xp -> Shows user's actual experience
- * @function gold DOING(NEED TEST) -> shows user's actual gold
+ * @function gold -> Shows user's actual gold
  *
  * @function train TO DO -> Sends user's player to train a specific proficience(Damage or Defence)
  * Here the user will only get proficience level. No xp or gold
- * @function explore TO DO -> sned player to kill monsters. There he will receive xp, gold and equips
- * @function shop TO DO -> see the equips for sell
+ * @function explore TO DO -> Sends player to kill monsters. There he will receive xp, gold and equips
+ * @function progress TO DO -> Shows how the user's player is going in the exploration. It shows how long the player
+ * is in the exploration, how much exp, gold and equips he received. Also shows his current level and hp
  *
- * @function buy TO DO -> buy an equip by his ID
- * @function boosters TO DO -> lists the boosters and his prices
- * @function sell TO DO -> sell a player's equip
+ * @function shop TO DO -> Shows the equips for sell
+ * @function buy TO DO -> Buys an equip by his ID
+ * @function boosters TO DO -> Lists the boosters and his prices
+ *
+ * @function sell TO DO -> Sells a player's equip
+ * @function help TO DO -> Inform all commands with their abreviations and description
  */
 
 const client = new Discord.Client();
 const prefix = "_";
 const playerService: PlayerService = new PlayerService();
+const explorationMaxLevel = 20;
 
 /**
  * Tell the world that we're ready!!
@@ -49,7 +57,7 @@ client.on("message", async msg => {
     .trim()
     .split(/ +/g);
 
-  const command = args.shift().toLowerCase();
+  const command = args[0].toLowerCase();
 
   if (command === "create" || command === "c") createPlayer(msg);
   else if (command === "profile" || command === "p") profile(msg);
@@ -57,9 +65,10 @@ client.on("message", async msg => {
   else if (command === "reset" || command === "r") reset(msg);
   else if (command === "experience" || command === "exp" || command === "xp") xp(msg);
   else if (command === "gold" || command === "g" || command === "money") gold(msg);
-  else if (command === "farm" || (command === "f" && (args.length > 1 && isNaN(+args[1])))) farm(msg, +args[1]);
+  else if (command === "explore" || command === "e") explore(msg, +args[1]);
 });
 
+// Creates the connection with Discord using (wisping: a secret token. u.u)
 client.login(connections.SuperSecretDiscordToken.token);
 
 /**
@@ -364,12 +373,22 @@ function gold(msg: Discord.Message) {
  * @param level difficult of the farm field. How bigger the number, harder is the field.
  * The amount of gold, xp received by the user increases according to the value of the level
  */
-function farm(msg: Discord.Message, level: number) {
-  if (level > 0 && level <= 20) {
+function explore(msg: Discord.Message, level: number) {
+  if (level > 0 && level <= explorationMaxLevel) {
     playerService.findbyUserID(msg.author.id).then(player => {
       if (player !== undefined) {
-        // TO DO
+
+        const adv: Adventure = adventures[level];
+        const time = Math.floor(Date.now() / 1000);
+
+        player.adventure = adv;
+        player.adventureStartedTime = time;
+
+        playerService.updatePlayer(player);
+
       }
     });
+  } else {
+    msg.channel.send("You must choose a number between 1 and " + explorationMaxLevel + " to send your ");
   }
 }

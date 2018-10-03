@@ -10,7 +10,7 @@ import { createObjectPlayer } from "./interfaces/player";
  * @function profile -> Shows user's profile
  * @function delete -> Removes user's player
  *
- * @function reset DOING(NEED TEST) -> Reset all user's informations
+ * @function reset -> Reset all user's informations
  * @function xp DOING(NEED TEST)-> Shows user's actual experience
  * @function gold DOING(NEED TEST) -> shows user's actual gold
  *
@@ -309,7 +309,7 @@ function reset(msg: Discord.Message) {
                     );
 
                     playerService.updatePlayer(updatePlayer).then(() => {
-                      msg.channel.send("Player" + updatePlayer.name + "reseted");
+                      msg.channel.send("Player `" + updatePlayer.name + "` reseted");
                     });
 
                   }

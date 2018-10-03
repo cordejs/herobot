@@ -1,0 +1,98 @@
+{
+    "1": {
+        "name": "Murlock",
+        "level": 1,
+        "damage": 2,
+        "shield": 0,
+        "givedXp": 5,
+        "givedGold": 2
+    },
+    "2": {
+        "name": "Murlock-Mage",
+        "level": 1,
+        "damage": 3,
+        "shield": 0,
+        "givedXp": 6,
+        "givedGold": 3
+    },
+    "3": {
+        "name": "King Murlock",
+        "level": 1,
+        "damage": 5,
+        "shield": 2,
+        "givedXp": 10,
+        "givedGold": 5
+    },
+    "4": {
+        "name": "Murlock",
+        "level": 1,
+        "damage": 2,
+        "shield": 0,
+        "givedXp": 5,
+        "givedGold": 2
+    },
+    "5": {
+        "name": "Small Spider",
+        "level": 2,
+        "damage": 4,
+        "shield": 1,
+        "givedXp": 8,
+        "givedGold": 3
+    },
+    "6": {
+        "name": "Spider",
+        "level": 2,
+        "damage": 6,
+        "shield": 2,
+        "givedXp": 9,
+        "givedGold": 3
+    },
+    "7": {
+        "name": "Poison Spider",
+        "level": 2,
+        "damage": 7,
+        "shield": 2,
+        "givedXp": 10,
+        "givedGold": 4
+    },
+    "8": {
+        "name": "Giant Spider",
+        "level": 2,
+        "damage": 9,
+        "shield": 3,
+        "givedXp": 12,
+        "givedGold": 4
+    },
+    "9": {
+        "name": "King Spider",
+        "level": 3,
+        "damage": 12,
+        "shield": 2,
+        "givedXp": 15,
+        "givedGold": 5
+    },
+    "10": {
+        "name": "Wolf",
+        "level": 3,
+        "damage": 10,
+        "shield": 3,
+        "givedXp": 13,
+        "givedGold": 5
+    },
+    "11": {
+        "name": "Giant Wolf",
+        "level": 3,
+        "damage": 12,
+        "shield": 3,
+        "givedXp": 15,
+        "givedGold": 6
+    },
+    "12": {
+        "name": "Wolf",
+        "level": 3,
+        "damage": 10,
+        "shield": 3,
+        "givedXp": 13,
+        "givedGold": 5
+    }
+}

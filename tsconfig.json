@@ -2,11 +2,12 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es6",
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "paths": {
       "*": ["node_modules/*", "src/*"]
     }

@@ -4,7 +4,7 @@ import { Proficience } from "./proficience";
 import { HeroClass } from "../enums/heroclass";
 import { ProficienceType } from "../enums/proficienceType";
 import { Entity } from "./entity";
-import { Adventure } from "../models/adventure";
+import { Adventure } from "./adventure";
 
 export interface Player extends Entity {
   name: string;
@@ -18,6 +18,7 @@ export interface Player extends Entity {
   shield?: Shield;
   weapon?: Weapon;
   adventure?: Adventure;
+  adventureStartedTime?: number;
   damageProficience: Proficience;
   shieldProficience: Proficience;
 }

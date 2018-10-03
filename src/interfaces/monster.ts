@@ -1,5 +1,3 @@
-import { EquipDrop } from "interfaces/equipDrop";
-
 export interface Monster {
   id?: string;
   name: string;
@@ -8,5 +6,4 @@ export interface Monster {
   shield: number;
   givedXp: number;
   givedGold: number;
-  dropableItens: EquipDrop[];
 }

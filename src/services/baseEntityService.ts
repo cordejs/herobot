@@ -29,6 +29,12 @@ export class BaseEntityService<T> {
   protected find(route: string, key: string): Promise<T> {
     return this.db.ref(route + "/" + key).once("value").then(function (snapshot) {
       return new Promise<T>(resolve => {
+        snapshot.forEach(data => {
+
+          const dataVal: Entity = data.val();
+          dataVal.id = data.key;
+
+        });
         resolve(snapshot.val());
       });
     });
@@ -42,12 +48,14 @@ export class BaseEntityService<T> {
    * @param fieldValue value of the attribute to filter
    */
   protected findByField(route: string, field: string, fieldValue: string): Promise<T> {
-     this.db.ref(route).orderByChild(field).equalTo(fieldValue).on("value", (snapshot) => {
+    this.db.ref(route).orderByChild(field).equalTo(fieldValue).on("value", (snapshot) => {
       return new Promise<T>((resolve) => {
+
         snapshot.val().id = snapshot.key;
         resolve(snapshot.val());
+
       });
-    }, function(error: any) {
+    }, function (error: any) {
       console.log("Error when attempting to read data from firebase" + error.code);
     });
     throw new Error("Fail when attempting to read data from firebase");
@@ -73,7 +81,7 @@ export class BaseEntityService<T> {
       return new Promise<T>((resolve) => {
         snapshot.ref.remove().then(() => resolve());
       });
-    }, function(error: any) {
+    }, function (error: any) {
       console.log("Error when attempting to remove data from firebase" + error.code);
     });
     throw new Error("Fail when attempting to remove data from firebase");
@@ -97,10 +105,12 @@ export class BaseEntityService<T> {
   }
 
   private adjustEntity(entity: Entity) {
-     Object.getOwnPropertyNames(entity).forEach(proper => {
-       Object.defineProperty(entity, proper.replace("_", ""),
-       Object.getOwnPropertyDescriptor(entity, proper));
-       delete Object(entity)["_" + proper];
-      });
+    Object.getOwnPropertyNames(entity).forEach(proper => {
+
+      Object.defineProperty(entity, proper.replace("_", ""),
+        Object.getOwnPropertyDescriptor(entity, proper));
+      delete Object(entity)["_" + proper];
+
+    });
   }
 }

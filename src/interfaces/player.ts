@@ -25,14 +25,14 @@ export interface Player extends Entity {
 /**
  * Return the total amount of damage that the player give
  */
-export function damage(): number {
+export function playerDamage(): number {
   return this._weapon.damage + this._damageProficience.level / 2;
 }
 
 /**
  * Return the total amount of defence
  */
-export function defence(): number {
+export function playerDefence(): number {
   return this._shield.defence + this._shieldProficience.level / 2;
 }
 

@@ -9,7 +9,7 @@ export class PlayerService extends BaseEntityService<Player> {
   }
 
   findbyUserID(id: string): Promise<Player> {
-    return super.findByField(this.route, "userID", id);
+     return super.find(this.route, id);
   }
 
   remove(player: Player): Promise<void> {

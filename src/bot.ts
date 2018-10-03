@@ -71,63 +71,77 @@ client.login(connections.SuperSecretDiscordToken.token);
  * @param msg Discord last message related to the command
  */
 function createPlayer(msg: Discord.Message) {
-  // First ask for player's name
-  msg.channel.send("What is your player name ?").then(() => {
-    // The user has 10 seconds to answer before creation procedure be canceled
-    msg.channel
-      .awaitMessages(responseName => responseName.author.id === msg.author.id, {
-        max: 1,
-        time: 10000,
-        errors: ["time"]
-      })
-      .then(getName => {
-        const playerName = getName.first().content;
-
-        if (playerName === undefined || playerName.trim() === "") {
-          msg.channel.send(
-            "You can not create a player without name :(. I know that you exists"
-          );
-        } else {
-          msg.channel
-            .send("Hello " + playerName + ". What is your class ?")
-            .then(() => {
-              msg.channel
-                .awaitMessages(
-                  classResponse => classResponse.author.id === msg.author.id,
-                  {
-                    max: 1,
-                    time: 10000,
-                    errors: ["time"]
-                  }
-                )
-                .then(getClass => {
-                  const className = getClass.first().content;
-                  if (getHeroClass(className) !== undefined) {
-                    msg.channel.send("You're now a " + className);
-                    playerService.createPlayer(
-                      createObjectPlayer(
-                        playerName,
-                        getHeroClass(className.toString()),
-                        msg.author.id
-                      )
-                    );
-                  }
-                })
-                .catch(error => {
-                  console.log("Fail at player creation. Error: " + error);
-                  msg.channel.send(
-                    "You said your name, but not witch class you wanna be. We can not " +
-                      "create a player for you in that way"
-                  );
-                });
-            });
-        }
-      })
-      .catch(() =>
-        msg.channel.send(
-          "Player creation cancelled beause you are not speaking to me :("
-        )
+  // First check if the user already have an player
+  playerService.findbyUserID(msg.author.id).then(player => {
+    if (player !== undefined) {
+      msg.channel.sendMessage(
+        "You already have a player created called " +
+          player.name
       );
+    } else {
+      // If haven't, ask for player's name
+      msg.channel.send("What is your player name ?").then(() => {
+        // The user has 10 seconds to answer before creation procedure be canceled
+        msg.channel
+          .awaitMessages(
+            responseName => responseName.author.id === msg.author.id,
+            {
+              max: 1,
+              time: 10000,
+              errors: ["time"]
+            }
+          )
+          .then(getName => {
+            const playerName = getName.first().content;
+
+            if (playerName === undefined || playerName.trim() === "") {
+              msg.channel.send(
+                "You can not create a player without name :(. I know that you exists"
+              );
+            } else {
+              msg.channel
+                .send("Hello " + playerName + ". What is your class ?")
+                .then(() => {
+                  msg.channel
+                    .awaitMessages(
+                      classResponse =>
+                        classResponse.author.id === msg.author.id,
+                      {
+                        max: 1,
+                        time: 10000,
+                        errors: ["time"]
+                      }
+                    )
+                    .then(getClass => {
+                      const className = getClass.first().content;
+                      if (getHeroClass(className) !== undefined) {
+                        msg.channel.send("You're now a " + className);
+                        playerService.createPlayer(
+                          createObjectPlayer(
+                            playerName,
+                            getHeroClass(className.toString()),
+                            msg.author.id
+                          )
+                        );
+                      }
+                    })
+                    .catch(error => {
+                      console.log("Fail at player creation. Error: " + error);
+                      msg.channel.send(
+                        "You said your name, but not witch class you wanna be. We can not " +
+                          "create a player for you in that way"
+                      );
+                    });
+                });
+            }
+          })
+          .catch(() =>
+            msg.channel.send(
+              "Player creation cancelled beause you are not speaking to me :("
+            )
+          );
+      });
+    }
   });
 }
 

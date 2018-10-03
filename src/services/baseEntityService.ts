@@ -27,14 +27,11 @@ export class BaseEntityService<T> {
    * @param key identifier of the data
    */
   protected find(route: string, key: string): Promise<T> {
-    this.db.ref(route + "/" + key).on("value", function(snapshot) {
-      return new Promise<T>((resolve) => {
+    return this.db.ref(route + "/" + key).once("value").then(function (snapshot) {
+      return new Promise<T>(resolve => {
         resolve(snapshot.val());
       });
-      }, function(errorObject: any) {
-        console.log("Error when attempting to read data from firebase" + errorObject.code);
-      });
-      throw new Error("Fail when attempting to read data from firebase");
+    });
   }
 
   /**

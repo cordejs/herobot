@@ -12,12 +12,8 @@ export class PlayerService extends BaseEntityService<Player> {
      return super.find(this.route, id);
   }
 
-  remove(player: Player): Promise<void> {
-    return super.delete(this.route, player.id.toString());
-  }
-
-  removeByUserID(id: string): Promise<void> {
-    return super.deleteByField(this.route, "userID", id);
+  remove(id: string): Promise<void> {
+    return super.delete(this.route, id);
   }
 
   updatePlayer(player: Player) {

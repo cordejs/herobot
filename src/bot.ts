@@ -8,7 +8,7 @@ import { createObjectPlayer } from "./interfaces/player";
  * Bot commands:
  * @function create -> Creates a new User. Needs to informn the name and the class
  * @function profile -> Shows user's profile
- * @function delete DOING(NEED TEST) -> Removes user's player
+ * @function delete -> Removes user's player
  *
  * @function reset DOING(NEED TEST) -> Reset all user's informations
  * @function xp DOING(NEED TEST)-> Shows user's actual experience
@@ -57,11 +57,7 @@ client.on("message", async msg => {
   else if (command === "reset" || command === "r") reset(msg);
   else if (command === "xp") xp(msg);
   else if (command === "gold" || command === "g") gold(msg);
-  else if (
-    command === "farm" ||
-    (command === "f" && (args.length > 1 && isNaN(+args[1])))
-  )
-    farm(msg, +args[1]);
+  else if (command === "farm" || (command === "f" && (args.length > 1 && isNaN(+args[1])))) farm(msg, +args[1]);
 });
 
 client.login(connections.SuperSecretDiscordToken.token);
@@ -222,9 +218,9 @@ function deletePlayer(msg: Discord.Message) {
           const ans = answer.first().content;
           if (ans.toLowerCase() === "yes" || ans.toLowerCase() === "y") {
             const userId = msg.author.id;
-            playerService.removeByUserID(userId).then(() => {
+            playerService.remove(userId).then(() => {
               msg.channel.send(
-                "Player was removed with sucess. When you be ready to start again, " +
+                "Player was removed with success. When you be ready to start again, " +
                   +"tip " +
                   prefix +
                   "create to make a new character"

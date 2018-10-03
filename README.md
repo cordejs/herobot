@@ -16,5 +16,5 @@ npm run build
 ## Running
 
 ```shell
-npm run build
+npm run bot
 ```

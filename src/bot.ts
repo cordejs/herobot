@@ -6,8 +6,8 @@ import { createObjectPlayer } from "./interfaces/player";
 
 /**
  * Bot commands:
- * @function create Creates a new User. Needs to informn the name and the class
- * @function profile DOING(NEED TEST) -> Shows user's profile
+ * @function create -> Creates a new User. Needs to informn the name and the class
+ * @function profile -> Shows user's profile
  * @function delete DOING(NEED TEST) -> Removes user's player
  *
  * @function reset DOING(NEED TEST) -> Reset all user's informations
@@ -73,10 +73,9 @@ client.login(connections.SuperSecretDiscordToken.token);
 function createPlayer(msg: Discord.Message) {
   // First check if the user already have an player
   playerService.findbyUserID(msg.author.id).then(player => {
-    if (player !== undefined) {
+    if (player !== null) {
       msg.channel.send(
-        "You already have a player created called `" +
-        player.name + "`"
+        "You already have a player created called `" + player.name + "`"
       );
     } else {
       // If haven't, ask for player's name
@@ -162,9 +161,46 @@ function getHeroClass(className: string): HeroClass {
  * @param msg Discord last message related to the command
  */
 function profile(msg: Discord.Message) {
-  const userID = msg.author.id;
-  playerService.findbyUserID(userID).then(player => {
-    msg.channel.send(player);
+  playerService.findbyUserID(msg.author.id).then(player => {
+    msg.channel.send(
+      "Name: " +
+        player.name +
+        "\n" +
+        "Gold: $" +
+        player.gold +
+        "\n" +
+        "Class: " +
+        player.heroClass +
+        "\n" +
+        "Hp: " +
+        player.hpActual +
+        " / " +
+        player.hpTotal +
+        "\n" +
+        "Level: " +
+        player.level +
+        "\n" +
+        "Experience: " +
+        player.xp +
+        " / " +
+        player.levelMaxXp +
+        "\n" +
+        "Damage proficience level: " +
+        player.damageProficience.level +
+        "\n" +
+        "Damage proficience xp: " +
+        player.damageProficience.xp +
+        " / " +
+        player.damageProficience.levelMaxXp +
+        "\n" +
+        "Shield proficience level: " +
+        player.shieldProficience.level +
+        "\n" +
+        "Shield proficience xp: " +
+        player.shieldProficience.xp +
+        " / " +
+        player.shieldProficience.levelMaxXp
+    );
   });
 }
 

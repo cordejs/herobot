@@ -205,32 +205,40 @@ function profile(msg: Discord.Message) {
  * @param msg Discord last message related to the command
  */
 function deletePlayer(msg: Discord.Message) {
-  msg.channel
-    .send("Are you sure that want to delete your amazing character ?")
-    .then(() => {
+  playerService.findbyUserID(msg.author.id).then(player => {
+    if (player === null) {
+      msg.channel.send(
+        "You can not delete a player being that you haven't one"
+      );
+    } else {
       msg.channel
-        .awaitMessages(answer => msg.author.id === answer.author.id, {
-          max: 1,
-          time: 10000,
-          errors: ["time"]
-        })
-        .then(answer => {
-          const ans = answer.first().content;
-          if (ans.toLowerCase() === "yes" || ans.toLowerCase() === "y") {
-            const userId = msg.author.id;
-            playerService.remove(userId).then(() => {
-              msg.channel.send(
-                "Player was removed with success. When you be ready to start again, " +
-                  +"tip " +
-                  prefix +
-                  "create to make a new character"
-              );
+        .send("Are you sure that want to delete your amazing character ?")
+        .then(() => {
+          msg.channel
+            .awaitMessages(answer => msg.author.id === answer.author.id, {
+              max: 1,
+              time: 10000,
+              errors: ["time"]
+            })
+            .then(answer => {
+              const ans = answer.first().content;
+              if (ans.toLowerCase() === "yes" || ans.toLowerCase() === "y") {
+                const userId = msg.author.id;
+                playerService.remove(userId).then(() => {
+                  msg.channel.send(
+                    "Player was removed with success. When you be ready to start again, " +
+                    +"tip " +
+                    prefix +
+                    "create to make a new character"
+                  );
+                });
+              } else if (ans.toLowerCase() === "no" || ans.toLowerCase() === "n") {
+                msg.channel.send("We're so happy that you don't give up :)");
+              }
             });
-          } else if (ans.toLowerCase() === "no" || ans.toLowerCase() === "n") {
-            msg.channel.send("We're so happy that you don't give up :)");
-          }
         });
-    });
+    }
+  });
 }
 
 /**
@@ -240,69 +248,79 @@ function deletePlayer(msg: Discord.Message) {
  * @param msg Discord last message related to the command
  */
 function reset(msg: Discord.Message) {
-  msg.channel
-    .send("Are you sure that want to reset all your progress ?")
-    .then(() => {
+  playerService.findbyUserID(msg.author.id).then(player => {
+    if (player === null) {
+      msg.channel.send(
+        "You can not reset a player being that you haven't one"
+      );
+    } else {
       msg.channel
-        .awaitMessages(answer => msg.author.id === answer.author.id, {
-          max: 1,
-          time: 10000,
-          errors: ["time"]
-        })
-        .then(answer => {
-          const ans = answer
-            .first()
-            .content.trim()
-            .toLowerCase();
+        .send("Are you sure that want to reset all your progress ?")
+        .then(() => {
+          msg.channel
+            .awaitMessages(answer => msg.author.id === answer.author.id, {
+              max: 1,
+              time: 10000,
+              errors: ["time"]
+            })
+            .then(answer => {
+              const ans = answer
+                .first()
+                .content.trim()
+                .toLowerCase();
 
-          if (ans.toLowerCase() === "yes" || ans.toLowerCase() === "y") {
-            const userId = msg.author.id;
+              if (ans.toLowerCase() === "yes" || ans.toLowerCase() === "y") {
+                const userId = msg.author.id;
 
-            playerService.findbyUserID(userId).then(player => {
-              if (player === undefined) {
-                msg.channel
-                  .send(
-                    "Hmmm. Locks like that you haven't a character created. Would you like to " +
-                      +"create one now ?"
-                  )
-                  .then(() => {
+                playerService.findbyUserID(userId).then(player => {
+                  if (player === undefined) {
                     msg.channel
-                      .awaitMessages(
-                        answer => msg.author.id === answer.author.id,
-                        {
-                          max: 1,
-                          time: 10000,
-                          errors: ["time"]
-                        }
+                      .send(
+                        "Hmmm. Locks like that you haven't a character created. Would you like to " +
+                        +"create one now ?"
                       )
-                      .then(ans => {
-                        const response = ans
-                          .first()
-                          .content.trim()
-                          .toLowerCase();
-                        if (response === "y" || response === "yes") {
-                          createPlayer(msg);
-                        }
+                      .then(() => {
+                        msg.channel
+                          .awaitMessages(
+                            answer => msg.author.id === answer.author.id,
+                            {
+                              max: 1,
+                              time: 10000,
+                              errors: ["time"]
+                            }
+                          )
+                          .then(ans => {
+                            const response = ans
+                              .first()
+                              .content.trim()
+                              .toLowerCase();
+                            if (response === "y" || response === "yes") {
+                              createPlayer(msg);
+                            }
+                          });
                       });
-                  });
-                // Player exists
-              } else {
-                const updatePlayer = createObjectPlayer(
-                  player.name,
-                  player.heroClass,
-                  player.id
-                );
+                    // Player exists
+                  } else {
 
-                playerService.updatePlayer(updatePlayer).then(() => {
-                  msg.channel.send("Player" + updatePlayer.name + "reseted");
+                    const updatePlayer = createObjectPlayer(
+                      player.name,
+                      player.heroClass,
+                      player.id
+                    );
+
+                    playerService.updatePlayer(updatePlayer).then(() => {
+                      msg.channel.send("Player" + updatePlayer.name + "reseted");
+                    });
+
+                  }
                 });
+              } else if (ans === "no" || ans === "n") {
+                msg.channel.send("Well done");
               }
             });
-          } else if (ans === "no" || ans === "n") {
-            msg.channel.send("Well done");
-          }
         });
-    });
+    }
+  });
 }
 
 /**

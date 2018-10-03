@@ -74,9 +74,9 @@ function createPlayer(msg: Discord.Message) {
   // First check if the user already have an player
   playerService.findbyUserID(msg.author.id).then(player => {
     if (player !== undefined) {
-      msg.channel.sendMessage(
-        "You already have a player created called " +
-          player.name
+      msg.channel.send(
+        "You already have a player created called `" +
+        player.name + "`"
       );
     } else {
       // If haven't, ask for player's name

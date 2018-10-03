@@ -11,7 +11,7 @@ import { createObjectPlayer } from "./interfaces/player";
  * @function delete -> Removes user's player
  *
  * @function reset -> Reset all user's informations
- * @function xp DOING(NEED TEST)-> Shows user's actual experience
+ * @function xp -> Shows user's actual experience
  * @function gold DOING(NEED TEST) -> shows user's actual gold
  *
  * @function train TO DO -> Sends user's player to train a specific proficience(Damage or Defence)
@@ -55,7 +55,7 @@ client.on("message", async msg => {
   else if (command === "profile" || command === "p") profile(msg);
   else if (command === "delete" || command === "d") deletePlayer(msg);
   else if (command === "reset" || command === "r") reset(msg);
-  else if (command === "xp") xp(msg);
+  else if (command === "experience" || command === "exp" || command === "xp") xp(msg);
   else if (command === "gold" || command === "g") gold(msg);
   else if (command === "farm" || (command === "f" && (args.length > 1 && isNaN(+args[1])))) farm(msg, +args[1]);
 });
@@ -329,12 +329,12 @@ function reset(msg: Discord.Message) {
  */
 function xp(msg: Discord.Message) {
   playerService.findbyUserID(msg.author.id).then(player => {
-    if (player !== undefined) {
+    if (player !== null) {
       const percentage = (player.xp * 100) / player.levelMaxXp;
       msg.channel.send(
         "You are current in level " +
           player.level +
-          ". Your experience is" +
+          ". Your experience is " +
           player.xp +
           "/" +
           player.levelMaxXp +

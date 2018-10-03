@@ -1,4 +1,4 @@
-import { EquipDrop } from "./equipDrop";
+import { EquipDrop } from "interfaces/equipDrop";
 
 export interface Monster {
   id?: string;

@@ -1,10 +1,10 @@
 import * as firebase from "firebase";
 import "firebase/database";
-import * as connections from "./../../connection";
-import { Entity } from "../models/entity";
+import * as connections from "../../connection";
+import { Entity } from "../interfaces/entity";
 
 export class BaseEntityService<T> {
-  private db: firebase.database.Database;
+  protected db: firebase.database.Database;
 
   constructor() {
     const app = firebase.initializeApp(connections.firebaseConnection);
@@ -16,7 +16,7 @@ export class BaseEntityService<T> {
    * @param object
    * @param route
    */
-  protected create(object: T, route: string): void {
+  protected create(route: string, object: T): void {
     this.db.ref(route).push(object);
   }
 
@@ -91,5 +91,19 @@ export class BaseEntityService<T> {
     const id = entity.id;
     delete entity.id;
     return this.db.ref(route + "/" + id).update(entity);
+  }
+
+  protected set(route: string, entity: Entity): Promise<void> {
+    this.adjustEntity(entity);
+    delete entity.id;
+    return this.db.ref(route).set(entity);
+  }
+
+  private adjustEntity(entity: Entity) {
+     Object.getOwnPropertyNames(entity).forEach(proper => {
+       Object.defineProperty(entity, proper.replace("_", ""),
+       Object.getOwnPropertyDescriptor(entity, proper));
+       delete Object(entity)["_" + proper];
+      });
   }
 }

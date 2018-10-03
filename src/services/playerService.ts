@@ -1,11 +1,11 @@
-import { BaseEntityService } from "./baseEntityService";
-import { Player } from "./../models/player";
+import { BaseEntityService } from "../services/baseEntityService";
+import { Player } from "../interfaces/player";
 
 export class PlayerService extends BaseEntityService<Player> {
   private route = "/players";
 
-  create(player: Player): void {
-    super.create(player, this.route);
+  createPlayer(player: Player): Promise<void> {
+    return super.set(this.route + "/" + player.id, player);
   }
 
   findbyUserID(id: string): Promise<Player> {
@@ -13,7 +13,7 @@ export class PlayerService extends BaseEntityService<Player> {
   }
 
   remove(player: Player): Promise<void> {
-    return super.delete(this.route, player.id);
+    return super.delete(this.route, player.id.toString());
   }
 
   removeByUserID(id: string): Promise<void> {

@@ -1,4 +1,4 @@
-import { Monster } from "../interfaces/monster";
+import { Monster } from "interfaces/monster";
 
 export class Adventure {
     private id: string;

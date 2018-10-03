@@ -1,4 +1,4 @@
-import { ProficienceType } from "../enums/proficienceType";
+import { ProficienceType } from "enums/proficienceType";
 
 export interface Proficience {
   type: ProficienceType;

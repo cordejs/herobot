@@ -1,8 +1,8 @@
 import * as Discord from "discord.js";
-import * as connections from "./../connection";
+import * as connections from "../connection";
 import { HeroClass } from "./enums/heroclass";
 import { PlayerService } from "./services/playerService";
-import { Player } from "./models/player";
+import { createObjectPlayer } from "./interfaces/player";
 
 /**
  * Bot commands:
@@ -23,38 +23,52 @@ import { Player } from "./models/player";
  * @function boosters TO DO -> lists the boosters and his prices
  * @function sell TO DO -> sell a player's equip
  */
+
 const client = new Discord.Client();
 const prefix = "_";
 const playerService: PlayerService = new PlayerService();
 
+/**
+ * Tell the world that we're ready!!
+ */
 client.on("ready", () => {
   console.log(`Ready for play! ${client.user.tag}!`);
 });
 
+/**
+ * Correspond to the receptor of all messages sent by the users in Discord
+ */
 client.on("message", async msg => {
   // Ignoring others bots
   if (msg.author.bot) return;
   // Checking if the command has the prefix
   if (!msg.content.startsWith(prefix, 0)) return;
 
-  const args = msg.content.slice(prefix.length).trim().split(/ +/g);
+  const args = msg.content
+    .slice(prefix.length)
+    .trim()
+    .split(/ +/g);
+
   const command = args.shift().toLowerCase();
 
   if (command === "create" || command === "c") createPlayer(msg);
   else if (command === "profile" || command === "p") profile(msg);
   else if (command === "delete" || command === "d") deletePlayer(msg);
-
   else if (command === "reset" || command === "r") reset(msg);
   else if (command === "xp") xp(msg);
   else if (command === "gold" || command === "g") gold(msg);
-
-  else if(command === "train" || command === "t" && (args.length > 1 && isNaN(+args[1]))) train(msg, +args[1]);
+  else if (
+    command === "farm" ||
+    (command === "f" && (args.length > 1 && isNaN(+args[1])))
+  )
+    farm(msg, +args[1]);
 });
 
 client.login(connections.SuperSecretDiscordToken.token);
 
 /**
  * Create a new user selecting a name and a class for him.
+ * @param msg Discord last message related to the command
  */
 function createPlayer(msg: Discord.Message) {
   // First ask for player's name
@@ -90,8 +104,8 @@ function createPlayer(msg: Discord.Message) {
                   const className = getClass.first().content;
                   if (getHeroClass(className) !== undefined) {
                     msg.channel.send("You're now a " + className);
-                    playerService.create(
-                      new Player(
+                    playerService.createPlayer(
+                      createObjectPlayer(
                         playerName,
                         getHeroClass(className.toString()),
                         msg.author.id
@@ -99,12 +113,13 @@ function createPlayer(msg: Discord.Message) {
                     );
                   }
                 })
-                .catch(() =>
+                .catch(error => {
+                  console.log("Fail at player creation. Error: " + error);
                   msg.channel.send(
-                    "You said your name, but not witch class you wanna be. We can not" +
+                    "You said your name, but not witch class you wanna be. We can not " +
                       "create a player for you in that way"
-                  )
-                );
+                  );
+                });
             });
         }
       })
@@ -130,6 +145,7 @@ function getHeroClass(className: string): HeroClass {
 
 /**
  * Shows player's profile
+ * @param msg Discord last message related to the command
  */
 function profile(msg: Discord.Message) {
   const userID = msg.author.id;
@@ -138,6 +154,10 @@ function profile(msg: Discord.Message) {
   });
 }
 
+/**
+ * Removes a user's player
+ * @param msg Discord last message related to the command
+ */
 function deletePlayer(msg: Discord.Message) {
   msg.channel
     .send("Are you sure that want to delete your amazing character ?")
@@ -167,6 +187,12 @@ function deletePlayer(msg: Discord.Message) {
     });
 }
 
+/**
+ * Reboot all informations about the user. Making him have the attributes values equals to someone that
+ * just started the game.
+ * @see createObjectPlayer() at '*../interfaces/player*'
+ * @param msg Discord last message related to the command
+ */
 function reset(msg: Discord.Message) {
   msg.channel
     .send("Are you sure that want to reset all your progress ?")
@@ -213,9 +239,9 @@ function reset(msg: Discord.Message) {
                         }
                       });
                   });
-                //Player exists
+                // Player exists
               } else {
-                const updatePlayer = new Player(
+                const updatePlayer = createObjectPlayer(
                   player.name,
                   player.heroClass,
                   player.id
@@ -235,30 +261,49 @@ function reset(msg: Discord.Message) {
 
 /**
  * Inform player's experience
+ * @param msg Discord last message related to the command
  */
 function xp(msg: Discord.Message) {
   playerService.findbyUserID(msg.author.id).then(player => {
-    if(player !== undefined) {
-      let percentage = (player.xp * 100) / player.levelMaxXp;
-      msg.channel.send("You are current in level " + player.level + ". Your experience is" + player.xp + "/" 
-        + player.levelMaxXp + " (" + percentage + "%)"
+    if (player !== undefined) {
+      const percentage = (player.xp * 100) / player.levelMaxXp;
+      msg.channel.send(
+        "You are current in level " +
+          player.level +
+          ". Your experience is" +
+          player.xp +
+          "/" +
+          player.levelMaxXp +
+          " (" +
+          percentage +
+          "%)"
       );
     }
   });
 }
 
-function gold(msg: Discord.Message){
+/**
+ * Shows player's total amount of gold
+ * @param msg Discord last message related to the command
+ */
+function gold(msg: Discord.Message) {
   playerService.findbyUserID(msg.author.id).then(player => {
-    if(player !== undefined) {
+    if (player !== undefined) {
       msg.channel.send("Your current gold is " + player.gold);
     }
   });
 }
 
-function train(msg: Discord.Message, level: number) {
+/**
+ * Send user user to farm(Get gold, xp, and equips)
+ * @param msg Discord last message related to the command
+ * @param level difficult of the farm field. How bigger the number, harder is the field.
+ * The amount of gold, xp received by the user increases according to the value of the level
+ */
+function farm(msg: Discord.Message, level: number) {
   if (level > 0 && level <= 20) {
     playerService.findbyUserID(msg.author.id).then(player => {
-      if(player !== undefined) {
+      if (player !== undefined) {
         // TO DO
       }
     });

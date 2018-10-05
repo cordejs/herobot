@@ -4,7 +4,6 @@ import * as adventures from "../data/adventures.json";
 
 import { HeroClass } from "./enums/heroclass";
 import { PlayerService } from "./services/playerService";
-import { createObjectPlayer } from "./interfaces/player";
 import { Adventure } from "./interfaces/adventure";
 
 /**
@@ -79,85 +78,63 @@ function createPlayer(msg: Discord.Message) {
   // First check if the user already have an player
   playerService.findbyUserID(msg.author.id).then(player => {
     if (player !== null) {
-      msg.channel.send(
-        "You already have a player created called `" + player.name + "`"
-      );
+      msg.channel.send("You already have a player created called `" + player.name + "`");
     } else {
       // If haven't, ask for player's name
       msg.channel.send("What is your player name ?").then(() => {
         // The user has 10 seconds to answer before creation procedure be canceled
-        msg.channel
-          .awaitMessages(
-            responseName => responseName.author.id === msg.author.id,
-            {
-              max: 1,
-              time: 10000,
-              errors: ["time"]
-            }
-          )
-          .then(getName => {
+        msg.channel.awaitMessages(responseName => responseName.author.id === msg.author.id,
+          {
+            max: 1,
+            time: 10000,
+            errors: ["time"]
+          }).then(getName => {
             const playerName = getName.first().content;
 
             if (playerName === undefined || playerName.trim() === "") {
-              msg.channel.send(
-                "You can not create a player without name :(. I know that you exists"
-              );
+              msg.channel.send("You can not create a player without name :(. I know that you exists");
             } else {
-              msg.channel
-                .send("Hello " + playerName + ". What is your class ?")
-                .then(() => {
-                  msg.channel
-                    .awaitMessages(
-                      classResponse =>
-                        classResponse.author.id === msg.author.id,
-                      {
-                        max: 1,
-                        time: 10000,
-                        errors: ["time"]
-                      }
-                    )
-                    .then(getClass => {
-                      const className = getClass.first().content;
-                      if (getHeroClass(className) !== undefined) {
-                        msg.channel.send("You're now a " + className);
-                        playerService.createPlayer(
-                          createObjectPlayer(
-                            playerName,
-                            getHeroClass(className.toString()),
-                            msg.author.id
-                          )
-                        );
-                      }
-                    })
-                    .catch(error => {
-                      console.log("Fail at player creation. Error: " + error);
-                      msg.channel.send(
-                        "You said your name, but not witch class you wanna be. We can not " +
-                          "create a player for you in that way"
-                      );
-                    });
-                });
+              msg.channel.send("Hello " + playerName + ". What is your class ?").then(() => {
+                msg.channel.awaitMessages(
+                  classResponse => classResponse.author.id === msg.author.id,
+                  {
+                    max: 1,
+                    time: 10000,
+                    errors: ["time"]
+                  }
+                )
+                  .then(getClass => {
+
+                    const className = getClass.first().content;
+
+                    if (getHeroClass(className) !== undefined) {
+
+                      msg.channel.send("You're now a " + className);
+
+                      playerService
+                        .createPlayer(playerService.createObjectPlayer(playerName,
+                          getHeroClass(className.toString()), msg.author.id));
+                    }
+                  })
+                  .catch(error => {
+                    console.log("Fail at player creation. Error: " + error);
+                    msg.channel.send("You said your name, but not witch class you wanna be. We can not " +
+                      "create a player for you in that way");
+                  });
+              });
             }
           })
-          .catch(() =>
-            msg.channel.send(
-              "Player creation cancelled beause you are not speaking to me :("
-            )
-          );
+          .catch(() => msg.channel.send("Player creation cancelled beause you are not speaking to me :("));
       });
     }
   });
 }
 
 function getHeroClass(className: string): HeroClass {
-  if (className.trim().toUpperCase() === HeroClass.HUNTER.toUpperCase())
-    return HeroClass.HUNTER;
-  else if (className.trim().toUpperCase() === HeroClass.MAGE.toUpperCase())
-    return HeroClass.MAGE;
-  else if (className.trim().toUpperCase() === HeroClass.THIEF.toUpperCase())
-    return HeroClass.THIEF;
-  else if (className.trim().toUpperCase() === HeroClass.WARRIOR.toUpperCase())
-    return HeroClass.WARRIOR;
+  if (className.trim().toUpperCase() === HeroClass.HUNTER.toUpperCase()) return HeroClass.HUNTER;
+  else if (className.trim().toUpperCase() === HeroClass.MAGE.toUpperCase()) return HeroClass.MAGE;
+  else if (className.trim().toUpperCase() === HeroClass.THIEF.toUpperCase()) return HeroClass.THIEF;
+  else if (className.trim().toUpperCase() === HeroClass.WARRIOR.toUpperCase()) return HeroClass.WARRIOR;
   return undefined;
 }
 
@@ -168,43 +145,17 @@ function getHeroClass(className: string): HeroClass {
 function profile(msg: Discord.Message) {
   playerService.findbyUserID(msg.author.id).then(player => {
     msg.channel.send(
-      "Name: " +
-        player.name +
-        "\n" +
-        "Gold: $" +
-        player.gold +
-        "\n" +
-        "Class: " +
-        player.heroClass +
-        "\n" +
-        "Hp: " +
-        player.hpActual +
-        " / " +
-        player.hpTotal +
-        "\n" +
-        "Level: " +
-        player.level +
-        "\n" +
-        "Experience: " +
-        player.xp +
-        " / " +
-        player.levelMaxXp +
-        "\n" +
-        "Damage proficience level: " +
-        player.damageProficience.level +
-        "\n" +
-        "Damage proficience xp: " +
-        player.damageProficience.xp +
-        " / " +
-        player.damageProficience.levelMaxXp +
-        "\n" +
-        "Shield proficience level: " +
-        player.shieldProficience.level +
-        "\n" +
-        "Shield proficience xp: " +
-        player.shieldProficience.xp +
-        " / " +
-        player.shieldProficience.levelMaxXp
+      "Name: " + player.name + "\n" +
+      "Gold: $" + player.gold + "\n" +
+      "Class: " + player.heroClass + "\n" +
+      "Hp: " + player.hpActual + " / " + player.hpTotal + "\n" +
+      "Level: " + player.level + "\n" +
+      "Experience: " + player.xp + " / " + player.levelMaxXp + "\n" +
+      "Damage proficience level: " + player.damageProficience.level + "\n" +
+      "Damage proficience xp: " + player.damageProficience.xp + " / " + player.damageProficience.levelMaxXp
+      + "\n" +
+      "Shield proficience level: " + player.shieldProficience.level + "\n" +
+      "Shield proficience xp: " + player.shieldProficience.xp + " / " + player.shieldProficience.levelMaxXp
     );
   });
 }
@@ -259,59 +210,45 @@ function deletePlayer(msg: Discord.Message) {
 function reset(msg: Discord.Message) {
   playerService.findbyUserID(msg.author.id).then(player => {
     if (player === null) {
-      msg.channel.send(
-        "You can not reset a player being that you haven't one"
-      );
+
+      msg.channel.send("You can not reset a player being that you haven't one");
+
     } else {
-      msg.channel
-        .send("Are you sure that want to reset all your progress ?")
-        .then(() => {
-          msg.channel
-            .awaitMessages(answer => msg.author.id === answer.author.id, {
+      msg.channel.send("Are you sure that want to reset all your progress ?").then(() => {
+          msg.channel.awaitMessages(answer => msg.author.id === answer.author.id, {
               max: 1,
               time: 10000,
               errors: ["time"]
-            })
-            .then(answer => {
-              const ans = answer
-                .first()
-                .content.trim()
-                .toLowerCase();
+            }).then(answer => {
+              const ans = answer.first().content.trim().toLowerCase();
 
               if (ans.toLowerCase() === "yes" || ans.toLowerCase() === "y") {
                 const userId = msg.author.id;
 
                 playerService.findbyUserID(userId).then(player => {
                   if (player === undefined) {
-                    msg.channel
-                      .send(
-                        "Hmmm. Locks like that you haven't a character created. Would you like to " +
-                        +"create one now ?"
-                      )
+                    msg.channel.send( "Hmmm. Looks like that you haven't a character created. Would you like to " +
+                        + "create one now ?")
                       .then(() => {
-                        msg.channel
-                          .awaitMessages(
-                            answer => msg.author.id === answer.author.id,
+                        msg.channel.awaitMessages(answer => msg.author.id === answer.author.id,
                             {
                               max: 1,
                               time: 10000,
                               errors: ["time"]
-                            }
-                          )
-                          .then(ans => {
-                            const response = ans
-                              .first()
-                              .content.trim()
-                              .toLowerCase();
+                            }).then(ans => {
+
+                            const response = ans.first().content.trim().toLowerCase();
+
                             if (response === "y" || response === "yes") {
                               createPlayer(msg);
                             }
+
                           });
                       });
                     // Player exists
                   } else {
 
-                    const updatePlayer = createObjectPlayer(
+                    const updatePlayer = playerService.createObjectPlayer(
                       player.name,
                       player.heroClass,
                       player.id
@@ -340,17 +277,9 @@ function xp(msg: Discord.Message) {
   playerService.findbyUserID(msg.author.id).then(player => {
     if (player !== null) {
       const percentage = (player.xp * 100) / player.levelMaxXp;
-      msg.channel.send(
-        "You are current in level " +
-          player.level +
-          ". Your experience is " +
-          player.xp +
-          "/" +
-          player.levelMaxXp +
-          " (" +
-          percentage +
-          "%)"
-      );
+      msg.channel.send("You are current in level " + player.level +
+        ". Your experience is " + player.xp + "/" + player.levelMaxXp +
+        " (" + percentage + "%)");
     }
   });
 }
@@ -379,12 +308,20 @@ function explore(msg: Discord.Message, level: number) {
       if (player !== undefined) {
 
         const adv: Adventure = adventures[level];
+
+        if (adv === undefined) {
+          msg.channel.send("Hmmm, the informed adventure does not exist ");
+          return;
+        }
+
         const time = Math.floor(Date.now() / 1000);
 
         player.adventure = adv;
         player.adventureStartedTime = time;
 
-        playerService.updatePlayer(player);
+        playerService.updatePlayer(player).then(() => {
+          msg.channel.send("Player is exploring " + adv.name) + ". Good Farmning";
+        });
 
       }
     });

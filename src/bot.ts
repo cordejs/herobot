@@ -18,8 +18,8 @@ import { Adventure } from "./interfaces/adventure";
  *
  * @function train TO DO -> Sends user's player to train a specific proficience(Damage or Defence)
  * Here the user will only get proficience level. No xp or gold
- * @function explore TO DO -> Sends player to kill monsters. There he will receive xp, gold and equips
- * @function progress TO DO -> Shows how the user's player is going in the exploration. It shows how long the player
+ * @function explore -> Sends player to kill monsters. There he will receive xp, gold and equips
+ * @function status TO DO -> Shows how the user's player is going in the exploration. It shows how long the player
  * is in the exploration, how much exp, gold and equips he received. Also shows his current level and hp
  *
  * @function shop TO DO -> Shows the equips for sell

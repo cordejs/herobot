@@ -1,8 +1,8 @@
 import { BaseEntityService } from "../services/baseEntityService";
-import { Player } from "../../interfaces/player";
-import { ProficienceType } from "../../enums/proficienceType";
-import { Proficience } from "../../interfaces/proficience";
-import { HeroClass } from "../../enums/heroclass";
+import { Player } from "../interfaces/player";
+import { ProficienceType } from "../enums/proficienceType";
+import { Proficience } from "../interfaces/proficience";
+import { HeroClass } from "../enums/heroclass";
 
 class PlayerService extends BaseEntityService<Player> {
   private route = "/players";

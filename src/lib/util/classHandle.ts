@@ -1,4 +1,4 @@
-import { HeroClass } from "../../enums/heroclass";
+import { HeroClass } from "../enums/heroclass";
 
 export function getHeroClass(className: string): HeroClass {
     if (className.trim().toUpperCase() === HeroClass.HUNTER.toUpperCase()) return HeroClass.HUNTER;

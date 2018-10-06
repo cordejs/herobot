@@ -1,6 +1,6 @@
 import * as Discord from "discord.js";
 import { playerService } from "../lib/services/playerService";
-import { Adventure } from "../interfaces/adventure";
+import { Adventure } from "../lib/interfaces/adventure";
 
 import * as adventures from "../../data/adventures.json";
 

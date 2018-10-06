@@ -6,11 +6,13 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "resolveJsonModule": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
     "paths": {
       "*": ["node_modules/*", "src/*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
 }

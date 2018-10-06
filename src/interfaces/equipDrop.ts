@@ -1,4 +1,4 @@
-import { Equipment } from "interfaces/equipment";
+import { Equipment } from "./equipment";
 
 export interface EquipDrop {
   equipment: Equipment;

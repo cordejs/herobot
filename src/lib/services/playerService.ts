@@ -1,10 +1,10 @@
 import { BaseEntityService } from "../services/baseEntityService";
-import { Player } from "../interfaces/player";
-import { ProficienceType } from "enums/proficienceType";
-import { Proficience } from "interfaces/proficience";
-import { HeroClass } from "enums/heroclass";
+import { Player } from "../../interfaces/player";
+import { ProficienceType } from "../../enums/proficienceType";
+import { Proficience } from "../../interfaces/proficience";
+import { HeroClass } from "../../enums/heroclass";
 
-export class PlayerService extends BaseEntityService<Player> {
+class PlayerService extends BaseEntityService<Player> {
   private route = "/players";
 
   createPlayer(player: Player): Promise<void> {
@@ -77,3 +77,5 @@ export class PlayerService extends BaseEntityService<Player> {
     return player;
   }
 }
+
+export const playerService: PlayerService = new PlayerService();

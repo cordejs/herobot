@@ -1,7 +1,7 @@
 import * as firebase from "firebase";
 import "firebase/database";
-import * as connections from "../../connection";
-import { Entity } from "../interfaces/entity";
+import * as connections from "../../../connection";
+import { Entity } from "../../interfaces/entity";
 
 export class BaseEntityService<T> {
   protected db: firebase.database.Database;

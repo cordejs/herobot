@@ -6,12 +6,12 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
-    "baseUrl": "./src",
+    "baseUrl": "",
     "resolveJsonModule": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "paths": {
-      "*": ["node_modules/*", "src/*"]
+      "*": ["node_modules/*"]
     }
   },
   "include": ["src/**/*"],

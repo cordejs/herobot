@@ -2,7 +2,7 @@ import * as Discord from "discord.js";
 import * as connections from "../connection";
 import { commandHandle } from "./lib/command";
 
-import { PREFIX } from "./lib/util/prefix";
+import { PREFIX } from "./lib/util/consts";
 
 /**
  * Bot commands:

@@ -15,7 +15,7 @@ export const explorationMaxLevel = 20;
 export function explore(msg: Discord.Message, level: number) {
     if (level > 0 && level <= explorationMaxLevel) {
         playerService.findbyUserID(msg.author.id).then(player => {
-            if (player !== undefined) {
+            if (player !== null) {
 
                 const adv: Adventure = adventures[level];
 
@@ -30,7 +30,7 @@ export function explore(msg: Discord.Message, level: number) {
                 player.adventureStartedTime = time;
 
                 playerService.updatePlayer(player).then(() => {
-                    msg.channel.send("Player is exploring " + adv.name) + ". Good Farmning";
+                    msg.channel.send("Player is exploring " + adv.name) + ". Good Farmning!";
                 });
 
             }

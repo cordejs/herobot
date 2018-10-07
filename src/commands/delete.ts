@@ -1,6 +1,6 @@
 import * as Discord from "discord.js";
 import { playerService } from "../lib/services/playerService";
-import { PREFIX } from "../lib/util/prefix";
+import { PREFIX } from "../lib/util/consts";
 
 /**
  * Removes a user's player
@@ -9,9 +9,9 @@ import { PREFIX } from "../lib/util/prefix";
 export function deletePlayer(msg: Discord.Message) {
   playerService.findbyUserID(msg.author.id).then(player => {
     if (player === null) {
-      msg.channel.send(
-        "You can not delete a player being that you haven't one"
-      );
+
+      msg.channel.send("You can not delete a player being that you haven't one");
+
     } else {
       msg.channel
         .send("Are you sure that want to delete your amazing character ?")
@@ -21,8 +21,7 @@ export function deletePlayer(msg: Discord.Message) {
               max: 1,
               time: 10000,
               errors: ["time"]
-            })
-            .then(answer => {
+            }).then(answer => {
               const ans = answer.first().content;
               if (ans.toLowerCase() === "yes" || ans.toLowerCase() === "y") {
                 const userId = msg.author.id;

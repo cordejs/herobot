@@ -24,10 +24,8 @@ export function explore(msg: Discord.Message, level: number) {
                     return;
                 }
 
-                const time = Math.floor(Date.now() / 1000);
-
                 player.adventure = adv;
-                player.adventureStartedTime = time;
+                player.adventureStartedTime = Date.now();
 
                 playerService.updatePlayer(player).then(() => {
                     msg.channel.send("Player is exploring " + adv.name) + ". Good Farmning!";

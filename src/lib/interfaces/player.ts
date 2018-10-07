@@ -14,10 +14,14 @@ export interface Player extends Entity {
   levelMaxXp: number;
   heroClass: HeroClass;
   gold: number;
+  deaths: number;
+  monstersKilled: number;
   shield?: Shield;
   weapon?: Weapon;
   adventure?: Adventure;
   adventureStartedTime?: number;
+  trainDamageStartedTime?: number;
+  trainShieldStartedTime?: number;
   damageProficience: Proficience;
   shieldProficience: Proficience;
 }

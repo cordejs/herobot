@@ -3,6 +3,7 @@ export interface Monster {
   name: string;
   level: number;
   damage: number;
+  hp: number;
   shield: number;
   givedXp: number;
   givedGold: number;

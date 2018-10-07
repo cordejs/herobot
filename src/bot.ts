@@ -14,7 +14,7 @@ import { PREFIX } from "./lib/util/consts";
  * @function xp -> Shows user's actual experience
  * @function gold -> Shows user's actual gold
  *
- * @function train TO DO -> Sends user's player to train a specific proficience(Damage or Defence)
+ * @function train -> Sends user's player to train a specific proficience(Damage or Defence)
  * Here the user will only get proficience level. No xp or gold
  * @function explore -> Sends player to kill monsters. There he will receive xp, gold and equips
  * @function status TO DO -> Shows how the user's player is going in the exploration. It shows how long the player
@@ -30,16 +30,12 @@ import { PREFIX } from "./lib/util/consts";
 
 const client = new Discord.Client();
 
-/**
- * Tell the world that we're ready!!
- */
+// Tell the world that we're ready!!
 client.on("ready", () => {
   console.log(`Ready for play! ${client.user.tag}!`);
 });
 
-/**
- * Correspond to the receptor of all messages sent by the users in Discord
- */
+// Correspond to the receptor of all messages sent by the users in Discord
 client.on("message", async msg => {
   // Ignoring others bots
   if (msg.author.bot) return;

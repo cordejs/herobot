@@ -13,7 +13,13 @@ class PlayerService extends BaseEntityService<Player> {
   }
 
   findbyUserID(id: string): Promise<Player> {
-     return super.find(this.route, id);
+    return super.find(this.route, id).then(player => {
+      return new Promise<Player>(resolve => {
+        const playerGet: Player = player;
+        playerGet.id = id;
+        resolve(playerGet);
+      });
+    });
   }
 
   remove(id: string): Promise<void> {
@@ -84,47 +90,6 @@ class PlayerService extends BaseEntityService<Player> {
     player.hpActual = player.hpActual - this.calcDamageTaken(this.calcDamage(monster.damage), this.playerDamage(player));
   }
 
-  /**
-   * Create a new player object
-   * @param name player's name
-   * @param heroclass player's class
-   * @param userID user's discord id
-   */
-  createObjectPlayer(name: string, heroclass: HeroClass, userID: string): Player {
-    const damageProficience: Proficience = {
-      level: 0,
-      levelMaxXp: 200,
-      type: ProficienceType.DAMAGE,
-      xp: 0
-    };
-
-    const shieldProficience: Proficience = {
-      level: 0,
-      levelMaxXp: 200,
-      type: ProficienceType.SHIELD,
-      xp: 0
-    };
-
-    const player: Player = {
-      name: name,
-      heroClass: heroclass,
-      level: 1,
-      levelMaxXp: 100,
-      id: userID,
-      hpTotal: 100,
-      deaths: 0,
-      monstersKilled: 0,
-      hpActual: 100,
-      damageProficience: damageProficience,
-      shieldProficience: shieldProficience,
-      xp: 0,
-      gold: 0,
-      // First weapon and shield wasn't defined yet
-      // shield: undefined,
-      // weapon: undefined,
-    };
-    return player;
-  }
 }
 
 export const playerService: PlayerService = new PlayerService();

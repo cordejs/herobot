@@ -22,8 +22,10 @@ export function status(msg: Discord.Message) {
             let xpEarned = 0;
             let goldEarned = 0;
             let monstersKilled = 0;
+            let time;
 
             // Each value is a second, each second is a hit.
+            // MUST REFATORE (Remove the loop and make the calc based in the timeTrained)
             for (let i = 0; i <= timeTrained; i++) {
                 playerService.attackMonster(player, monster);
 
@@ -37,24 +39,32 @@ export function status(msg: Discord.Message) {
                 playerService.defendAttack(player, monster);
 
                 if (player.hpActual <= 0) {
-                    const time = new Date(Date.now() - player.adventureStartedTime);
+                    time = new Date(Date.now() - player.adventureStartedTime);
 
                     player.deaths++;
                     player.monstersKilled += monstersKilled;
                     player.gold += goldEarned;
 
                     playerService.updatePlayer(player).then(() => {
+
                         msg.channel.send("You died after kill " + monstersKilled +
-                        " monsters. You got " + goldEarned + " of gold and " + xpEarned +
+                        " monsters. Got " + goldEarned + " of gold and " + xpEarned +
                         " of experience. You explored for " +
                         time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds());
+
                     }).catch(error => {
 
-                    });
+                        console.log("Error when updating user after die in exploration. " + error);
+                        msg.channel.send("Looks like that we found some problems to save your progress.");
 
+                    });
                     break;
                 }
             }
+            msg.channel.send("You killed " + monstersKilled +
+                        " monsters. Got " + goldEarned + " of gold and " + xpEarned +
+                        " of experience. You explored for " +
+                        time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds());
         }
     });
 }

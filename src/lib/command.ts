@@ -10,6 +10,7 @@ import { gold } from "../commands/gold";
 import { explore } from "../commands/explore";
 import { PREFIX } from "../lib/util/consts";
 import { train } from "../commands/train";
+import { status } from "../commands/status";
 
 
 /**
@@ -33,4 +34,5 @@ export function commandHandle(msg: Discord.Message) {
     else if (command === "gold" || command === "g" || command === "money") gold(msg);
     else if (command === "explore" || command === "e") explore(msg, +args[1]);
     else if (command === "train" || command == "t") train(msg, args[1]);
+    else if (command === "status" || command === "s") status(msg);
 }

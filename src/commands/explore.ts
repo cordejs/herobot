@@ -28,7 +28,7 @@ export function explore(msg: Discord.Message, level: number) {
                 player.adventureStartedTime = Date.now();
 
                 playerService.updatePlayer(player).then(() => {
-                    msg.channel.send("Player is exploring " + adv.name) + ". Good Farmning!";
+                    msg.channel.send("Send player to explore " + adv.name) + ". Good Farmning!";
                 });
 
             }

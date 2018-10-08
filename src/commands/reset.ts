@@ -1,6 +1,7 @@
 import * as Discord from "discord.js";
 import { playerService } from "../lib/services/playerService";
 import { createPlayer } from "../commands/create";
+import { Player } from "../lib/interfaces/player";
 
 /**
  * Reboot all informations about the user. Making him have the attributes values equals to someone that
@@ -61,7 +62,7 @@ export function reset(msg: Discord.Message) {
                       });
                     // Player exists
                   } else {
-                    const updatePlayer = playerService.createObjectPlayer(
+                    const updatePlayer = new Player(
                       player.name,
                       player.heroClass,
                       player.id

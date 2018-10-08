@@ -2,7 +2,7 @@
     "1": {
         "level": 1,
         "name": "Murlock's Home",
-        "monsters": {
+        "monster": {
             "1": {
                 "name": "Murlock",
                 "level": 1,
@@ -10,22 +10,6 @@
                 "shield": 0,
                 "givedXp": 5,
                 "givedGold": 2
-            },
-            "2": {
-                "name": "Murlock-Mage",
-                "level": 1,
-                "damage": 3,
-                "shield": 0,
-                "givedXp": 6,
-                "givedGold": 3
-            },
-            "3": {
-                "name": "King Murlock",
-                "level": 1,
-                "damage": 5,
-                "shield": 2,
-                "givedXp": 10,
-                "givedGold": 5
             }
         }
     }

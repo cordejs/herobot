@@ -29,36 +29,9 @@ export class BaseEntityService<T> {
   protected find(route: string, key: string): Promise<T> {
     return this.db.ref(route + "/" + key).once("value").then(function (snapshot) {
       return new Promise<T>(resolve => {
-        snapshot.forEach(data => {
-
-          const dataVal: Entity = data.val();
-          dataVal.id = data.key;
-
-        });
         resolve(snapshot.val());
       });
     });
-  }
-
-  /**
-   * Searchs for a element, or group of elements based in the path where
-   * they are located
-   * @param route path where the group of data is located
-   * @param field attribute of the element to be used as filter
-   * @param fieldValue value of the attribute to filter
-   */
-  protected findByField(route: string, field: string, fieldValue: string): Promise<T> {
-    this.db.ref(route).orderByChild(field).equalTo(fieldValue).on("value", (snapshot) => {
-      return new Promise<T>((resolve) => {
-
-        snapshot.val().id = snapshot.key;
-        resolve(snapshot.val());
-
-      });
-    }, function (error: any) {
-      console.log("Error when attempting to read data from firebase" + error.code);
-    });
-    throw new Error("Fail when attempting to read data from firebase");
   }
 
   /**

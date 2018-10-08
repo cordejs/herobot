@@ -1,6 +1,7 @@
 import * as Discord from "discord.js";
 import { getHeroClass } from "../lib/util/classHandle";
 import { playerService } from "../lib/services/playerService";
+import { Player } from "../lib/interfaces/player";
 
 /**
  * Create a new user selecting a name and a class for him.
@@ -54,7 +55,7 @@ export function createPlayer(msg: Discord.Message) {
                         msg.channel.send("You're now a " + className);
 
                         playerService.createPlayer(
-                          playerService.createObjectPlayer(
+                          new Player(
                             playerName,
                             getHeroClass(className.toString()),
                             msg.author.id

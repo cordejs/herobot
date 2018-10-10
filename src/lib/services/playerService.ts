@@ -1,8 +1,5 @@
 import { BaseEntityService } from "../services/baseEntityService";
 import { Player } from "../interfaces/player";
-import { ProficienceType } from "../enums/proficienceType";
-import { Proficience } from "../interfaces/proficience";
-import { HeroClass } from "../enums/heroclass";
 import { Monster } from "../interfaces/monster";
 
 class PlayerService extends BaseEntityService<Player> {

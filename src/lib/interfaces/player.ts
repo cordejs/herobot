@@ -29,15 +29,18 @@ export class Player extends Entity {
 
   constructor(name: string, heroclass: HeroClass, userID: string) {
     super();
-    this.name = name;
-    this.heroClass = heroclass;
-    this.level = 1;
-    this.levelMaxXp = 100;
-    super.id = userID;
-    this.hpTotal = 100;
-    this.deaths = 0;
-    this.monstersKilled = 0;
-    this.hpActual = 100;
+
+    const shield: Shield = {
+      defence: 1,
+      name: "Wood-shield",
+      price: 1
+    };
+
+    const weapon: Weapon = {
+      damage: 1,
+      name: "Wood-Sword",
+      price: 1
+    };
 
     const damageProficience: Proficience = {
       level: 0,
@@ -53,7 +56,18 @@ export class Player extends Entity {
       xp: 0
     };
 
+    this.name = name;
+    this.heroClass = heroclass;
+    this.level = 1;
+    this.levelMaxXp = 100;
+    super.id = userID;
+    this.hpTotal = 100;
+    this.deaths = 0;
+    this.monstersKilled = 0;
+    this.hpActual = 100;
     this.damageProficience = damageProficience;
     this.shieldProficience = shieldProficience;
+    this.weapon = weapon;
+    this.shield = shield;
   }
 }

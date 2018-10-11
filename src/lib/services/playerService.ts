@@ -13,7 +13,7 @@ class PlayerService extends BaseEntityService<Player> {
     return super.find(this.route, id).then(player => {
       return new Promise<Player>(resolve => {
         const playerGet: Player = player;
-        playerGet.id = id;
+        if (player !== null) playerGet.id = id;
         resolve(playerGet);
       });
     });

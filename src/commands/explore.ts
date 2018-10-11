@@ -3,6 +3,7 @@ import { playerService } from "../lib/services/playerService";
 import { Adventure } from "../lib/interfaces/adventure";
 
 import * as adventures from "../../data/adventures.json";
+import { getTimeStampFormated } from "../lib/util/time";
 
 export const explorationMaxLevel = 20;
 
@@ -25,7 +26,7 @@ export function explore(msg: Discord.Message, level: number) {
                 }
 
                 player.adventure = adv;
-                player.adventureStartedTime = Date.now();
+                player.adventureStartedTime = getTimeStampFormated();
 
                 playerService.updatePlayer(player).then(() => {
                     msg.channel.send("Send player to explore " + adv.name) + ". Good Farmning!";

@@ -4,12 +4,14 @@
         "level": 1,
         "damage": 2,
         "shield": 0,
+        "hp": 50,
         "givedXp": 5,
         "givedGold": 2
     },
     "2": {
         "name": "Murlock-Mage",
         "level": 1,
+        "hp": 60,
         "damage": 3,
         "shield": 0,
         "givedXp": 6,
@@ -18,6 +20,7 @@
     "3": {
         "name": "King Murlock",
         "level": 1,
+        "hp": 80,
         "damage": 5,
         "shield": 2,
         "givedXp": 10,
@@ -26,6 +29,7 @@
     "4": {
         "name": "Murlock",
         "level": 1,
+        "hp": 90,
         "damage": 2,
         "shield": 0,
         "givedXp": 5,
@@ -34,6 +38,7 @@
     "5": {
         "name": "Small Spider",
         "level": 2,
+        "hp": 90,
         "damage": 4,
         "shield": 1,
         "givedXp": 8,
@@ -42,6 +47,7 @@
     "6": {
         "name": "Spider",
         "level": 2,
+        "hp": 100,
         "damage": 6,
         "shield": 2,
         "givedXp": 9,
@@ -50,6 +56,7 @@
     "7": {
         "name": "Poison Spider",
         "level": 2,
+        "hp": 110,
         "damage": 7,
         "shield": 2,
         "givedXp": 10,
@@ -58,6 +65,7 @@
     "8": {
         "name": "Giant Spider",
         "level": 2,
+        "hp": 120,
         "damage": 9,
         "shield": 3,
         "givedXp": 12,
@@ -74,6 +82,7 @@
     "10": {
         "name": "Wolf",
         "level": 3,
+        "hp": 120,
         "damage": 10,
         "shield": 3,
         "givedXp": 13,
@@ -82,6 +91,7 @@
     "11": {
         "name": "Giant Wolf",
         "level": 3,
+        "hp": 130,
         "damage": 12,
         "shield": 3,
         "givedXp": 15,
@@ -90,6 +100,7 @@
     "12": {
         "name": "Wolf",
         "level": 3,
+        "hp": 130,
         "damage": 10,
         "shield": 3,
         "givedXp": 13,

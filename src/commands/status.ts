@@ -22,7 +22,7 @@ export function status(msg: Discord.Message) {
             let xpEarned = 0;
             let goldEarned = 0;
             let monstersKilled = 0;
-            let time;
+            const time = new Date(Date.now() - player.adventureStartedTime);
 
             // Each value is a second, each second is a hit.
             // MUST REFATORE (Remove the loop and make the calc based in the timeTrained)
@@ -39,7 +39,6 @@ export function status(msg: Discord.Message) {
                 playerService.defendAttack(player, monster);
 
                 if (player.hpActual <= 0) {
-                    time = new Date(Date.now() - player.adventureStartedTime);
 
                     player.deaths++;
                     player.monstersKilled += monstersKilled;

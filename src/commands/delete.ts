@@ -27,10 +27,7 @@ export function deletePlayer(msg: Discord.Message) {
                 const userId = msg.author.id;
                 playerService.remove(userId).then(() => {
                   msg.channel.send(
-                    "Player was removed with success. When you be ready to start again, " +
-                      +"tip " +
-                      PREFIX +
-                      "create to make a new character"
+                    `Player was removed with success. When you be ready to start again, tip ${PREFIX}create to make a new character`
                   );
                 });
               } else if (

@@ -1,20 +1,22 @@
 import * as Discord from "discord.js";
 import { ProficienceType } from "../lib/enums/proficienceType";
 import { playerService } from "../lib/services/playerService";
+import { getTimeStampFormated } from "../lib/util/time";
 
 /**
  * Sends player to train a Proficience(Damage or Defence)
  * @param msg User's message on discord
  */
 export function train(msg: Discord.Message, proficience: string) {
-    if (proficience === ProficienceType.DAMAGE || proficience === ProficienceType.SHIELD) {
+    if (proficience !== undefined && (proficience.toLowerCase() === ProficienceType.DAMAGE.toLowerCase()
+    || proficience.toLowerCase() === ProficienceType.SHIELD.toLowerCase())) {
         playerService.findbyUserID(msg.author.id).then(player => {
             if (player === null) {
                 msg.channel.send("Your can not send your character to train being that you haven't one");
             } else {
 
-                if (proficience === ProficienceType.DAMAGE) player.trainShieldStartedTime = Math.floor(Date.now() / 1000);
-                else player.trainShieldStartedTime = Math.floor(Date.now() / 1000);
+                if (proficience === ProficienceType.DAMAGE) player.trainShieldStartedTime = getTimeStampFormated();
+                else player.trainShieldStartedTime = getTimeStampFormated();
 
                 playerService.updatePlayer(player)
                 .then(() => msg.channel.send("Player successfully sent to train"))

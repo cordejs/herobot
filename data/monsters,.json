@@ -105,5 +105,86 @@
         "shield": 3,
         "givedXp": 13,
         "givedGold": 5
-    }
+    },
+    "13" : {
+        "name" : "Northeast Lizard", 
+        "level": 1,
+        "damage": 1,
+        "hp": 1,
+        "shield": 0,
+        "givedXp": 0,
+        "givedGold" : 0
+        },
+        "14" : {
+          "name" : "Himalayan Dragon", 
+          "level": 30,
+          "damage": 200,
+          "hp": 250,
+          "shield": 30,
+          "givedXp": 400,
+          "givedGold" : 1000
+          },   
+        "15" : {
+            "name" : "Cube Cat", 
+            "level": 1,
+            "damage": 2,
+            "hp": 10,
+            "shield": 0,
+            "givedXp": 5,
+            "givedGold" : 5
+            },
+        "16" : {
+              "name" : "Bearded Toad", 
+              "level": 2,
+              "damage": 5,
+              "hp": 20,
+              "shield": 0,
+              "givedXp": 8,
+              "givedGold" : 15
+              },
+        "17" : {
+                "name" : "Bearded Toad", 
+                "level": 2,
+                "damage": 5,
+                "hp": 20,
+                "shield": 0,
+                "givedXp": 8,
+                "givedGold" : 15
+         },
+        "18" : {
+          "name" : "Flying Cloud of Evil", 
+          "level": 4,
+          "damage": 10,
+          "hp": 30,
+          "shield": 0,
+          "givedXp": 10,
+          "givedGold" : 17
+        },
+        "19" : {
+          "name" : "Iron Turtle", 
+          "level": 5,
+          "damage": 2,
+          "hp": 40,
+          "shield": 20,
+          "givedXp": 15,
+          "givedGold" : 20
+        },
+        "20" : {
+          "name" : "Iron Turtle", 
+          "level": 5,
+          "damage": 2,
+          "hp": 40,
+          "shield": 20,
+          "givedXp": 15,
+          "givedGold" : 20
+        },
+        "21" : {
+          "name" : "Zombie Terrorist", 
+          "level": 5,
+          "damage": 20,
+          "hp": 15,
+          "shield": 0,
+          "givedXp": 20,
+          "givedGold" : 30
+        }
 }

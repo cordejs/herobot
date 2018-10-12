@@ -1,0 +1,27 @@
+{
+    "6" :{ 
+          "name" : "Cooper Shield",
+          "price" : 3,
+          "defence" : 2
+      },
+      "7" :{ 
+          "name" : "Silver Shield",
+          "price" : 6,
+          "defence" : 4 
+      },
+      "8" :{ 
+          "name" : "Iron Shield",
+          "price" : 10,
+          "defence" : 10
+      },
+      "9" :{ 
+          "name" : "Tower Shield",
+          "price" : 15,
+          "defence" : 18
+      },
+      "10" :{  
+          "name" : "Legendary Diamond Shield",
+          "price" : 50,
+          "defence" : 70
+        }
+}

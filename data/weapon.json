@@ -1,27 +1,27 @@
 {
-    "1" :{  
-          "name" : "Cooper Sword",
-          "price" : 3,
-          "damage" : 2
-        },
-      "2" :{ 
-          "name" : "Silver Sword",
-          "price" : 6,
-          "damage" : 4 
-      },
-      "3" :{ 
-          "name" : "Bastard Sword",
-          "price" : 10,
-          "damage" : 10
-      },
-      "4" :{ 
-          "name" : "B.F. Sword",
-          "price" : 15,
-          "damage" : 18
-      } ,
-      "5" :{ 
-          "name" : "Legendary Diamond Sword",
-          "price" : 50,
-          "damage" : 70
-      }
+  "1": {
+    "name": "Cooper Sword",
+    "price": 3,
+    "damage": 2
+  },
+  "2": {
+    "name": "Silver Sword",
+    "price": 6,
+    "damage": 4
+  },
+  "3": {
+    "name": "Bastard Sword",
+    "price": 10,
+    "damage": 10
+  },
+  "4": {
+    "name": "B.F. Sword",
+    "price": 15,
+    "damage": 18
+  },
+  "5": {
+    "name": "Legendary Diamond Sword",
+    "price": 50,
+    "damage": 70
+  }
 }

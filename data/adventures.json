@@ -1,16 +1,16 @@
 {
-    "1": {
+  "1": {
+    "level": 1,
+    "name": "Murlock's Home",
+    "monster": {
+      "1": {
+        "name": "Murlock",
         "level": 1,
-        "name": "Murlock's Home",
-        "monster": {
-            "1": {
-                "name": "Murlock",
-                "level": 1,
-                "damage": 2,
-                "shield": 0,
-                "givedXp": 5,
-                "givedGold": 2
-            }
-        }
+        "damage": 2,
+        "shield": 0,
+        "givedXp": 5,
+        "givedGold": 2
+      }
     }
+  }
 }

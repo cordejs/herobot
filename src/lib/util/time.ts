@@ -10,5 +10,5 @@ export function getTime(number: number) {
 }
 
 function expand(number: number): string {
-    return (number < 10) ? `0${number}` : number.toString();
+  return number < 10 ? `0${number}` : number.toString();
 }

@@ -14,27 +14,30 @@ export const explorationMaxLevel = 20;
  * The amount of gold, xp received by the user increases according to the value of the level
  */
 export function explore(msg: Discord.Message, level: number) {
-    if (level > 0 && level <= explorationMaxLevel) {
-        playerService.findbyUserID(msg.author.id).then(player => {
-            if (player !== null) {
+  if (level > 0 && level <= explorationMaxLevel) {
+    playerService.findbyUserID(msg.author.id).then(player => {
+      if (player !== null) {
+        const adv: Adventure = adventures[level];
 
-                const adv: Adventure = adventures[level];
+        if (adv === undefined) {
+          msg.channel.send("Hmmm, the informed adventure does not exist ");
+          return;
+        }
 
-                if (adv === undefined) {
-                    msg.channel.send("Hmmm, the informed adventure does not exist ");
-                    return;
-                }
+        player.adventure = adv;
+        player.adventureStartedTime = getTimeStampFormated();
 
-                player.adventure = adv;
-                player.adventureStartedTime = getTimeStampFormated();
-
-                playerService.updatePlayer(player).then(() => {
-                    msg.channel.send("Send player to explore " + adv.name) + ". Good Farmning!";
-                });
-
-            }
+        playerService.updatePlayer(player).then(() => {
+          msg.channel.send("Send player to explore " + adv.name) +
+            ". Good Farmning!";
         });
-    } else {
-        msg.channel.send("You must choose a number between 1 and " + explorationMaxLevel + " to send your ");
-    }
+      }
+    });
+  } else {
+    msg.channel.send(
+      "You must choose a number between 1 and " +
+        explorationMaxLevel +
+        " to send your "
+    );
+  }
 }

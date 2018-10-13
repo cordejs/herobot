@@ -17,7 +17,6 @@ export function status(msg: Discord.Message) {
     let timeTrained: number;
 
     if (player.adventureStartedTime !== null) {
-
       // time in seconds that the player is training
       timeTrained = getTimeStampFormated() - player.adventureStartedTime;
       const monster = player.adventure.monster;
@@ -83,14 +82,13 @@ export function status(msg: Discord.Message) {
           getTime(time)
       );
     } else if (player.trainDamageStartedTime !== null) {
-        timeTrained = getTimeStampFormated() - player.trainDamageStartedTime;
-        const exp = timeTrained / 10;
-        let totalExp: number;
-        for (let i = 0; i < exp; i++) {
-            totalExp += proficienceLevel[0];
-        }
+      timeTrained = getTimeStampFormated() - player.trainDamageStartedTime;
+      const exp = timeTrained / 10;
+      let totalExp: number;
+      for (let i = 0; i < exp; i++) {
+        totalExp += proficienceLevel[0];
+      }
     } else {
-
     }
   });
 }

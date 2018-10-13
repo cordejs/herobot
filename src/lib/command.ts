@@ -12,14 +12,15 @@ import { PREFIX } from "../lib/util/consts";
 import { train } from "../commands/train";
 import { status } from "../commands/status";
 
-
 /**
  * Receives a message, treating it and sending to the right method
  * @param msg message sent by Discord
  */
 export function commandHandle(msg: Discord.Message) {
-
-  const args = msg.content.slice(PREFIX.length).trim().split(/ +/g);
+  const args = msg.content
+    .slice(PREFIX.length)
+    .trim()
+    .split(/ +/g);
 
   const command = args[0].toLowerCase();
 
@@ -27,8 +28,10 @@ export function commandHandle(msg: Discord.Message) {
   else if (command === "profile" || command === "p") profile(msg);
   else if (command === "delete" || command === "d") deletePlayer(msg);
   else if (command === "reset" || command === "r") reset(msg);
-  else if (command === "experience" || command === "exp" || command === "xp") xp(msg);
-  else if (command === "gold" || command === "g" || command === "money") gold(msg);
+  else if (command === "experience" || command === "exp" || command === "xp")
+    xp(msg);
+  else if (command === "gold" || command === "g" || command === "money")
+    gold(msg);
   else if (command === "explore" || command === "e") explore(msg, +args[1]);
   else if (command === "train" || command == "t") train(msg, args[1]);
   else if (command === "status" || command === "s") status(msg);

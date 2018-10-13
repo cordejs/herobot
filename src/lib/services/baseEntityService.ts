@@ -27,11 +27,14 @@ export class BaseEntityService<T> {
    * @param key identifier of the data
    */
   protected find(route: string, key: string): Promise<T> {
-    return this.db.ref(route + "/" + key).once("value").then(function (snapshot) {
-      return new Promise<T>(resolve => {
-        resolve(snapshot.val());
+    return this.db
+      .ref(route + "/" + key)
+      .once("value")
+      .then(function(snapshot) {
+        return new Promise<T>(resolve => {
+          resolve(snapshot.val());
+        });
       });
-    });
   }
 
   /**
@@ -40,7 +43,7 @@ export class BaseEntityService<T> {
    * @param id  indentifier of the entity
    */
   protected delete(route: string, id: string): Promise<void> {
-   return this.db.ref(route + "/" + id).remove();
+    return this.db.ref(route + "/" + id).remove();
   }
 
   /**
@@ -49,14 +52,28 @@ export class BaseEntityService<T> {
    * @param field atribute to be used in filter
    * @param fieldValue value of the attribute used in filter
    */
-  protected deleteByField(route: string, field: string, fieldValue: string): Promise<void> {
-    this.db.ref(route).orderByChild(field).equalTo(fieldValue).on("child_added", (snapshot) => {
-      return new Promise<T>((resolve) => {
-        snapshot.ref.remove().then(() => resolve());
-      });
-    }, function (error: any) {
-      console.log("Error when attempting to remove data from firebase" + error.code);
-    });
+  protected deleteByField(
+    route: string,
+    field: string,
+    fieldValue: string
+  ): Promise<void> {
+    this.db
+      .ref(route)
+      .orderByChild(field)
+      .equalTo(fieldValue)
+      .on(
+        "child_added",
+        snapshot => {
+          return new Promise<T>(resolve => {
+            snapshot.ref.remove().then(() => resolve());
+          });
+        },
+        function(error: any) {
+          console.log(
+            "Error when attempting to remove data from firebase" + error.code
+          );
+        }
+      );
     throw new Error("Fail when attempting to remove data from firebase");
   }
 
@@ -79,11 +96,12 @@ export class BaseEntityService<T> {
 
   private adjustEntity(entity: Entity) {
     Object.getOwnPropertyNames(entity).forEach(proper => {
-
-      Object.defineProperty(entity, proper.replace("_", ""),
-        Object.getOwnPropertyDescriptor(entity, proper));
+      Object.defineProperty(
+        entity,
+        proper.replace("_", ""),
+        Object.getOwnPropertyDescriptor(entity, proper)
+      );
       delete Object(entity)["_" + proper];
-
     });
   }
 }

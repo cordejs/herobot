@@ -31,7 +31,10 @@ class PlayerService extends BaseEntityService<Player> {
    * Return the total amount of damage that the player give
    */
   playerDamage(player: Player): number {
-    return this.calcDamage(player.weapon.damage, player.damageProficience.level);
+    return this.calcDamage(
+      player.weapon.damage,
+      player.damageProficience.level
+    );
   }
 
   /**
@@ -40,14 +43,17 @@ class PlayerService extends BaseEntityService<Player> {
    * @param bonus proficience
    */
   private calcDamage(damage: number, bonus?: number): number {
-    return Math.pow((damage + bonus / 2), 2);
+    return Math.pow(damage + bonus / 2, 2);
   }
 
   /**
    * Return the total amount of defence
    */
   playerDefence(player: Player): number {
-    return this.calcDefence(player.shield.defence, player.shieldProficience.level);
+    return this.calcDefence(
+      player.shield.defence,
+      player.shieldProficience.level
+    );
   }
 
   /**
@@ -57,7 +63,7 @@ class PlayerService extends BaseEntityService<Player> {
    * @param bonus proficience
    */
   private calcDefence(defence: number, bonus?: number): number {
-    return defence + bonus / 10 * 5;
+    return defence + (bonus / 10) * 5;
   }
 
   /**
@@ -66,7 +72,7 @@ class PlayerService extends BaseEntityService<Player> {
    * @param defence value(%) that will be reduced from the atack
    */
   calcDamageTaken(damage: number, defence: number): number {
-    return defence * damage / 100;
+    return (defence * damage) / 100;
   }
 
   /**
@@ -75,7 +81,12 @@ class PlayerService extends BaseEntityService<Player> {
    * @param monster the monster that will be attacked
    */
   attackMonster(player: Player, monster: Monster) {
-    monster.hp = monster.hp - this.calcDamageTaken(this.playerDamage(player), this.calcDefence(monster.shield));
+    monster.hp =
+      monster.hp -
+      this.calcDamageTaken(
+        this.playerDamage(player),
+        this.calcDefence(monster.shield)
+      );
   }
 
   /**
@@ -84,9 +95,13 @@ class PlayerService extends BaseEntityService<Player> {
    * @param monster monster who will atack player
    */
   defendAttack(player: Player, monster: Monster) {
-    player.hpActual = player.hpActual - this.calcDamageTaken(this.calcDamage(monster.damage), this.playerDamage(player));
+    player.hpActual =
+      player.hpActual -
+      this.calcDamageTaken(
+        this.calcDamage(monster.damage),
+        this.playerDamage(player)
+      );
   }
-
 }
 
 export const playerService: PlayerService = new PlayerService();

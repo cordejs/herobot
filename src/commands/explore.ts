@@ -3,7 +3,7 @@ import { playerService } from "../lib/services/playerService";
 import { Adventure } from "../lib/interfaces/adventure";
 
 import * as adventures from "../../data/adventures.json";
-import { getTimeStampFormated } from "../lib/util/time";
+import { getTimeStampFormated } from "../lib/utils/time";
 
 export const explorationMaxLevel = 20;
 

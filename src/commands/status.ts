@@ -4,7 +4,7 @@ import {
   getTimeStampFormated,
   getTime,
   getTimeDifference
-} from "../lib/util/time";
+} from "../lib/utils/time";
 import * as proficienceLevel from "../../data/proficienceLevel.json";
 import { Player } from "../lib/interfaces/player";
 

@@ -4,8 +4,7 @@ import { Adventure } from "../lib/interfaces/adventure";
 
 import * as adventures from "../../data/adventures.json";
 import { getTimeStampFormated } from "../lib/utils/time";
-
-export const explorationMaxLevel = 20;
+import { EXPLORATION_MAX_LEVEL } from "../lib/utils/consts";
 
 /**
  * Send user user to farm(Get gold, xp, and equips)
@@ -14,7 +13,7 @@ export const explorationMaxLevel = 20;
  * The amount of gold, xp received by the user increases according to the value of the level
  */
 export function explore(msg: Discord.Message, level: number) {
-  if (level > 0 && level <= explorationMaxLevel) {
+  if (level > 0 && level <= EXPLORATION_MAX_LEVEL) {
     playerService.findbyUserID(msg.author.id).then(player => {
       if (player !== null) {
         const adv: Adventure = adventures[level];
@@ -36,7 +35,7 @@ export function explore(msg: Discord.Message, level: number) {
   } else {
     msg.channel.send(
       "You must choose a number between 1 and " +
-        explorationMaxLevel +
+        EXPLORATION_MAX_LEVEL +
         " to send your "
     );
   }

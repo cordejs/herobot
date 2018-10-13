@@ -1,6 +1,10 @@
 import * as Discord from "discord.js";
 import { playerService } from "../lib/services/playerService";
-import { getTimeStampFormated, getTime } from "../lib/util/time";
+import {
+  getTimeStampFormated,
+  getTime,
+  getTimeDifference
+} from "../lib/util/time";
 import * as proficienceLevel from "../../data/proficienceLevel.json";
 import { Player } from "../lib/interfaces/player";
 
@@ -19,14 +23,21 @@ export function status(msg: Discord.Message) {
 
     if (player.adventureStartedTime !== null) {
       // time in seconds that the player is training
-      timeTrained = getTimeStampFormated() - player.adventureStartedTime;
+      timeTrained = getTimeDifference(
+        getTimeStampFormated(),
+        player.adventureStartedTime
+      );
       const monster = player.adventure.monster;
       const fullMonsterHp = player.adventure.monster.hp;
 
       let xpEarned = 0;
       let goldEarned = 0;
       let monstersKilled = 0;
-      const time = getTimeStampFormated() - player.adventureStartedTime;
+
+      const time = getTimeDifference(
+        getTimeStampFormated(),
+        player.adventureStartedTime
+      );
 
       // Each value is a second, each second is a hit.
       // MUST REFATORE (Remove the loop and make the calc based in the timeTrained)
@@ -103,7 +114,10 @@ export function status(msg: Discord.Message) {
 }
 
 function updatePlayerProficienceDamage(player: Player): number {
-  const timeTrained = getTimeStampFormated() - player.trainDamageStartedTime;
+  const timeTrained = getTimeDifference(
+    getTimeStampFormated(),
+    player.trainDamageStartedTime
+  );
 
   let exp = timeTrained / 10;
   let remain;
@@ -129,7 +143,10 @@ function updatePlayerProficienceDamage(player: Player): number {
 }
 
 function updatePlayerProficienceShield(player: Player): number {
-  const timeTrained = getTimeStampFormated() - player.trainShieldStartedTime;
+  const timeTrained = getTimeDifference(
+    getTimeStampFormated(),
+    player.trainShieldStartedTime
+  );
 
   let exp = timeTrained / 10;
   let remain;

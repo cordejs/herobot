@@ -8,7 +8,7 @@ import { xp } from "../commands/xp";
 
 import { gold } from "../commands/gold";
 import { explore } from "../commands/explore";
-import { PREFIX } from "../lib/util/consts";
+import { PREFIX } from "../lib/utils/consts";
 import { train } from "../commands/train";
 import { status } from "../commands/status";
 

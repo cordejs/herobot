@@ -1,5 +1,5 @@
 import * as Discord from "discord.js";
-import { getHeroClass } from "../lib/util/classHandle";
+import { getHeroClass } from "../lib/utils/classHandle";
 import { playerService } from "../lib/services/playerService";
 import { Player } from "../lib/interfaces/player";
 

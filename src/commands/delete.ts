@@ -1,6 +1,6 @@
 import * as Discord from "discord.js";
 import { playerService } from "../lib/services/playerService";
-import { PREFIX } from "../lib/util/consts";
+import { PREFIX } from "../lib/utils/consts";
 
 /**
  * Removes a user's player

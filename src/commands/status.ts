@@ -7,6 +7,7 @@ import {
 } from "../lib/utils/time";
 import * as proficienceLevel from "../../data/proficienceLevel.json";
 import { Player } from "../lib/interfaces/player";
+import { randomNumber } from "../lib/utils/random";
 
 /**
  * Inform the situation of the player in his exploration or trainning
@@ -21,7 +22,7 @@ export function status(msg: Discord.Message) {
 
     let timeTrained: number;
 
-    if (player.adventureStartedTime !== null) {
+    if (player.adventureStartedTime !== undefined) {
       // time in seconds that the player is training
       timeTrained = getTimeDifference(
         getTimeStampFormated(),
@@ -91,10 +92,13 @@ export function status(msg: Discord.Message) {
           " of gold and " +
           xpEarned +
           " of experience. You explored for " +
-          getTime(time)
+          getTime(time * 60)
       );
-    } else if (player.trainDamageStartedTime !== null) {
+
+      player.adventureStartedTime = getTimeStampFormated();
+    } else if (player.trainDamageStartedTime !== undefined) {
       const trained = updatePlayerProficienceDamage(player);
+
       msg.channel.send(
         `The player ${player.name} is training damage for ${getTime(
           trained
@@ -103,23 +107,33 @@ export function status(msg: Discord.Message) {
       );
     } else {
       const trained = updatePlayerProficienceShield(player);
+
       msg.channel.send(
         `The player ${player.name} is training shield for ${getTime(
-          trained
+          trained * 60
         )}.` +
           ` Your shield proficience level is ${player.shieldProficience.level}`
       );
     }
+    playerService.updatePlayer(player);
   });
 }
 
+/**
+ * Calcs the amount of experience in damage proficience the player will get
+ * @description It get the actual timestamp and subtract from the time that the player
+ * started train.(The time is got in minutes and each minute is equal a random number between 5 an 20).
+ * It also adjusts the level of proficiency if it increases
+ * @example 1min = 5~20 exp points
+ * @param player Who will have the damage proficience points calculated
+ */
 function updatePlayerProficienceDamage(player: Player): number {
   const timeTrained = getTimeDifference(
     getTimeStampFormated(),
     player.trainDamageStartedTime
   );
 
-  let exp = timeTrained / 10;
+  let exp = generateExpTotal(timeTrained);
   let remain;
   let getProficience;
 
@@ -139,16 +153,25 @@ function updatePlayerProficienceDamage(player: Player): number {
     }
     exp = remain;
   }
+  player.trainDamageStartedTime = getTimeStampFormated();
   return timeTrained;
 }
 
+/**
+ * Calcs the amount of experience in shield proficience the player will get
+ * @description It gets the actual timestamp and subtract from the time that the player
+ * started train.(The time is got in minutes and each minute is equal a random number between 5 an 20).
+ * It also adjusts the level of proficiency if it increases
+ * @example 1min = 5~20 exp points
+ * @param player Who will have the damage proficience points calculated
+ */
 function updatePlayerProficienceShield(player: Player): number {
   const timeTrained = getTimeDifference(
     getTimeStampFormated(),
     player.trainShieldStartedTime
   );
 
-  let exp = timeTrained / 10;
+  let exp = generateExpTotal(timeTrained);
   let remain;
   let getProficience;
 
@@ -168,5 +191,14 @@ function updatePlayerProficienceShield(player: Player): number {
     }
     exp = remain;
   }
+  player.trainShieldStartedTime = getTimeStampFormated();
   return timeTrained;
+}
+
+function generateExpTotal(exp: number): number {
+  let total: number;
+  for (let i = 0; i < exp; i++) {
+    total += randomNumber(5, 20);
+  }
+  return total;
 }

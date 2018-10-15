@@ -41,13 +41,3 @@ export function getTime(number: number) {
 function expand(number: number): string {
   return number < 10 ? `0${number}` : number.toString();
 }
-
-/**
- * Get difference between two times returning the difference in minutes
- * @param time1 first number
- * @param time2 second number
- * @example time1 - time2
- */
-export function getTimeDifference(time1: number, time2: number) {
-  return Math.floor(time1 / 60 - time2 / 60);
-}

@@ -5,9 +5,9 @@ import { HeroClass } from "../enums/heroclass";
 import { Adventure } from "./adventure";
 import { ProficienceType } from "../enums/proficienceType";
 import { Entity } from "./entity";
+import { PlayStatus } from "./playStatus";
 
 export class Player extends Entity {
-
   name: string;
   level: number;
   hpTotal: number;
@@ -26,6 +26,7 @@ export class Player extends Entity {
   trainShieldStartedTime: number;
   damageProficience: Proficience;
   shieldProficience: Proficience;
+  actionStatus: PlayStatus;
 
   constructor(name: string, heroclass: HeroClass, userID: string) {
     super();

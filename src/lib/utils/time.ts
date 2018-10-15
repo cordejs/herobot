@@ -11,10 +11,26 @@ export function getTimeStampFormated(): number {
  * @param number Element that will be converted
  */
 export function getTime(number: number) {
-  const hours = Math.floor(number / 3600);
-  const minutes = Math.floor(number % 3600 / 60);
-  const sec = Math.floor(number % 3600 % 60);
-  return `${expand(hours)}:${expand(minutes)}:${expand(sec)}`;
+  const seconds = Math.floor(number % 60);
+  number = number / 60;
+
+  const minutes = Math.floor(number % 60);
+  number = number / 60;
+
+  const hours = Math.floor(number % 24);
+  const days = Math.floor(number / 24);
+
+  if (days > 0) {
+    if (days === 1) {
+      return `${days} day, ${expand(hours)}:${expand(minutes)}:${expand(
+        seconds
+      )}`;
+    }
+    return `${days} days, ${expand(hours)}:${expand(minutes)}:${expand(
+      seconds
+    )}`;
+  }
+  return `${expand(hours)}:${expand(minutes)}:${expand(seconds)}`;
 }
 
 /**

@@ -1,4 +1,4 @@
-# AdventureRPG
+# HeroBot
 
 [![GitHub issues](https://img.shields.io/github/issues/lgmagalhaes88/AdventureRPG.svg?style=flat-square)](https://github.com/lgmagalhaes88/AdventureRPG/issues)
 [![GitHub forks](https://img.shields.io/github/forks/lgmagalhaes88/AdventureRPG.svg?style=flat-square)](https://github.com/lgmagalhaes88/AdventureRPG/network)

@@ -5,6 +5,7 @@ import { commandHandle } from "./lib/command";
 import { PREFIX } from "./lib/utils/consts";
 
 /**
+ *
  * Bot commands:
  * @function create -> Creates a new User. Needs to informn the name and the class
  * @function profile -> Shows user's profile

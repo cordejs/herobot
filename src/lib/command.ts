@@ -11,6 +11,7 @@ import { explore } from "../commands/explore";
 import { PREFIX } from "../lib/utils/consts";
 import { train } from "../commands/train";
 import { status } from "../commands/status";
+import { back } from "../commands/back";
 
 /**
  * Receives a message, treating it and sending to the right method
@@ -35,4 +36,8 @@ export function commandHandle(msg: Discord.Message) {
   else if (command === "explore" || command === "e") explore(msg, +args[1]);
   else if (command === "train" || command == "t") train(msg, args[1]);
   else if (command === "status" || command === "s") status(msg);
+  else if (command === "back" || command === "b") back(msg);
+  else {
+    msg.reply(" I didn't understand what do you mean");
+  }
 }

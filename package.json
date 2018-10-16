@@ -16,9 +16,9 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc -p . && node dist/src/bot.js",
+    "start": "tsc -p . && node build/src/bot.js",
     "build": "tsc -p .",
-    "bot": "node dist/src/bot.js"
+    "bot": "node build/src/bot.js"
   },
   "repository": {
     "type": "git",

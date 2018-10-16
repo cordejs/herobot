@@ -5,7 +5,7 @@
     "noImplicitAny": false,
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "dist",
+    "outDir": "build",
     "baseUrl": "",
     "resolveJsonModule": true,
     "removeComments": true,

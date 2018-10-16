@@ -25,7 +25,7 @@ npm run build
 npm run bot
 ```
 
-# Build and Run
+## Build and Run
 
 ```shell
 npm run start

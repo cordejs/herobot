@@ -1,5 +1,5 @@
 {
-  "name": "adventurerpg",
+  "name": "herobot",
   "version": "1.0.0",
   "description": "A discord bot to play RPG",
   "main": "./src/bot.ts",
@@ -22,12 +22,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lgmagalhaes88/AdventureRPG.git"
+    "url": "git+https://github.com/lgmagalhaes88/HeroBot.git"
   },
   "author": "lgmagalhaes88",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/lgmagalhaes88/AdventureRPG/issues"
+    "url": "https://github.com/lgmagalhaes88/HeroBot/issues"
   },
-  "homepage": "https://github.com/lgmagalhaes88/AdventureRPG#readme"
+  "homepage": "https://github.com/lgmagalhaes88/HeroBot#readme"
 }

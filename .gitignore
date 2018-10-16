@@ -1,5 +1,5 @@
 # build folder
-dist/
+build/
 
 # Connection informations
 connection.ts

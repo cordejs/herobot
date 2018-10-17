@@ -142,15 +142,15 @@
     "givedXp": 8,
     "givedGold": 15
   },
-  "17": {
-    "name": "Bearded Toad",
-    "level": 2,
-    "damage": 5,
-    "hp": 20,
+  "17" : {
+    "name" : "Cyclope", 
+    "level": 6,
+    "damage": 8,
+    "hp": 80,
     "shield": 0,
-    "givedXp": 8,
-    "givedGold": 15
-  },
+    "givedXp": 15,
+    "givedGold" : 40
+},
   "18": {
     "name": "Flying Cloud of Evil",
     "level": 4,
@@ -169,22 +169,22 @@
     "givedXp": 15,
     "givedGold": 20
   },
-  "20": {
-    "name": "Iron Turtle",
+  "20" : {
+    "name" : "Silver Monkey", 
     "level": 5,
-    "damage": 2,
-    "hp": 40,
-    "shield": 20,
-    "givedXp": 15,
-    "givedGold": 20
+    "damage": 30,
+    "hp": 50,
+    "shield": 0,
+    "givedXp": 30,
+    "givedGold" : 100
   },
-  "21": {
-    "name": "Zombie Terrorist",
-    "level": 5,
+  "21" : {
+    "name" : "Zombie", 
+    "level": 4,
     "damage": 20,
     "hp": 15,
     "shield": 0,
     "givedXp": 20,
-    "givedGold": 30
+    "givedGold" : 30
   }
 }

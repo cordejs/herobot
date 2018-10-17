@@ -1,6 +1,14 @@
 import { BaseEntityService } from "../services/baseEntityService";
 import { Player } from "../interfaces/player";
 import { Monster } from "../interfaces/monster";
+import { randomNumber } from "../utils/random";
+import { getTimeStampFormated, getTime } from "../utils/time";
+import { ProficienceType } from "../enums/proficienceType";
+import { Action } from "../enums/action";
+import { Proficience } from "../interfaces/proficience";
+import * as Discord from "discord.js";
+import { type } from "os";
+import { PlayStatus } from "../interfaces/playStatus";
 
 class PlayerService extends BaseEntityService<Player> {
   private route = "/players";
@@ -101,6 +109,191 @@ class PlayerService extends BaseEntityService<Player> {
         this.calcDamage(monster.damage),
         this.playerDamage(player)
       );
+  }
+
+  /**
+   * Calcs the amount of experience in Shield or Damage proficience the player will get
+   * @description It gets the actual timestamp and subtract from the time that the player
+   * started train.(The time is got in minutes and each minute is equal a random number between 5 an 20).
+   * It also adjusts the level of proficiency if it increases
+   * @example 1min = 5~20 exp points
+   * @param player Who will have the proficience points calculated
+   */
+  upgradeProficience(player: Player) {
+    let proficience: Proficience;
+
+    if (player.trainDamageStartedTime !== undefined) {
+      proficience = player.damageProficience;
+    } else {
+      proficience = player.shieldProficience;
+    }
+
+    let timeTrained;
+
+    if (player.actionStatus === undefined) {
+      timeTrained = getTimeStampFormated() - player.trainShieldStartedTime;
+
+      player.actionStatus = {
+        action: Action.SHIELD_TRAINING,
+        exp: 0,
+        time: getTimeStampFormated()
+      };
+
+      if (proficience.type === ProficienceType.DAMAGE) {
+        player.actionStatus.action = Action.DAMAGE_TRAINING;
+      }
+      // If the user alredy invoked the command "status"
+    } else {
+      timeTrained = getTimeStampFormated() - player.actionStatus.time;
+    }
+
+    const exp = this.generateExpTotal(timeTrained);
+
+    player.actionStatus.exp += exp;
+    player.actionStatus.time = getTimeStampFormated();
+
+    return getTimeStampFormated() - player.trainShieldStartedTime;
+  }
+
+  /**
+   * Calcs the amount of exp the player will receive in the given time and
+   * convert it to minutes.
+   * @param exp Time to calculate the exp. The value must be in TimeStamp
+   * without milliseconds
+   */
+  generateExpTotal(exp: number): number {
+    exp = Math.floor((exp / 60) % 60);
+    let total: number = 0;
+    for (let i = 0; i < exp; i++) {
+      total += randomNumber(5, 20);
+    }
+    return total;
+  }
+
+  updatePlayerTraining(player: Player, msg: Discord.Message) {
+    this.calcPlayerTrainingBase(player, false);
+  }
+
+  finishPlayerTraining(player: Player, msg: Discord.Message) {
+    this.calcPlayerTrainingBase(player, true);
+  }
+
+  /**
+   * Calcs what the player got in exploration.
+   * @param player Who will have him bounts calculated
+   * @param finishTraning Defines if the training must end (then the value that store when the
+   * player started training is set to 'undefined') or updated (then the value that store when
+   * the player started training is set to the value in 'getTimeStampFormated()' method
+   * @return Result of player exploration
+   * @throws Error of type PlayStatus meaning that the player died in exploration
+   */
+  private calcPlayerTrainingBase(
+    player: Player,
+    finishTraning: boolean
+  ): PlayStatus {
+    // time in seconds that the player is training
+    let timeTrained: number;
+    timeTrained = getTimeStampFormated() - player.adventureStartedTime;
+    const monster = player.adventure.monster;
+    const fullMonsterHp = player.adventure.monster.hp;
+
+    let xpEarned = 0;
+    let goldEarned = 0;
+    let monstersKilled = 0;
+
+    const time = getTimeStampFormated() - player.adventureStartedTime;
+
+    // Each value is a second, each second is a hit.
+    // MUST REFATORE (Remove the loop and make the calc based in the timeTrained)
+    for (let i = 0; i <= timeTrained; i++) {
+      playerService.attackMonster(player, monster);
+
+      if (monster.hp <= 0) {
+        xpEarned += monster.givedXp;
+        goldEarned += monster.givedGold;
+        monstersKilled++;
+        monster.hp = fullMonsterHp;
+      }
+
+      playerService.defendAttack(player, monster);
+
+      if (player.hpActual <= 0) {
+        player.deaths++;
+        player.monstersKilled += monstersKilled;
+        player.gold += goldEarned;
+
+        player.adventureStartedTime = undefined;
+        player.actionStatus = undefined;
+
+        throw new Error({
+          action: Action.EXPLORING,
+          exp: xpEarned,
+          time: getTime(time),
+          gold: goldEarned,
+          monstersKilled: monstersKilled
+        });
+
+        /*        playerService
+          .updatePlayer(player)
+          .then(() => {
+            msg.channel.send(
+              "You died after kill " +
+                monstersKilled +
+                " monsters. Got " +
+                goldEarned +
+                " of gold and " +
+                xpEarned +
+                " of experience. You explored for " +
+                getTime(time)
+            );
+          })
+          .catch((error: Error) => {
+            console.error(
+              "Error when updating user after die in exploration. " +
+                error.message
+            );
+            msg.channel.send(
+              "Looks like that we found some problems to save your progress."
+            );
+          });
+        break; */
+      }
+    } // Player didn't dead in exploration
+
+    player.actionStatus = {
+      action: Action.EXPLORING,
+      gold: goldEarned,
+      monstersKilled: monstersKilled,
+      exp: xpEarned,
+      time: getTimeStampFormated()
+    };
+
+    if (finishTraning) {
+      player.adventureStartedTime = undefined;
+    } else {
+      player.adventureStartedTime = getTimeStampFormated();
+    }
+
+    this.updatePlayer(player);
+
+    return {
+      action: Action.EXPLORING,
+      exp: xpEarned,
+      time: getTime(time),
+      gold: goldEarned,
+      monstersKilled: monstersKilled
+    };
+
+    /*    msg.channel.send(
+      "You killed " +
+        monstersKilled +
+        " monsters. Got " +
+        goldEarned +
+        " of gold and " +
+        xpEarned +
+        " of experience. You explored for " +
+        getTime(time)
+    ); */
   }
 }
 

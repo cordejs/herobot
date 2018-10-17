@@ -13,5 +13,5 @@ export interface PlayStatus {
   gold?: number;
   monstersKilled?: number;
   exp: number;
-  time: number;
+  time: number | string;
 }

@@ -1,6 +1,7 @@
 import * as Discord from "discord.js";
 import { playerService } from "../lib/services/playerService";
 import { getTime } from "../lib/utils/time";
+import { PlayerDieError } from "../lib/errors/PlayerDieError";
 
 /**
  * Inform the situation of the player in his exploration or trainning
@@ -23,7 +24,8 @@ export function status(msg: Discord.Message) {
             ` You explored for ${getTime(status.time)}`
         );
       } catch (error) { // Player died in exploration
-        msg.channel.send(error);
+        const er: PlayerDieError = error;
+        msg.channel.send(er.message);
       }
     } else if (player.trainDamageStartedTime !== undefined) {
       const trained = playerService.upgradeProficience(player);

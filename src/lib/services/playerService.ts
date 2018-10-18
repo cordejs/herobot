@@ -2,12 +2,10 @@ import { BaseEntityService } from "../services/baseEntityService";
 import { Player } from "../interfaces/player";
 import { Monster } from "../interfaces/monster";
 import { randomNumber } from "../utils/random";
-import { getTimeStampFormated, getTime } from "../utils/time";
+import { getTimeStampFormated } from "../utils/time";
 import { ProficienceType } from "../enums/proficienceType";
 import { Action } from "../enums/action";
 import { Proficience } from "../interfaces/proficience";
-import * as Discord from "discord.js";
-import { type } from "os";
 import { PlayStatus } from "../interfaces/playStatus";
 import { PlayerDieError } from "../errors/PlayerDieError";
 
@@ -200,57 +198,68 @@ class PlayerService extends BaseEntityService<Player> {
     player: Player,
     finishTraning: boolean
   ): PlayStatus {
-    // time in seconds that the player is training
-    let timeTrained: number;
-    timeTrained = getTimeStampFormated() - player.adventureStartedTime;
     const monster = player.adventure.monster;
     const fullMonsterHp = player.adventure.monster.hp;
 
-    let xpEarned = 0;
-    let goldEarned = 0;
-    let monstersKilled = 0;
 
-    const time = getTimeStampFormated() - player.adventureStartedTime;
+    let time;
+    if (player.actionStatus === undefined) {
+      time = getTimeStampFormated() - player.adventureStartedTime;
+
+      player.actionStatus = {
+        action: Action.EXPLORING,
+        gold: 0,
+        monstersKilled: 0,
+        exp: 0,
+        time: 0
+      };
+    } else {
+      time = getTimeStampFormated() - player.actionStatus.time;
+    }
+
+    const timeTrained = time;
 
     // Each value is a second, each second is a hit.
     // MUST REFATORE (Remove the loop and make the calc based in the timeTrained)
     for (let i = 0; i <= timeTrained; i++) {
+
+      // Player always hit the monster first
       playerService.attackMonster(player, monster);
 
       if (monster.hp <= 0) {
-        xpEarned += monster.givedXp;
-        goldEarned += monster.givedGold;
-        monstersKilled++;
+        player.actionStatus.exp += monster.givedXp;
+        player.actionStatus.gold += monster.givedGold;
+        player.actionStatus.monstersKilled++;
         monster.hp = fullMonsterHp;
       }
 
       playerService.defendAttack(player, monster);
 
+      // Player died in exploration, so the number of gold, exp, monsters killed and
+      // death is setted in his profile.
       if (player.hpActual <= 0) {
         player.deaths++;
-        player.monstersKilled += monstersKilled;
-        player.gold += goldEarned;
+        player.monstersKilled += player.actionStatus.monstersKilled;
+        player.gold += player.actionStatus.gold;
+        player.xp += player.actionStatus.exp;
+
+        // TO DO -> Create player level update after get experience in exploration
+        const status: PlayStatus = {
+          action: Action.EXPLORING,
+          exp: player.actionStatus.exp,
+          time: time,
+          gold: player.actionStatus.gold,
+          monstersKilled: player.actionStatus.monstersKilled
+        };
 
         player.adventureStartedTime = undefined;
         player.actionStatus = undefined;
 
-        throw new PlayerDieError({
-          action: Action.EXPLORING,
-          exp: xpEarned,
-          time: time,
-          gold: goldEarned,
-          monstersKilled: monstersKilled
-        });
+        throw new PlayerDieError(status);
       }
     } // Player didn't dead in exploration
 
-    player.actionStatus = {
-      action: Action.EXPLORING,
-      gold: goldEarned,
-      monstersKilled: monstersKilled,
-      exp: xpEarned,
-      time: getTimeStampFormated()
-    };
+    player.actionStatus.time = getTimeStampFormated();
 
     if (finishTraning) {
       player.adventureStartedTime = undefined;
@@ -261,13 +270,7 @@ class PlayerService extends BaseEntityService<Player> {
 
     this.updatePlayer(player);
 
-    return {
-      action: Action.EXPLORING,
-      exp: xpEarned,
-      time: time,
-      gold: goldEarned,
-      monstersKilled: monstersKilled
-    };
+    return player.actionStatus;
   }
 }
 

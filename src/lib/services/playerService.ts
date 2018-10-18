@@ -171,12 +171,20 @@ class PlayerService extends BaseEntityService<Player> {
     return total;
   }
 
-  updatePlayerTraining(player: Player) {
-    this.calcPlayerTrainingBase(player, false);
+  /**
+   * Updated playstatus.time with the actual timestamp and calcs user training bounties
+   * @throws PlayerDieError if the player died in exploration
+   */
+  updatePlayerTraining(player: Player): PlayStatus {
+    return this.calcPlayerTrainingBase(player, false);
   }
 
-  finishPlayerTraining(player: Player) {
-    this.calcPlayerTrainingBase(player, true);
+  /**
+   * Set the adventureStarted time with undefined and calcs user training bounties
+   * @throws PlayerDieError if the player died in exploration
+   */
+  finishPlayerTraining(player: Player): PlayStatus {
+    return this.calcPlayerTrainingBase(player, true);
   }
 
   /**
@@ -186,7 +194,7 @@ class PlayerService extends BaseEntityService<Player> {
    * player started training is set to 'undefined') or updated (then the value that store when
    * the player started training is set to the value in 'getTimeStampFormated()' method
    * @return Result of player exploration
-   * @throws Error of type PlayStatus meaning that the player died in exploration
+   * @throws PlayerDieError of type PlayStatus meaning that the player died in exploration
    */
   private calcPlayerTrainingBase(
     player: Player,
@@ -246,8 +254,9 @@ class PlayerService extends BaseEntityService<Player> {
 
     if (finishTraning) {
       player.adventureStartedTime = undefined;
+      player.actionStatus = undefined;
     } else {
-      player.adventureStartedTime = getTimeStampFormated();
+      player.actionStatus.time = getTimeStampFormated();
     }
 
     this.updatePlayer(player);
@@ -259,17 +268,6 @@ class PlayerService extends BaseEntityService<Player> {
       gold: goldEarned,
       monstersKilled: monstersKilled
     };
-
-    /*    msg.channel.send(
-      "You killed " +
-        monstersKilled +
-        " monsters. Got " +
-        goldEarned +
-        " of gold and " +
-        xpEarned +
-        " of experience. You explored for " +
-        getTime(time)
-    ); */
   }
 }
 

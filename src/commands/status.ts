@@ -1,7 +1,7 @@
 import * as Discord from "discord.js";
 import { playerService } from "../lib/services/playerService";
-import { getTimeStampFormated, getTime } from "../lib/utils/time";
-import { Action } from "../lib/enums/action";
+import { getTime } from "../lib/utils/time";
+
 /**
  * Inform the situation of the player in his exploration or trainning
  * @param msg Discord last message related to the command
@@ -14,7 +14,17 @@ export function status(msg: Discord.Message) {
     }
 
     if (player.adventureStartedTime !== undefined) {
-      playerService.updatePlayerTraining(player);
+      try {
+        const status = playerService.updatePlayerTraining(player);
+
+        msg.channel.send(
+          `You killed ${status.monstersKilled} monsters. ` +
+            `Got ${status.gold} of gold and ${status.exp} of experience.` +
+            ` You explored for ${getTime(status.time)}`
+        );
+      } catch (error) { // Player died in exploration
+        msg.channel.send(error);
+      }
     } else if (player.trainDamageStartedTime !== undefined) {
       const trained = playerService.upgradeProficience(player);
 

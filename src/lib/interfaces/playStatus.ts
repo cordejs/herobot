@@ -9,9 +9,9 @@ import { Action } from "../enums/action";
  * and save in player data.
  */
 export interface PlayStatus {
-	action: Action;
-	gold?: number;
-	monstersKilled?: number;
-	exp: number;
-	time: number;
+  action: Action;
+  gold?: number;
+  monstersKilled?: number;
+  exp: number;
+  time: number;
 }

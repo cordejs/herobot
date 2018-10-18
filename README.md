@@ -7,6 +7,9 @@
 
 A Discord bot to play RPG
 
+## Add bot to your server \o/
+
+[![Discor bot Link](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCH5K8nK8Ucll_OCrEHngzkZ7k3E7qmDF-TEY_kRU0WzO3uegL)](https://discordapp.com/api/oauth2/authorize?client_id=495052325258395672&permissions=8&scope=bot)
 ## Connecting
 
 For security proposes, the file `connection.ts` isn't commit. If you want to run the app, put your own bot token and a firebase projet configurations.

@@ -201,7 +201,6 @@ class PlayerService extends BaseEntityService<Player> {
     const monster = player.adventure.monster;
     const fullMonsterHp = player.adventure.monster.hp;
 
-
     let time;
     if (player.actionStatus === undefined) {
       time = getTimeStampFormated() - player.adventureStartedTime;
@@ -222,7 +221,6 @@ class PlayerService extends BaseEntityService<Player> {
     // Each value is a second, each second is a hit.
     // MUST REFATORE (Remove the loop and make the calc based in the timeTrained)
     for (let i = 0; i <= timeTrained; i++) {
-
       // Player always hit the monster first
       playerService.attackMonster(player, monster);
 
@@ -243,7 +241,6 @@ class PlayerService extends BaseEntityService<Player> {
         player.gold += player.actionStatus.gold;
         player.xp += player.actionStatus.exp;
 
-        // TO DO -> Create player level update after get experience in exploration
         const status: PlayStatus = {
           action: Action.EXPLORING,
           exp: player.actionStatus.exp,

@@ -3,6 +3,6 @@
  * @param min minimun value that the number can have
  * @param max maximun value that the number can have
  */
-function randomNumber(min, max): number {
+export function randomNumber(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }

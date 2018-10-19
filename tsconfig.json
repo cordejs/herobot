@@ -12,10 +12,7 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "removeComments": true,
-    "preserveConstEnums": true,
-    "paths": {
-      "*": ["node_modules/*"]
-    }
+    "preserveConstEnums": true
   },
   "include": ["src/**/*"],
 }

@@ -1,7 +1,6 @@
 import { BaseEntityService } from "../services/baseEntityService";
-import { Player } from "../interfaces/player";
+import { Player } from "../models/player";
 import { Monster } from "../interfaces/monster";
-import { randomNumber } from "../utils/random";
 import { getTimeStampFormated } from "../utils/time";
 import { ProficienceType } from "../enums/proficienceType";
 import { Action } from "../enums/action";
@@ -19,8 +18,12 @@ class PlayerService extends BaseEntityService<Player> {
   findbyUserID(id: string): Promise<Player> {
     return super.find(this.route, id).then(player => {
       return new Promise<Player>(resolve => {
-        const playerGet: Player = player;
-        if (player !== null) playerGet.id = id;
+        let playerGet: Player;
+        playerGet = player;
+        if (player !== null) {
+          playerGet = Player.initializePlayer(player);
+          playerGet.id = id;
+        }
         resolve(playerGet);
       });
     });

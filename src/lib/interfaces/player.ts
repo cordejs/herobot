@@ -7,6 +7,7 @@ import { ProficienceType } from "../enums/proficienceType";
 import { Entity } from "./entity";
 import { PlayStatus } from "./playStatus";
 
+@firebasePath("player")
 export class Player extends Entity {
   name: string;
   level: number;

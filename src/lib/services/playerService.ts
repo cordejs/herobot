@@ -7,7 +7,7 @@ import { ProficienceType } from "../enums/proficienceType";
 import { Action } from "../enums/action";
 import { Proficience } from "../interfaces/proficience";
 import { PlayStatus } from "../interfaces/playStatus";
-import { PlayerDieError } from "../errors/PlayerDieError";
+import { PlayerDieError } from "../errors/playerDieError";
 
 class PlayerService extends BaseEntityService<Player> {
   private route = "/players";

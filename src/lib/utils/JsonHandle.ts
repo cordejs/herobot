@@ -11,7 +11,6 @@ import { Level } from "../types/level.js";
 
 /**
  * Class with static method for search of data in json files
- * @since 1.0.0
  */
 export class JsonHandle {
   /**

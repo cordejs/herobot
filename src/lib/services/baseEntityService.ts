@@ -37,6 +37,17 @@ export class BaseEntityService<T> {
       });
   }
 
+  protected findAll(route: string): Promise<T> {
+    return this.db
+      .ref(route + "/")
+      .once("value")
+      .then(function(snapshot) {
+        return new Promise<T>(resolve => {
+          resolve(snapshot.val());
+        });
+      });
+  }
+
   /**
    * Removes data from database
    * @param route path where the entity is located
@@ -92,8 +103,8 @@ export class BaseEntityService<T> {
     this.adjustEntity(entity);
     delete entity.id;
     return this.db.ref(route).set(entity);
-  }
-
+  } 
+  
   private adjustEntity(entity: Entity) {
     Object.getOwnPropertyNames(entity).forEach(proper => {
       Object.defineProperty(

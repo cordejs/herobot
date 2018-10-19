@@ -1,7 +1,7 @@
 import * as Discord from "discord.js"; 
 import { playerService } from "../lib/services/playerService";  
 import { getItemType } from "../lib/utils/itemTypeHandle"; 
-import { BaseEntityService } from "../lib/services/baseEntityService";
+import { equipServ } from "../lib/services/equipService";
 /**
  * Informs all available items from selected type.
  * @param msg Discord last message related to the command
@@ -20,23 +20,8 @@ export function shop(msg: Discord.Message) {
       }
     ).then(getItemType => {
         const itemTypeName = getItemType.first().content;
-         var bdservice = new BaseEntityService();  
-         readTextFile("../data/" + itemTypeName + ".json", function(text){
-            var data = JSON.parse(text);
+        var data = equipServ.findAllItems();
             msg.channel.send(data);
          }); 
-    });
-  }); 
-
-  function readTextFile(file, callback) {
-    var jsonFile = new XMLHttpRequest();
-    jsonFile.overrideMimeType("application/json");
-    jsonFile.open("GET", file, true);
-    jsonFile.onreadystatechange = function() {
-        if (jsonFile.readyState === 4 && jsonFile.status == 200) {
-            callback(jsonFile.responseText);
-        }
-    }
-    jsonFile.send(null);
-   }
-}
+    })
+  }; 

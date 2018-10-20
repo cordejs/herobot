@@ -22,7 +22,7 @@ class PlayerService extends BaseEntityService<Player> {
         let playerGet: Player;
         playerGet = player;
         if (player !== null) {
-          playerGet = Player.initializePlayer(player);
+          playerGet = Object.assign(new Player(), player);
           playerGet.id = id;
         }
         resolve(playerGet);
@@ -127,8 +127,10 @@ class PlayerService extends BaseEntityService<Player> {
 
     if (player.trainDamageStartedTime !== undefined) {
       proficience = player.damageProficience;
-    } else {
+    } else if (player.trainShieldStartedTime !== undefined) {
       proficience = player.shieldProficience;
+    } else {
+      return;
     }
 
     let timeTrained;

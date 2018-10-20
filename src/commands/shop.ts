@@ -8,7 +8,6 @@ import { equipServ } from "../lib/services/equipService";
  */
 
 export function shop(msg: Discord.Message) { 
-  // First check if the user already have an player 
   msg.channel.send("Want to buy sword or shield ?").then(() => {
     msg.channel
     .awaitMessages(
@@ -20,8 +19,8 @@ export function shop(msg: Discord.Message) {
       }
     ).then(getItemType => {
         const itemTypeName = getItemType.first().content;
-        var data = equipServ.findAllItems();
-            msg.channel.send(data);
+        var items = equipServ.findAllItens(itemTypeName);
+        msg.channel.send(items);
          }); 
     })
   }; 

@@ -1,25 +1,13 @@
-import { BaseEntityService } from "./baseEntityService";
-import { Equipment } from "../interfaces/equipment"; 
+import { Equipment } from "../interfaces/equipment";
+import * as weapon from "../../../data/weapon.json"
+import * as shield from "../../../data/shield.json"
 
-class equipService extends BaseEntityService<Equipment> {
+class equipService {
   private route = "/equipment";
-
-  findItem(id: string): Promise<Equipment> {
-    return super.find(this.route, id).then(Item => {
-      return new Promise<Equipment>(resolve => {
-        const ItemGet: Equipment = Item;
-        if (Item !== null) ItemGet.id = id;
-        resolve(ItemGet);
-      });
-    });
-  }
-  findAllItems(): Promise<Equipment> {
-    return super.findAll(this.route).then(Item => {
-      return new Promise<Equipment>(resolve => {
-        const ItemGet: Equipment = Item;
-        resolve(ItemGet);
-      });
-    });
+  findAllItens(type: string) : object
+  { 
+    var objJson = type.toLowerCase() == "shield" ? shield : weapon;
+    return objJson;
   }
 }
 export const equipServ : equipService = new equipService();

@@ -1,7 +1,7 @@
 import { HeroClass } from "../enums/heroclass";
 import { ProficienceType } from "../enums/proficienceType";
 import { Adventure } from "./adventure";
-import { Entity } from "./entity";
+import { Entity } from "../models/entity";
 import { PlayStatus } from "./playStatus";
 import { Proficience } from "./proficience";
 import { Shield } from "./shield";

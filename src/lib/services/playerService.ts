@@ -1,13 +1,13 @@
 import { BaseEntityService } from "../services/baseEntityService";
-import { Player } from "../interfaces/player";
+import { Player } from "../models/player";
 import { Monster } from "../interfaces/monster";
-import { randomNumber } from "../utils/random";
 import { getTimeStampFormated } from "../utils/time";
 import { ProficienceType } from "../enums/proficienceType";
 import { Action } from "../enums/action";
 import { Proficience } from "../interfaces/proficience";
 import { PlayStatus } from "../interfaces/playStatus";
 import { PlayerDieError } from "../errors/playerDieError";
+import { randomNumber } from "../utils/random";
 
 class PlayerService extends BaseEntityService<Player> {
   private route = "/players";
@@ -19,8 +19,12 @@ class PlayerService extends BaseEntityService<Player> {
   findbyUserID(id: string): Promise<Player> {
     return super.find(this.route, id).then(player => {
       return new Promise<Player>(resolve => {
-        const playerGet: Player = player;
-        if (player !== null) playerGet.id = id;
+        let playerGet: Player;
+        playerGet = player;
+        if (player !== null) {
+          playerGet = Object.assign(new Player(), player);
+          playerGet.id = id;
+        }
         resolve(playerGet);
       });
     });
@@ -123,8 +127,10 @@ class PlayerService extends BaseEntityService<Player> {
 
     if (player.trainDamageStartedTime !== undefined) {
       proficience = player.damageProficience;
-    } else {
+    } else if (player.trainShieldStartedTime !== undefined) {
       proficience = player.shieldProficience;
+    } else {
+      return;
     }
 
     let timeTrained;

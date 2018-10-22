@@ -23,7 +23,8 @@ export function status(msg: Discord.Message) {
             `Got ${status.gold} of gold and ${status.exp} of experience.` +
             ` You explored for ${getTime(status.time)}`
         );
-      } catch (error) { // Player died in exploration
+      } catch (error) {
+        // Player died in exploration
         const er: PlayerDieError = error;
         msg.channel.send(er.message);
       }
@@ -35,7 +36,7 @@ export function status(msg: Discord.Message) {
           trained
         )}.` + ` You alredy got ${player.actionStatus.exp} exp`
       );
-    } else {
+    } else if (player.trainShieldStartedTime !== undefined) {
       const trained = playerService.upgradeProficience(player);
 
       msg.channel.send(
@@ -43,6 +44,9 @@ export function status(msg: Discord.Message) {
           trained
         )}.` + ` You alredy got ${player.actionStatus.exp} exp`
       );
+    } else {
+      msg.channel.send("You are not exploring or training. DO SOMETHING");
+      return;
     }
     playerService.updatePlayer(player);
   });

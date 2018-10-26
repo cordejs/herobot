@@ -1,7 +1,7 @@
 import * as Discord from "discord.js";
 import { playerService } from "../lib/services/playerService";
 import { createPlayer } from "../commands/create";
-import { Player } from "../lib/interfaces/player";
+import { Player } from "../lib/models/player";
 
 /**
  * Reboot all informations about the user. Making him have the attributes values equals to someone that
@@ -12,7 +12,29 @@ import { Player } from "../lib/interfaces/player";
 export function reset(msg: Discord.Message) {
   playerService.findbyUserID(msg.author.id).then(player => {
     if (player === null) {
-      msg.channel.send("You can not reset a player being that you haven't one");
+      msg.channel
+        .send(
+          "Hmmm. Looks like that you haven't a character created. Would you like to " +
+            +"create one now ?"
+        )
+        .then(() => {
+          msg.channel
+            .awaitMessages(answer => msg.author.id === answer.author.id, {
+              max: 1,
+              time: 10000,
+              errors: ["time"]
+            })
+            .then(ans => {
+              const response = ans
+                .first()
+                .content.trim()
+                .toLowerCase();
+              // Redirect user to player creation function
+              if (response === "y" || response === "yes") {
+                createPlayer(msg);
+              }
+            });
+        });
     } else {
       msg.channel
         .send("Are you sure that want to reset all your progress ?")
@@ -30,53 +52,20 @@ export function reset(msg: Discord.Message) {
                 .toLowerCase();
 
               if (ans.toLowerCase() === "yes" || ans.toLowerCase() === "y") {
-                const userId = msg.author.id;
-
-                playerService.findbyUserID(userId).then(player => {
-                  if (player === undefined) {
-                    msg.channel
-                      .send(
-                        "Hmmm. Looks like that you haven't a character created. Would you like to " +
-                          +"create one now ?"
-                      )
-                      .then(() => {
-                        msg.channel
-                          .awaitMessages(
-                            answer => msg.author.id === answer.author.id,
-                            {
-                              max: 1,
-                              time: 10000,
-                              errors: ["time"]
-                            }
-                          )
-                          .then(ans => {
-                            const response = ans
-                              .first()
-                              .content.trim()
-                              .toLowerCase();
-
-                            if (response === "y" || response === "yes") {
-                              createPlayer(msg);
-                            }
-                          });
-                      });
-                    // Player exists
-                  } else {
-                    const updatePlayer = new Player(
-                      player.name,
-                      player.heroClass,
-                      player.id
-                    );
-
-                    playerService.updatePlayer(updatePlayer).then(() => {
-                      msg.channel.send(
-                        "Player `" + updatePlayer.name + "` reseted"
-                      );
-                    });
-                  }
+                player.reset();
+                playerService.updatePlayer(player).then(() => {
+                  msg.channel.send("Player `" + player.name + "` reseted");
                 });
-              } else if (ans === "no" || ans === "n") {
-                msg.channel.send("Well done");
+              } else if (
+                ans.toLowerCase() === "no" ||
+                ans.toLowerCase() === "not"
+              ) {
+                msg.channel.send("Hmmm. Well done");
+              } else {
+                msg.channel.send(
+                  "I don't know if it is a yes or a not, but i gonna understand it as a no." +
+                    +" So your profile will not be reseted :)"
+                );
               }
             });
         });

@@ -14,6 +14,8 @@ import { status } from "../commands/status";
 import { back } from "../commands/back";
 import { shop } from "../commands/shop";
 
+import { shop } from "../commands/shop";
+
 /**
  * Receives a message, treating it and sending to the right method
  * @param msg message sent by Discord
@@ -28,6 +30,7 @@ export function commandHandle(msg: Discord.Message) {
 
   if (command === "create" || command === "c") createPlayer(msg);
   else if (command === "profile" || command === "p") profile(msg);
+  else if (command === "shop" || command === "shp") shop(msg);
   else if (command === "delete" || command === "d") deletePlayer(msg);
   else if (command === "reset" || command === "r") reset(msg);
   else if (command === "shop" || command === "shp") shop(msg);

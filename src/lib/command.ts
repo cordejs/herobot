@@ -29,7 +29,7 @@ export function commandHandle(msg: Discord.Message) {
 
   if (command === "create" || command === "c") createPlayer(msg);
   else if (command === "profile" || command === "p") profile(msg);
-  else if (command === "shop" || command === "shp") profile(msg);
+  else if (command === "shop" || command === "shp") shop(msg);
   else if (command === "delete" || command === "d") deletePlayer(msg);
   else if (command === "reset" || command === "r") reset(msg);
   else if (command === "experience" || command === "exp" || command === "xp")

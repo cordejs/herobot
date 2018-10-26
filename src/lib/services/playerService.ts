@@ -8,6 +8,7 @@ import { Proficience } from "../interfaces/proficience";
 import { PlayStatus } from "../interfaces/playStatus";
 import { PlayerDieError } from "../errors/PlayerDieError";
 import { randomNumber } from "../utils/random";
+import { JsonHandle } from "../utils/JsonHandle";
 
 class PlayerService extends BaseEntityService<Player> {
   private route = "/players";
@@ -54,17 +55,23 @@ class PlayerService extends BaseEntityService<Player> {
    * @param bonus proficience
    */
   private calcDamage(damage: number, bonus?: number): number {
-    return Math.pow(damage + bonus / 2, 2);
+    if (damage !== undefined) {
+      if (bonus === undefined) bonus = 1;
+      return Math.floor(Math.pow(damage + bonus / 2, 2));
+    }
+    return 0;
   }
 
   /**
    * Return the total amount of defence
    */
   playerDefence(player: Player): number {
-    return this.calcDefence(
-      player.shield.defence,
-      player.shieldProficience.level
-    );
+    if (player !== undefined) {
+      return this.calcDefence(
+        player.shield.defence,
+        player.shieldProficience.level
+      );
+    }
   }
 
   /**
@@ -74,7 +81,11 @@ class PlayerService extends BaseEntityService<Player> {
    * @param bonus proficience
    */
   private calcDefence(defence: number, bonus?: number): number {
-    return defence + (bonus / 10) * 5;
+    if (defence !== undefined) {
+      if (bonus === undefined) bonus = 1;
+      return Math.floor(defence + (bonus / 10) * 5);
+    }
+    return 0;
   }
 
   /**
@@ -83,7 +94,9 @@ class PlayerService extends BaseEntityService<Player> {
    * @param defence value(%) that will be reduced from the atack
    */
   calcDamageTaken(damage: number, defence: number): number {
-    return (defence * damage) / 100;
+    if (damage !== undefined && defence !== undefined) {
+      return Math.floor((defence * damage) / 100);
+    }
   }
 
   /**
@@ -92,12 +105,14 @@ class PlayerService extends BaseEntityService<Player> {
    * @param monster the monster that will be attacked
    */
   attackMonster(player: Player, monster: Monster) {
-    monster.hp =
-      monster.hp -
-      this.calcDamageTaken(
-        this.playerDamage(player),
-        this.calcDefence(monster.shield)
-      );
+    if (player !== undefined && monster !== undefined) {
+      monster.hp =
+        monster.hp -
+        this.calcDamageTaken(
+          this.playerDamage(player),
+          this.calcDefence(monster.shield)
+        );
+    }
   }
 
   /**
@@ -204,8 +219,8 @@ class PlayerService extends BaseEntityService<Player> {
     player: Player,
     finishTraning: boolean
   ): PlayStatus {
-    const monster = player.adventure.monster;
-    const fullMonsterHp = player.adventure.monster.hp;
+    const monster = JsonHandle.getMonsterById(player.adventure.idMonster);
+    const fullMonsterHp = monster.hp;
 
     let time;
     if (player.actionStatus === undefined) {

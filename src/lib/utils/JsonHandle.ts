@@ -1,5 +1,6 @@
 import * as shields from "../../../data/shield.json";
 import * as weapons from "../../../data/weapon.json";
+import * as monsters from "../../../data/monsters.json";
 import * as adventures from "../../../data/adventures.json";
 import * as proficienceLevels from "../../../data/proficienceLevel.json";
 import * as levels from "../../../data/levels.json";
@@ -72,7 +73,7 @@ export class JsonHandle {
   }
 
   static getMonsterById(monsterId: number): Monster {
-    const data = JsonHandle.genericDataGetById<Monster>(shields, monsterId);
+    const data = JsonHandle.genericDataGetById<Monster>(monsters, monsterId);
     data.id = monsterId.toString();
     return data;
   }

@@ -1,7 +1,7 @@
 import * as firebase from "firebase";
 import "firebase/database";
 import * as connections from "../../../connection";
-import { Entity } from "../interfaces/entity";
+import { Entity } from "../models/entity";
 
 export class BaseEntityService<T> {
   protected db: firebase.database.Database;
@@ -84,12 +84,12 @@ export class BaseEntityService<T> {
    */
   protected update(route: string, entity: Entity): Promise<void> {
     const id = entity.id;
+    this.adjustEntity(entity);
     delete entity.id;
     return this.db.ref(route + "/" + id).update(entity);
   }
 
   protected set(route: string, entity: Entity): Promise<void> {
-    this.adjustEntity(entity);
     delete entity.id;
     return this.db.ref(route).set(entity);
   }

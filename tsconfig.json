@@ -14,5 +14,5 @@
     "removeComments": true,
     "preserveConstEnums": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*"]
 }

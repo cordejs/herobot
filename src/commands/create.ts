@@ -1,7 +1,7 @@
 import * as Discord from "discord.js";
 import { getHeroClass } from "../lib/utils/classHandle";
 import { playerService } from "../lib/services/playerService";
-import { Player } from "../lib/interfaces/player";
+import { Player } from "../lib/models/player";
 
 /**
  * Create a new user selecting a name and a class for him.
@@ -52,23 +52,31 @@ export function createPlayer(msg: Discord.Message) {
                       const className = getClass.first().content;
 
                       if (getHeroClass(className) !== undefined) {
-                        msg.channel.send("You're now a " + className);
-
-                        playerService.createPlayer(
-                          new Player(
-                            playerName,
-                            getHeroClass(className.toString()),
-                            msg.author.id
+                        playerService
+                          .createPlayer(
+                            new Player(
+                              playerName,
+                              getHeroClass(className.toString()),
+                              msg.author.id
+                            )
                           )
+                          .then(() =>
+                            msg.channel.send("You're now a " + className)
+                          )
+                          .catch(error => {
+                            console.log(
+                              "Fail at player creation. Error: " + error
+                            );
+                            msg.channel.send(
+                              "Wasn't possible to create your player"
+                            );
+                          });
+                      } else {
+                        msg.channel.send(
+                          "You said your name, but not witch class you wanna be. We can not " +
+                            "create a player for you in that way"
                         );
                       }
-                    })
-                    .catch(error => {
-                      console.log("Fail at player creation. Error: " + error);
-                      msg.channel.send(
-                        "You said your name, but not witch class you wanna be. We can not " +
-                          "create a player for you in that way"
-                      );
                     });
                 });
             }

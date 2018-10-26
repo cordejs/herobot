@@ -6,7 +6,7 @@ import { ProficienceType } from "../enums/proficienceType";
 import { Action } from "../enums/action";
 import { Proficience } from "../interfaces/proficience";
 import { PlayStatus } from "../interfaces/playStatus";
-import { PlayerDieError } from "../errors/PlayerDieError";
+import { PlayerDieError } from "../errors/playerDieError";
 import { randomNumber } from "../utils/random";
 import { JsonHandle } from "../utils/JsonHandle";
 

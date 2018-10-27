@@ -1,7 +1,7 @@
 import * as firebase from "firebase";
 import "firebase/database";
 import * as connections from "../../../connection";
-import { Entity } from "../interfaces/entity";
+import { Entity } from "../models/entity";
 
 export class BaseEntityService<T> {
   protected db: firebase.database.Database;
@@ -29,6 +29,17 @@ export class BaseEntityService<T> {
   protected find(route: string, key: string): Promise<T> {
     return this.db
       .ref(route + "/" + key)
+      .once("value")
+      .then(function(snapshot) {
+        return new Promise<T>(resolve => {
+          resolve(snapshot.val());
+        });
+      });
+  }
+
+  protected findAll(route: string): Promise<T> {
+    return this.db
+      .ref(route + "/")
       .once("value")
       .then(function(snapshot) {
         return new Promise<T>(resolve => {
@@ -84,16 +95,16 @@ export class BaseEntityService<T> {
    */
   protected update(route: string, entity: Entity): Promise<void> {
     const id = entity.id;
+    this.adjustEntity(entity);
     delete entity.id;
     return this.db.ref(route + "/" + id).update(entity);
   }
 
   protected set(route: string, entity: Entity): Promise<void> {
-    this.adjustEntity(entity);
     delete entity.id;
     return this.db.ref(route).set(entity);
-  }
-
+  } 
+  
   private adjustEntity(entity: Entity) {
     Object.getOwnPropertyNames(entity).forEach(proper => {
       Object.defineProperty(

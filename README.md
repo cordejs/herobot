@@ -3,7 +3,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/lgmagalhaes88/HeroBot.svg?style=flat-square)](https://github.com/lgmagalhaes88/HeroBot/issues)
 [![GitHub forks](https://img.shields.io/github/forks/lgmagalhaes88/HeroBot.svg?style=flat-square)](https://github.com/lgmagalhaes88/HeroBot/network)
 [![GitHub stars](https://img.shields.io/github/stars/lgmagalhaes88/HeroBot.svg?style=flat-square)](https://github.com/lgmagalhaes88/HeroBot/stargazers)
-[![GitHub license](https://img.shields.io/github/license/lgmagalhaes88/HeroBot.svg?style=flat-square)](https://github.com/lgmagalhaes88/HeroBot/blob/master/LICENSE) [![Greenkeeper badge](https://badges.greenkeeper.io/lgmagalhaes88/HeroBot.svg)](https://greenkeeper.io/)
+[![GitHub license](https://img.shields.io/github/license/lgmagalhaes88/HeroBot.svg?style=flat-square)](https://github.com/lgmagalhaes88/HeroBot/blob/master/LICENSE) [![Greenkeeper badge](https://badges.greenkeeper.io/lgmagalhaes88/HeroBot.svg?style=flat-square)](https://greenkeeper.io/)
 
 <p>
 A Discord bot to play RPG. Add HeroBot to your server \o/ <a href="https://discordapp.com/api/oauth2/authorize?client_id=495052325258395672&permissions=8&scope=bot">

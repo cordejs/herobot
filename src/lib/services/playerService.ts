@@ -1,6 +1,14 @@
 import { BaseEntityService } from "../services/baseEntityService";
-import { Player } from "../interfaces/player";
+import { Player } from "../models/player";
 import { Monster } from "../interfaces/monster";
+import { getTimeStampFormated } from "../utils/time";
+import { ProficienceType } from "../enums/proficienceType";
+import { Action } from "../enums/action";
+import { Proficience } from "../interfaces/proficience";
+import { PlayStatus } from "../interfaces/playStatus";
+import { PlayerDieError } from "../errors/playerDieError";
+import { randomNumber } from "../utils/random";
+import { JsonHandle } from "../utils/JsonHandle";
 
 class PlayerService extends BaseEntityService<Player> {
   private route = "/players";
@@ -12,8 +20,12 @@ class PlayerService extends BaseEntityService<Player> {
   findbyUserID(id: string): Promise<Player> {
     return super.find(this.route, id).then(player => {
       return new Promise<Player>(resolve => {
-        const playerGet: Player = player;
-        if (player !== null) playerGet.id = id;
+        let playerGet: Player;
+        playerGet = player;
+        if (player !== null) {
+          playerGet = Object.assign(new Player(), player);
+          playerGet.id = id;
+        }
         resolve(playerGet);
       });
     });
@@ -43,17 +55,23 @@ class PlayerService extends BaseEntityService<Player> {
    * @param bonus proficience
    */
   private calcDamage(damage: number, bonus?: number): number {
-    return Math.pow(damage + bonus / 2, 2);
+    if (damage !== undefined) {
+      if (bonus === undefined) bonus = 1;
+      return Math.floor(Math.pow(damage + bonus / 2, 2));
+    }
+    return 0;
   }
 
   /**
    * Return the total amount of defence
    */
   playerDefence(player: Player): number {
-    return this.calcDefence(
-      player.shield.defence,
-      player.shieldProficience.level
-    );
+    if (player !== undefined) {
+      return this.calcDefence(
+        player.shield.defence,
+        player.shieldProficience.level
+      );
+    }
   }
 
   /**
@@ -63,7 +81,11 @@ class PlayerService extends BaseEntityService<Player> {
    * @param bonus proficience
    */
   private calcDefence(defence: number, bonus?: number): number {
-    return defence + (bonus / 10) * 5;
+    if (defence !== undefined) {
+      if (bonus === undefined) bonus = 1;
+      return Math.floor(defence + (bonus / 10) * 5);
+    }
+    return 0;
   }
 
   /**
@@ -72,7 +94,9 @@ class PlayerService extends BaseEntityService<Player> {
    * @param defence value(%) that will be reduced from the atack
    */
   calcDamageTaken(damage: number, defence: number): number {
-    return (defence * damage) / 100;
+    if (damage !== undefined && defence !== undefined) {
+      return Math.floor((defence * damage) / 100);
+    }
   }
 
   /**
@@ -81,12 +105,14 @@ class PlayerService extends BaseEntityService<Player> {
    * @param monster the monster that will be attacked
    */
   attackMonster(player: Player, monster: Monster) {
-    monster.hp =
-      monster.hp -
-      this.calcDamageTaken(
-        this.playerDamage(player),
-        this.calcDefence(monster.shield)
-      );
+    if (player !== undefined && monster !== undefined) {
+      monster.hp =
+        monster.hp -
+        this.calcDamageTaken(
+          this.playerDamage(player),
+          this.calcDefence(monster.shield)
+        );
+    }
   }
 
   /**
@@ -101,6 +127,168 @@ class PlayerService extends BaseEntityService<Player> {
         this.calcDamage(monster.damage),
         this.playerDamage(player)
       );
+  }
+
+  /**
+   * Calcs the amount of experience in Shield or Damage proficience the player will get
+   * @description It gets the actual timestamp and subtract from the time that the player
+   * started train.(The time is got in minutes and each minute is equal a random number between 5 an 20).
+   * It also adjusts the level of proficiency if it increases
+   * @example 1min = 5~20 exp points
+   * @param player Who will have the proficience points calculated
+   */
+  upgradeProficience(player: Player) {
+    let proficience: Proficience;
+
+    if (player.trainDamageStartedTime !== undefined) {
+      proficience = player.damageProficience;
+    } else if (player.trainShieldStartedTime !== undefined) {
+      proficience = player.shieldProficience;
+    } else {
+      return;
+    }
+
+    let timeTrained;
+
+    if (player.actionStatus === undefined) {
+      timeTrained = getTimeStampFormated() - player.trainShieldStartedTime;
+
+      player.actionStatus = {
+        action: Action.SHIELD_TRAINING,
+        exp: 0,
+        time: getTimeStampFormated()
+      };
+
+      if (proficience.type === ProficienceType.DAMAGE) {
+        player.actionStatus.action = Action.DAMAGE_TRAINING;
+      }
+      // If the user alredy invoked the command "status"
+    } else {
+      timeTrained = getTimeStampFormated() - player.actionStatus.time;
+    }
+
+    const exp = this.generateExpTotal(timeTrained);
+
+    player.actionStatus.exp += exp;
+    player.actionStatus.time = getTimeStampFormated();
+
+    return getTimeStampFormated() - player.trainShieldStartedTime;
+  }
+
+  /**
+   * Calcs the amount of exp the player will receive in the given time and
+   * convert it to minutes.
+   * @param exp Time to calculate the exp. The value must be in TimeStamp
+   * without milliseconds
+   */
+  generateExpTotal(exp: number): number {
+    exp = Math.floor((exp / 60) % 60);
+    let total: number = 0;
+    for (let i = 0; i < exp; i++) {
+      total += randomNumber(5, 20);
+    }
+    return total;
+  }
+
+  /**
+   * Updated playstatus.time with the actual timestamp and calcs user training bounties
+   * @throws PlayerDieError if the player died in exploration
+   */
+  updatePlayerTraining(player: Player): PlayStatus {
+    return this.calcPlayerTrainingBase(player, false);
+  }
+
+  /**
+   * Set the adventureStarted time with undefined and calcs user training bounties
+   * @throws PlayerDieError if the player died in exploration
+   */
+  finishPlayerTraining(player: Player): PlayStatus {
+    return this.calcPlayerTrainingBase(player, true);
+  }
+
+  /**
+   * Calcs what the player got in exploration.
+   * @param player Who will have him bounts calculated
+   * @param finishTraning Defines if the training must end (then the value that store when the
+   * player started training is set to 'undefined') or updated (then the value that store when
+   * the player started training is set to the value in 'getTimeStampFormated()' method
+   * @return Result of player exploration
+   * @throws PlayerDieError of type PlayStatus meaning that the player died in exploration
+   */
+  private calcPlayerTrainingBase(
+    player: Player,
+    finishTraning: boolean
+  ): PlayStatus {
+    const monster = JsonHandle.getMonsterById(player.adventure.idMonster);
+    const fullMonsterHp = monster.hp;
+
+    let time;
+    if (player.actionStatus === undefined) {
+      time = getTimeStampFormated() - player.adventureStartedTime;
+
+      player.actionStatus = {
+        action: Action.EXPLORING,
+        gold: 0,
+        monstersKilled: 0,
+        exp: 0,
+        time: 0
+      };
+    } else {
+      time = getTimeStampFormated() - player.actionStatus.time;
+    }
+
+    const timeTrained = time;
+
+    // Each value is a second, each second is a hit.
+    // MUST REFATORE (Remove the loop and make the calc based in the timeTrained)
+    for (let i = 0; i <= timeTrained; i++) {
+      // Player always hit the monster first
+      playerService.attackMonster(player, monster);
+
+      if (monster.hp <= 0) {
+        player.actionStatus.exp += monster.givedXp;
+        player.actionStatus.gold += monster.givedGold;
+        player.actionStatus.monstersKilled++;
+        monster.hp = fullMonsterHp;
+      }
+
+      playerService.defendAttack(player, monster);
+
+      // Player died in exploration, so the number of gold, exp, monsters killed and
+      // death is setted in his profile.
+      if (player.hpActual <= 0) {
+        player.deaths++;
+        player.monstersKilled += player.actionStatus.monstersKilled;
+        player.gold += player.actionStatus.gold;
+        player.xp += player.actionStatus.exp;
+
+        const status: PlayStatus = {
+          action: Action.EXPLORING,
+          exp: player.actionStatus.exp,
+          time: time,
+          gold: player.actionStatus.gold,
+          monstersKilled: player.actionStatus.monstersKilled
+        };
+
+        player.adventureStartedTime = undefined;
+        player.actionStatus = undefined;
+
+        throw new PlayerDieError(status);
+      }
+    } // Player didn't dead in exploration
+
+    player.actionStatus.time = getTimeStampFormated();
+
+    if (finishTraning) {
+      player.adventureStartedTime = undefined;
+      player.actionStatus = undefined;
+    } else {
+      player.actionStatus.time = getTimeStampFormated();
+    }
+
+    this.updatePlayer(player);
+
+    return player.actionStatus;
   }
 }
 

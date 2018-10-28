@@ -13,9 +13,6 @@ import { train } from "../commands/train";
 import { status } from "../commands/status";
 import { back } from "../commands/back";
 import { shop } from "../commands/shop";
-
-import { shop } from "../commands/shop";
-
 /**
  * Receives a message, treating it and sending to the right method
  * @param msg message sent by Discord

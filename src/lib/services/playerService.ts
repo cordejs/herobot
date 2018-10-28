@@ -57,7 +57,7 @@ class PlayerService extends BaseEntityService<Player> {
   private calcDamage(damage: number, bonus?: number): number {
     if (damage !== undefined) {
       if (bonus === undefined) bonus = 1;
-      return Math.floor(Math.pow(damage + bonus / 2, 2));
+      return Math.floor(damage + bonus / 2);
     }
     return 0;
   }
@@ -83,7 +83,7 @@ class PlayerService extends BaseEntityService<Player> {
   private calcDefence(defence: number, bonus?: number): number {
     if (defence !== undefined) {
       if (bonus === undefined) bonus = 1;
-      return Math.floor(defence + (bonus / 10) * 5);
+      return Math.floor(defence + bonus / 2);
     }
     return 0;
   }
@@ -95,7 +95,7 @@ class PlayerService extends BaseEntityService<Player> {
    */
   calcDamageTaken(damage: number, defence: number): number {
     if (damage !== undefined && defence !== undefined) {
-      return Math.floor((defence * damage) / 100);
+      return (damage * damage) / (damage + defence);
     }
   }
 
@@ -106,12 +106,11 @@ class PlayerService extends BaseEntityService<Player> {
    */
   attackMonster(player: Player, monster: Monster) {
     if (player !== undefined && monster !== undefined) {
-      monster.hp =
-        monster.hp -
-        this.calcDamageTaken(
-          this.playerDamage(player),
-          this.calcDefence(monster.shield)
-        );
+      monster.hp -= this.calcDamageTaken(
+        this.playerDamage(player),
+        this.calcDefence(monster.shield)
+      );
+      if (monster.hp < 0) monster.hp = 0;
     }
   }
 
@@ -121,12 +120,11 @@ class PlayerService extends BaseEntityService<Player> {
    * @param monster monster who will atack player
    */
   defendAttack(player: Player, monster: Monster) {
-    player.hpActual =
-      player.hpActual -
-      this.calcDamageTaken(
-        this.calcDamage(monster.damage),
-        this.playerDamage(player)
-      );
+    player.hpActual -= this.calcDamageTaken(
+      this.calcDamage(monster.damage),
+      this.playerDamage(player)
+    );
+    if (player.hpActual < 0) player.hpActual = 0;
   }
 
   /**
@@ -150,7 +148,7 @@ class PlayerService extends BaseEntityService<Player> {
 
     let timeTrained;
 
-    if (player.actionStatus === undefined) {
+    if (player.actionStatus === null) {
       timeTrained = getTimeStampFormated() - player.trainShieldStartedTime;
 
       player.actionStatus = {
@@ -223,7 +221,7 @@ class PlayerService extends BaseEntityService<Player> {
     const fullMonsterHp = monster.hp;
 
     let time;
-    if (player.actionStatus === undefined) {
+    if (player.actionStatus === null) {
       time = getTimeStampFormated() - player.adventureStartedTime;
 
       player.actionStatus = {
@@ -265,13 +263,15 @@ class PlayerService extends BaseEntityService<Player> {
         const status: PlayStatus = {
           action: Action.EXPLORING,
           exp: player.actionStatus.exp,
-          time: time,
+          time: getTimeStampFormated() - player.adventureStartedTime,
           gold: player.actionStatus.gold,
           monstersKilled: player.actionStatus.monstersKilled
         };
 
-        player.adventureStartedTime = undefined;
-        player.actionStatus = undefined;
+        player.adventureStartedTime = 0;
+        player.actionStatus = null;
+
+        this.updatePlayer(player);
 
         throw new PlayerDieError(status);
       }
@@ -280,15 +280,19 @@ class PlayerService extends BaseEntityService<Player> {
     player.actionStatus.time = getTimeStampFormated();
 
     if (finishTraning) {
-      player.adventureStartedTime = undefined;
-      player.actionStatus = undefined;
-    } else {
-      player.actionStatus.time = getTimeStampFormated();
+      player.adventureStartedTime = 0;
+      player.actionStatus = null;
     }
 
     this.updatePlayer(player);
 
-    return player.actionStatus;
+    return {
+      action: player.actionStatus.action,
+      exp: player.actionStatus.exp,
+      gold: player.actionStatus.gold,
+      monstersKilled: player.actionStatus.monstersKilled,
+      time: getTimeStampFormated() - player.adventureStartedTime
+    };
   }
 }
 

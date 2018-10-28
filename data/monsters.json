@@ -4,14 +4,14 @@
     "level": 1,
     "damage": 2,
     "shield": 0,
-    "hp": 50,
+    "hp": 20,
     "givedXp": 5,
     "givedGold": 2
   },
   "2": {
     "name": "Murlock-Mage",
     "level": 1,
-    "hp": 60,
+    "hp": 40,
     "damage": 3,
     "shield": 0,
     "givedXp": 6,
@@ -20,7 +20,7 @@
   "3": {
     "name": "King Murlock",
     "level": 1,
-    "hp": 80,
+    "hp": 60,
     "damage": 5,
     "shield": 2,
     "givedXp": 10,
@@ -29,7 +29,7 @@
   "4": {
     "name": "Murlock",
     "level": 1,
-    "hp": 90,
+    "hp": 80,
     "damage": 2,
     "shield": 0,
     "givedXp": 5,
@@ -38,7 +38,7 @@
   "5": {
     "name": "Small Spider",
     "level": 2,
-    "hp": 90,
+    "hp": 80,
     "damage": 4,
     "shield": 1,
     "givedXp": 8,
@@ -143,7 +143,7 @@
     "givedGold": 15
   },
   "17" : {
-    "name" : "Cyclope", 
+    "name" : "Cyclope",
     "level": 6,
     "damage": 8,
     "hp": 80,
@@ -170,7 +170,7 @@
     "givedGold": 20
   },
   "20" : {
-    "name" : "Silver Monkey", 
+    "name" : "Silver Monkey",
     "level": 5,
     "damage": 30,
     "hp": 50,
@@ -179,7 +179,7 @@
     "givedGold" : 100
   },
   "21" : {
-    "name" : "Zombie", 
+    "name" : "Zombie",
     "level": 4,
     "damage": 20,
     "hp": 15,

@@ -235,7 +235,7 @@ class PlayerService extends BaseEntityService<Player> {
       time = getTimeStampFormated() - player.actionStatus.time;
     }
 
-    const timeTrained = time;
+    const timeTrained = Math.floor(time / 60);
 
     // Each value is a second, each second is a hit.
     // MUST REFATORE (Remove the loop and make the calc based in the timeTrained)
@@ -270,6 +270,9 @@ class PlayerService extends BaseEntityService<Player> {
 
         player.adventureStartedTime = 0;
         player.actionStatus = null;
+        player.adventure = null;
+
+        player.hpActual = player.hpTotal;
 
         this.updatePlayer(player);
 
@@ -279,6 +282,14 @@ class PlayerService extends BaseEntityService<Player> {
 
     player.actionStatus.time = getTimeStampFormated();
 
+    const status: PlayStatus = {
+      action: player.actionStatus.action,
+      exp: player.actionStatus.exp,
+      gold: player.actionStatus.gold,
+      monstersKilled: player.actionStatus.monstersKilled,
+      time: getTimeStampFormated() - player.adventureStartedTime
+    };
+
     if (finishTraning) {
       player.adventureStartedTime = 0;
       player.actionStatus = null;
@@ -286,13 +297,7 @@ class PlayerService extends BaseEntityService<Player> {
 
     this.updatePlayer(player);
 
-    return {
-      action: player.actionStatus.action,
-      exp: player.actionStatus.exp,
-      gold: player.actionStatus.gold,
-      monstersKilled: player.actionStatus.monstersKilled,
-      time: getTimeStampFormated() - player.adventureStartedTime
-    };
+    return status;
   }
 }
 

@@ -13,10 +13,10 @@ export function back(msg: Discord.Message): void {
       player.trainShieldStartedTime !== undefined
     ) {
       try {
-        const status = playerService.updatePlayerTraining(player);
+        const status = playerService.finishPlayerTraining(player);
 
         msg.channel.send(
-          `You killed ${status.monstersKilled} monsters. ` +
+          `You back from your exploration in saefe. You killed ${status.monstersKilled} monsters. ` +
             `Got ${status.gold} of gold and ${status.exp} of experience.` +
             ` You explored for ${getTime(status.time)}`
         );
@@ -27,7 +27,7 @@ export function back(msg: Discord.Message): void {
       }
     } else {
       msg.channel.send(
-        "Well.. Your hero are not training or exploring. YOU HAVE TO DO SOMETHING ABOUT THIS"
+        "Well.. Your hero are not training or exploring."
       );
     }
   });

@@ -64,7 +64,7 @@ export function reset(msg: Discord.Message) {
               } else {
                 msg.channel.send(
                   "I don't know if it is a yes or a not, but i gonna understand it as a no." +
-                    +" So your profile will not be reseted :smiley:"
+                    +" So your profile will not be reseted :)"
                 );
               }
             });

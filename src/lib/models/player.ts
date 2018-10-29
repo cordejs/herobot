@@ -91,19 +91,8 @@ export class Player extends Entity {
     this.monstersKilled = 0;
     this.hpActual = 100;
 
-    this.actionStatus = null;
-    this.adventure = null;
-    this.adventureStartedTime = 0;
-
-    this.trainDamageStartedTime = 0;
-    this.trainShieldStartedTime = 0;
-
-    this.gold = 0;
-    this.xp = 0;
-
     this.damageProficience = damageProficience;
     this.shieldProficience = shieldProficience;
-
     this.weapon = JsonHandle.getWeaponById(1);
     this.shield = JsonHandle.getShieldById(1);
   }

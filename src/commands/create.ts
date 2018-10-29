@@ -16,7 +16,7 @@ export function createPlayer(msg: Discord.Message) {
       );
     } else {
       // If haven't, ask for player's name
-      msg.channel.send("What is your player name? :thinking:").then(() => {
+      msg.channel.send("What is your player name ?").then(() => {
         // The user has 10 seconds to answer before creation procedure be canceled
         msg.channel
           .awaitMessages(
@@ -32,11 +32,11 @@ export function createPlayer(msg: Discord.Message) {
 
             if (playerName === undefined || playerName.trim() === "") {
               msg.channel.send(
-                "You can not create a player without name :frowning:. I know that you exists"
+                "You can not create a player without name :(. I know that you exists"
               );
             } else {
               msg.channel
-                .send("Hello " + playerName + ". What is your class? :thinking:")
+                .send("Hello " + playerName + ". What is your class ?")
                 .then(() => {
                   msg.channel
                     .awaitMessages(
@@ -83,7 +83,7 @@ export function createPlayer(msg: Discord.Message) {
           })
           .catch(() =>
             msg.channel.send(
-              "Player creation cancelled beause you are not speaking to me :frowning:"
+              "Player creation cancelled beause you are not speaking to me :("
             )
           );
       });

@@ -14,10 +14,7 @@ export function status(msg: Discord.Message) {
       return;
     }
 
-    /**
-     * Exploring
-     */
-    if (player.adventureStartedTime !== 0) {
+    if (player.adventureStartedTime !== undefined) {
       try {
         const status = playerService.updatePlayerTraining(player);
 
@@ -31,11 +28,7 @@ export function status(msg: Discord.Message) {
         const er: PlayerDieError = error;
         msg.channel.send(er.message);
       }
-
-      /**
-       * Training damage
-       */
-    } else if (player.trainDamageStartedTime !== 0) {
+    } else if (player.trainDamageStartedTime !== undefined) {
       const trained = playerService.upgradeProficience(player);
 
       msg.channel.send(
@@ -43,11 +36,7 @@ export function status(msg: Discord.Message) {
           trained
         )}.` + ` You alredy got ${player.actionStatus.exp} exp`
       );
-
-      /**
-       * Training shield
-       */
-    } else if (player.trainShieldStartedTime !== 0) {
+    } else if (player.trainShieldStartedTime !== undefined) {
       const trained = playerService.upgradeProficience(player);
 
       msg.channel.send(
@@ -56,7 +45,7 @@ export function status(msg: Discord.Message) {
         )}.` + ` You alredy got ${player.actionStatus.exp} exp`
       );
     } else {
-      msg.channel.send("You are not exploring or training.");
+      msg.channel.send("You are not exploring or training. DO SOMETHING");
       return;
     }
     playerService.updatePlayer(player);

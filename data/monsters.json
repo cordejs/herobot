@@ -2,16 +2,16 @@
   "1": {
     "name": "Murlock",
     "level": 1,
+    "hp": 40,
     "damage": 2,
     "shield": 0,
-    "hp": 20,
     "givedXp": 5,
     "givedGold": 2
   },
   "2": {
     "name": "Murlock-Mage",
     "level": 1,
-    "hp": 40,
+    "hp": 60,
     "damage": 3,
     "shield": 0,
     "givedXp": 6,
@@ -20,31 +20,22 @@
   "3": {
     "name": "King Murlock",
     "level": 1,
-    "hp": 60,
+    "hp": 80,
     "damage": 5,
     "shield": 2,
     "givedXp": 10,
     "givedGold": 5
   },
   "4": {
-    "name": "Murlock",
-    "level": 1,
-    "hp": 80,
-    "damage": 2,
-    "shield": 0,
-    "givedXp": 5,
-    "givedGold": 2
-  },
-  "5": {
     "name": "Small Spider",
     "level": 2,
-    "hp": 80,
+    "hp": 90,
     "damage": 4,
     "shield": 1,
     "givedXp": 8,
     "givedGold": 3
   },
-  "6": {
+  "5": {
     "name": "Spider",
     "level": 2,
     "hp": 100,
@@ -53,7 +44,7 @@
     "givedXp": 9,
     "givedGold": 3
   },
-  "7": {
+  "6": {
     "name": "Poison Spider",
     "level": 2,
     "hp": 110,
@@ -62,7 +53,7 @@
     "givedXp": 10,
     "givedGold": 4
   },
-  "8": {
+  "7": {
     "name": "Giant Spider",
     "level": 2,
     "hp": 120,
@@ -71,15 +62,16 @@
     "givedXp": 12,
     "givedGold": 4
   },
-  "9": {
+  "8": {
     "name": "King Spider",
     "level": 3,
+    "hp": 180,
     "damage": 12,
     "shield": 2,
     "givedXp": 15,
     "givedGold": 5
   },
-  "10": {
+  "9": {
     "name": "Wolf",
     "level": 3,
     "hp": 120,
@@ -88,7 +80,7 @@
     "givedXp": 13,
     "givedGold": 5
   },
-  "11": {
+  "10": {
     "name": "Giant Wolf",
     "level": 3,
     "hp": 130,
@@ -97,94 +89,94 @@
     "givedXp": 15,
     "givedGold": 6
   },
-  "12": {
-    "name": "Wolf",
+  "11": {
+    "name": "Wolf Warrior",
     "level": 3,
-    "hp": 130,
-    "damage": 10,
-    "shield": 3,
-    "givedXp": 13,
-    "givedGold": 5
+    "hp": 125,
+    "damage": 11,
+    "shield": 4,
+    "givedXp": 15,
+    "givedGold": 6
+  },
+  "12": {
+    "name": "Northeast Lizard",
+    "level": 4,
+    "hp": 160,
+    "damage": 15,
+    "shield": 5,
+    "givedXp": 20,
+    "givedGold": 10
   },
   "13": {
-    "name": "Northeast Lizard",
-    "level": 1,
-    "damage": 1,
-    "hp": 1,
-    "shield": 0,
-    "givedXp": 0,
-    "givedGold": 0
-  },
-  "14": {
     "name": "Himalayan Dragon",
     "level": 30,
-    "damage": 200,
     "hp": 250,
+    "damage": 200,
     "shield": 30,
     "givedXp": 400,
     "givedGold": 1000
   },
-  "15": {
+  "14": {
     "name": "Cube Cat",
     "level": 1,
-    "damage": 2,
     "hp": 10,
+    "damage": 2,
     "shield": 0,
     "givedXp": 5,
     "givedGold": 5
   },
-  "16": {
+  "15": {
     "name": "Bearded Toad",
     "level": 2,
-    "damage": 5,
     "hp": 20,
+    "damage": 5,
     "shield": 0,
     "givedXp": 8,
     "givedGold": 15
   },
-  "17" : {
-    "name" : "Cyclope",
+  "16": {
+    "name": "Cyclope",
     "level": 6,
-    "damage": 8,
     "hp": 80,
+    "damage": 8,
     "shield": 0,
     "givedXp": 15,
-    "givedGold" : 40
-},
-  "18": {
+    "givedGold": 40
+  },
+  "17": {
     "name": "Flying Cloud of Evil",
     "level": 4,
-    "damage": 10,
     "hp": 30,
+    "damage": 10,
     "shield": 0,
     "givedXp": 10,
     "givedGold": 17
   },
-  "19": {
+  "18": {
     "name": "Iron Turtle",
     "level": 5,
-    "damage": 2,
     "hp": 40,
+    "damage": 2,
     "shield": 20,
     "givedXp": 15,
     "givedGold": 20
   },
-  "20" : {
-    "name" : "Silver Monkey",
+  "19": {
+    "name": "Angry Monkey",
     "level": 5,
-    "damage": 30,
-    "hp": 50,
-    "shield": 0,
-    "givedXp": 30,
-    "givedGold" : 100
+    "hp": 160,
+    "damage": 15,
+    "shield": 5,
+    "givedXp": 20,
+    "givedGold": 10
   },
-  "21" : {
-    "name" : "Zombie",
+  "20": {
+    "name": "Zombie",
     "level": 4,
-    "damage": 20,
     "hp": 15,
+    "damage": 20,
     "shield": 0,
     "givedXp": 20,
-    "givedGold" : 30
+    "givedGold": 30
   }
 }

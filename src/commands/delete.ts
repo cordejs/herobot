@@ -35,7 +35,7 @@ export function deletePlayer(msg: Discord.Message) {
                 ans.toLowerCase() === "no" ||
                 ans.toLowerCase() === "n"
               ) {
-                msg.channel.send("We're so happy that you don't give up :smiley:");
+                msg.channel.send("We're so happy that you don't give up :)");
               }
             });
         });

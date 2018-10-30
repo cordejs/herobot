@@ -4,7 +4,7 @@
 [![GitHub forks](https://img.shields.io/github/forks/lgmagalhaes88/HeroBot.svg)](https://github.com/lgmagalhaes88/HeroBot/network)
 [![GitHub stars](https://img.shields.io/github/stars/lgmagalhaes88/HeroBot.svg)](https://github.com/lgmagalhaes88/HeroBot/stargazers)
 [![GitHub license](https://img.shields.io/github/license/lgmagalhaes88/HeroBot.svg?)](https://github.com/lgmagalhaes88/HeroBot/blob/master/LICENSE)
-[![Greenkeeper badge](https://badges.greenkeeper.io/lgmagalhaes88/HeroBot.svgstyle=flat-square)](https://greenkeeper.io/)
+[![Greenkeeper badge](https://badges.greenkeeper.io/lgmagalhaes88/HeroBot.svg)](https://greenkeeper.io/)
 [![TypeScript](https://badges.frapsoft.com/typescript/version/typescript-next.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
 
 <p>

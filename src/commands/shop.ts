@@ -1,7 +1,7 @@
 import * as Discord from "discord.js"; 
-import { playerService } from "../lib/services/playerService";  
-import { getItemType } from "../lib/utils/itemTypeHandle"; 
-import { equipServ } from "../lib/services/equipService";
+import { playerService } from "../services/playerService";  
+import { getItemType } from "../utils/itemTypeHandle"; 
+import { equipServ } from "../services/equipService";
 /**
  * Informs all available items from selected type.
  * @param msg Discord last message related to the command

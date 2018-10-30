@@ -1,7 +1,6 @@
 import * as Discord from "discord.js";
-import { playerService } from "../lib/services/playerService";
+import { playerService } from "../services/playerService";
 import { createPlayer } from "../commands/create";
-import { Player } from "../lib/models/player";
 
 /**
  * Reboot all informations about the user. Making him have the attributes values equals to someone that

@@ -1,5 +1,5 @@
 import * as Discord from "discord.js";
-import { playerService } from "../lib/services/playerService";
+import { playerService } from "../services/playerService";
 /**
  * Shows player's total amount of gold
  * @param msg Discord last message related to the command

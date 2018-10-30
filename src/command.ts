@@ -1,18 +1,18 @@
-import { createPlayer } from "../commands/create";
-import { profile } from "../commands/profile";
+import { createPlayer } from "./commands/create";
+import { profile } from "./commands/profile";
 import * as Discord from "discord.js";
 
-import { deletePlayer } from "../commands/delete";
-import { reset } from "../commands/reset";
-import { xp } from "../commands/xp";
+import { deletePlayer } from "./commands/delete";
+import { reset } from "./commands/reset";
+import { xp } from "./commands/xp";
 
-import { gold } from "../commands/gold";
-import { explore } from "../commands/explore";
-import { PREFIX } from "../lib/utils/consts";
-import { train } from "../commands/train";
-import { status } from "../commands/status";
-import { back } from "../commands/back";
-import { shop } from "../commands/shop";
+import { gold } from "./commands/gold";
+import { explore } from "./commands/explore";
+import { PREFIX } from "./utils/consts";
+import { train } from "./commands/train";
+import { status } from "./commands/status";
+import { back } from "./commands/back";
+import { shop } from "./commands/shop";
 
 /**
  * Receives a message, treating it and sending to the right method

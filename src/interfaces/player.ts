@@ -6,7 +6,7 @@ import { PlayStatus } from "./playStatus";
 import { Proficience } from "./proficience";
 import { Shield } from "./shield";
 import { Weapon } from "./weapon";
-import * as playerLevels from "../../../data/levels.json";
+import * as playerLevels from "../../data/levels.json";
 
 export class Player extends Entity {
   private _name: string;

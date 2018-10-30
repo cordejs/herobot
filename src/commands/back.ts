@@ -1,7 +1,7 @@
 import * as Discord from "discord.js";
-import { playerService } from "../lib/services/playerService";
-import { PlayerDieError } from "../lib/errors/PlayerDieError";
-import { getTime } from "../lib/utils/time";
+import { playerService } from "../services/playerService";
+import { PlayerDieError } from "../errors/PlayerDieError";
+import { getTime } from "../utils/time";
 
 export function back(msg: Discord.Message): void {
   playerService.findbyUserID(msg.author.id).then(player => {

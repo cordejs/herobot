@@ -1,7 +1,7 @@
 import * as Discord from "discord.js";
-import { ProficienceType } from "../lib/enums/proficienceType";
-import { playerService } from "../lib/services/playerService";
-import { getTimeStampFormated } from "../lib/utils/time";
+import { ProficienceType } from "../enums/proficienceType";
+import { playerService } from "../services/playerService";
+import { getTimeStampFormated } from "../utils/time";
 
 /**
  * Sends player to train a Proficience(Damage or Defence)

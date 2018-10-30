@@ -1,10 +1,10 @@
 import * as Discord from "discord.js";
-import { playerService } from "../lib/services/playerService";
-import { Adventure } from "../lib/interfaces/adventure";
+import { playerService } from "../services/playerService";
+import { Adventure } from "../interfaces/adventure";
 
 import * as adventures from "../../data/adventures.json";
-import { getTimeStampFormated } from "../lib/utils/time";
-import { EXPLORATION_MAX_LEVEL } from "../lib/utils/consts";
+import { getTimeStampFormated } from "../utils/time";
+import { EXPLORATION_MAX_LEVEL } from "../utils/consts";
 
 /**
  * Send user user to farm(Get gold, xp, and equips)

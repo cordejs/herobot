@@ -1,6 +1,5 @@
-import { Equipment } from "../interfaces/equipment";
-import * as weapon from "../../../data/weapon.json"
-import * as shield from "../../../data/shield.json"
+import * as weapon from "../../data/weapon.json"
+import * as shield from "../../data/shield.json"
 
 class equipService {
   private route = "/equipment";

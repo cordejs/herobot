@@ -1,8 +1,8 @@
 import * as Discord from "discord.js";
 import * as connections from "../connection";
-import { commandHandle } from "./lib/command";
+import { commandHandle } from "./command";
 
-import { PREFIX } from "./lib/utils/consts";
+import { PREFIX } from "./utils/consts";
 
 /**
  * Bot commands:

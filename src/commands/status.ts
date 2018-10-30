@@ -1,7 +1,7 @@
 import * as Discord from "discord.js";
-import { playerService } from "../lib/services/playerService";
-import { getTime } from "../lib/utils/time";
-import { PlayerDieError } from "../lib/errors/playerDieError";
+import { playerService } from "../services/playerService";
+import { getTime } from "../utils/time";
+import { PlayerDieError } from "../errors/playerDieError";
 
 /**
  * Inform the situation of the player in his exploration or trainning

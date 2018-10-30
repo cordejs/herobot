@@ -103,23 +103,16 @@ export class BaseEntityService<T> {
   protected set(route: string, entity: Entity): Promise<void> {
     delete entity.id;
     return this.db.ref(route).set(entity);
-  }
-
-  /**
-   * Removes '_' value from propertie's names of an entity
-   * and change their values from undefined (if it be) to null
-   * @param entity
-   */
+  } 
+  
   private adjustEntity(entity: Entity) {
-    Object.entries(entity).forEach(data => {
+    Object.getOwnPropertyNames(entity).forEach(proper => {
       Object.defineProperty(
         entity,
-        data[0].replace("_", ""),
-        Object.getOwnPropertyDescriptor(entity, data[0])
+        proper.replace("_", ""),
+        Object.getOwnPropertyDescriptor(entity, proper)
       );
-      delete Object(entity)["_" + data[0]];
-
-      if (data[1] === undefined) data[1] = null;
+      delete Object(entity)["_" + proper];
     });
   }
 }

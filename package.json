@@ -4,7 +4,7 @@
   "description": "A discord bot to play RPG",
   "main": "./src/bot.ts",
   "dependencies": {
-    "@types/node": "^10.11.3",
+    "@types/node": "^10.12.2",
     "discord.js": "^11.4.2",
     "firebase": "^5.5.6",
     "firebase-tools": "^6.0.0",

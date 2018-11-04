@@ -21,23 +21,62 @@ export function shieldShop(msg: Discord.Message, hero?: Hero) {
 
 function shieldShopBase(msg: Discord.Message, hero: Hero) {
   const shields = JsonHandle.getAllShieldS();
-  let defineMsg: string = "";
-  shields.forEach(
-    shield =>
-      (defineMsg +=
-        `Id: ${shield.id}\n` +
+  const items: Array<string> = new Array<string>();
+  let index: number = 0;
+
+  shields.forEach(shield =>
+    items.push(
+      `Id: ${shield.id}\n` +
         `Name: ${shield.name}\n` +
         `Defence: ${shield.defence}\n` +
-        `Price: ${shield.price}\n\n`)
+        `Price: ${shield.price}\n\n`
+    )
   );
-  msg.channel.send(defineMsg).then((message: Discord.Message) => {
-    message
-      .react("⏪")
-      .then(() =>
-        message
-          .react("◀")
-          .then(() => message.react("▶").then(() => message.react("⏩")))
-      );
+
+  msg.channel.send(items[index]).then(async (message: Discord.Message) => {
+    const filter = (reaction, user) => {
+      return reaction.emoji.name === "▶";
+    };
+
+    await message.react("⏪");
+    await message.react("◀");
+    await message.react("▶");
+    await message.react("⏩");
+
+    message.awaitReactions(filter, { max: 100, time: 5000 }).then(reaction => {
+      switch (reaction.first().emoji.name) {
+        case "▶": {
+          if (index + 1 !== items.length) {
+            index++;
+            message.edit(items[index]);
+          }
+          break;
+        }
+        case "◀": {
+          if (index - 1 !== 0) {
+            index--;
+            message.edit(items[index]);
+          }
+          break;
+        }
+        case "◀": {
+          if (index - 1 !== 0) {
+            index--;
+            message.edit(items[index]);
+          }
+          break;
+        }
+        case "⏪": {
+          message.edit(items[0]);
+          break;
+        }
+        case "⏩": {
+          message.edit(items[items.length - 1]);
+          break;
+        }
+      }
+    });
+
     msg.channel
       .awaitMessages(responseName => responseName.author.id === msg.author.id, {
         max: 1,

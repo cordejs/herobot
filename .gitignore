@@ -1,6 +1,7 @@
 # build folder
 build/
 node_modules/
+ts-built/
 
 # Connection informations
 connection.ts

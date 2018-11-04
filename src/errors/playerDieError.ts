@@ -9,8 +9,7 @@ export class PlayerDieError extends Error {
     super();
     super.message =
       `You died after kill ${status.monstersKilled} ` +
-      `monsters. Got ${status.gold} of gold and ${status.exp} of experience.` +
-      `You explored for ${getTime(status.time)}`;
+      `monsters. Got ${status.gold} of gold and ${status.exp} of experience.`;
     super.name = "Player Death";
   }
 }

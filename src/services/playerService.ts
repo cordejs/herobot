@@ -44,9 +44,9 @@ class PlayerService extends BaseEntityService<Player> {
    * @param damage weapon
    * @param bonus proficience
    */
-  private calcDamage(damage: number, bonus?: number): number {
+  calcDamage(damage: number, bonus?: number): number {
     if (damage !== undefined) {
-      if (bonus === undefined) bonus = 1;
+      if (bonus === undefined) bonus = 0;
       return Math.floor(damage * 1.8 + bonus);
     }
     return 0;
@@ -70,7 +70,7 @@ class PlayerService extends BaseEntityService<Player> {
    * @param defence armo
    * @param bonus proficience
    */
-  private calcDefence(defence: number, bonus?: number): number {
+  calcDefence(defence: number, bonus?: number): number {
     if (defence !== undefined) {
       if (bonus === undefined) bonus = 1;
       return Math.floor(defence * 1.2 + bonus);
@@ -227,7 +227,8 @@ class PlayerService extends BaseEntityService<Player> {
       time = getTimeStampFormated() - player.actionStatus.time;
     }
 
-    const timeTrained = time;
+    // Time in minutes
+    const timeTrained = Math.floor(time / 60);
 
     // Each value is a second, each second is a hit.
     // MUST REFATORE (Remove the loop and make the calc based in the timeTrained)
@@ -275,6 +276,7 @@ class PlayerService extends BaseEntityService<Player> {
 
         player.adventureStartedTime = 0;
         player.actionStatus = null;
+        player.adventure = null;
 
         this.updatePlayer(player);
         throw new PlayerDieError(status);

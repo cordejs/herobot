@@ -8,43 +8,59 @@ import { playerService } from "../services/playerService";
 export function profile(msg: Discord.Message) {
   playerService.findbyUserID(msg.author.id).then(player => {
     msg.channel.send(
-      "Name: " +
+      "Name: `" +
         player.name +
-        "\n" +
-        "Gold: $" +
+        "`\n" +
+        "Gold: **$" +
         player.gold +
-        "\n" +
-        "Class: " +
+        "**\n" +
+        "Class: `" +
         player.heroClass +
-        "\n" +
+        "`\n" +
         "Hp: " +
         player.hpActual +
         " / " +
         player.hpTotal +
         "\n" +
-        "Level: " +
+        "Level: **" +
         player.level +
-        "\n" +
-        "Experience: " +
+        "** (" +
         player.xp +
         " / " +
         player.levelMaxXp +
-        "\n" +
-        "Damage proficience level: " +
+        " )\n" +
+        "Damage proficience level: **" +
         player.damageProficience.level +
-        "\n" +
-        "Damage proficience xp: " +
+        "** (" +
         player.damageProficience.xp +
         " / " +
         player.damageProficience.levelMaxXp +
-        "\n" +
-        "Shield proficience level: " +
+        ")\n" +
+        "Shield proficience level: **" +
         player.shieldProficience.level +
-        "\n" +
-        "Shield proficience xp: " +
+        "** (" +
         player.shieldProficience.xp +
         " / " +
-        player.shieldProficience.levelMaxXp
+        player.shieldProficience.levelMaxXp +
+        ")\n" +
+        "Weapon: `" +
+        player.weapon.name +
+        "`\n" +
+        "Shield: `" +
+        player.shield.name +
+        "`\n" +
+        "Damage: **" +
+        playerService.calcDamage(
+          player.weapon.damage,
+          player.damageProficience.level
+        ) +
+        "**\n" +
+        "Defence: **" +
+        playerService.calcDefence(
+          player.shield.defence,
+          player.shieldProficience.level
+        ) +
+        "**"
     );
   });
 }

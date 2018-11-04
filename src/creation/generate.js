@@ -15,7 +15,7 @@ generateProficienceJSON = function () {
 
   for (var i = 1; i <= repets; i++) {
     json += `"${i}": {\n`;
-    json += `  "exp": ${calcProficienceExp(i)} \n`;
+    json += `  "exp": ${calcProficienceExp(i)}\n`;
     json += "}";
 
     if (i < repets) {
@@ -34,11 +34,15 @@ generateProficienceJSON = function () {
 generateLevelsJSON = function () {
   let json = "{\n";
   const repets = 200;
+  let hpbase = 100;
 
   for (var i = 1; i <= repets; i++) {
     json += `"${i}": {\n`;
-    json += `  "exp": ${calcLevelExp(i)} \n`;
+    json += `  "exp": ${calcLevelExp(i)},\n`;
+    json += `  "hp": ${hpbase + 10}\n`;
     json += "}";
+
+    hpbase += 10;
 
     if (i < repets) {
       json += ",\n";

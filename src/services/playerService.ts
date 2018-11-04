@@ -223,7 +223,7 @@ class PlayerService extends BaseEntityService<Player> {
     const fullMonsterHp = monster.hp;
 
     let time;
-    if (player.actionStatus === undefined) {
+    if (player.actionStatus === null) {
       time = getTimeStampFormated() - player.adventureStartedTime;
 
       player.actionStatus = {
@@ -270,9 +270,10 @@ class PlayerService extends BaseEntityService<Player> {
           monstersKilled: player.actionStatus.monstersKilled
         };
 
-        player.adventureStartedTime = undefined;
-        player.actionStatus = undefined;
+        player.adventureStartedTime = 0;
+        player.actionStatus = null;
 
+        this.updatePlayer(player);
         throw new PlayerDieError(status);
       }
     } // Player didn't dead in exploration
@@ -280,15 +281,18 @@ class PlayerService extends BaseEntityService<Player> {
     player.actionStatus.time = getTimeStampFormated();
 
     if (finishTraning) {
-      player.adventureStartedTime = undefined;
-      player.actionStatus = undefined;
+      player.adventureStartedTime = 0;
+      player.actionStatus = null;
     } else {
       player.actionStatus.time = getTimeStampFormated();
     }
 
     this.updatePlayer(player);
 
-    return player.actionStatus;
+    const statusPlayer: PlayStatus = player.actionStatus;
+    statusPlayer.time = time;
+
+    return statusPlayer;
   }
 }
 

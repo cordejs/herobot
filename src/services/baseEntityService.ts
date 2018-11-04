@@ -103,8 +103,8 @@ export class BaseEntityService<T> {
   protected set(route: string, entity: Entity): Promise<void> {
     delete entity.id;
     return this.db.ref(route).set(entity);
-  } 
-  
+  }
+
   private adjustEntity(entity: Entity) {
     Object.getOwnPropertyNames(entity).forEach(proper => {
       Object.defineProperty(

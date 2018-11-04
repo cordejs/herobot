@@ -9,12 +9,14 @@ import { playerService } from "../services/playerService";
  */
 export function shieldShop(msg: Discord.Message, player: Player) {
   const shields = JsonHandle.getAllShieldS();
-  let defineMsg: string = "ID    Name    Defence    Price";
+  let defineMsg: string = "";
   shields.forEach(
     shield =>
-      (defineMsg += `${shield.id}    ${shield.name}    ${shield.defence}    ${
-        shield.price
-      } \n`)
+      (defineMsg +=
+        `Id: ${shield.id}\n` +
+        `Name: ${shield.name}\n` +
+        `Defence: ${shield.defence}\n` +
+        `Price: ${shield.price}\n\n`)
   );
   msg.channel.send(defineMsg).then(() => {
     msg.channel
@@ -28,19 +30,22 @@ export function shieldShop(msg: Discord.Message, player: Player) {
         const shield = JsonHandle.getShieldById(+id);
         if (shield !== undefined) {
           if (player.gold - shield.price >= 0) {
-            const damageDifference = shield.defence - player.shield.defence;
+            const defenceDifference = shield.defence - player.shield.defence;
             player.gold -= shield.price;
             player.shield = shield;
 
-            if (damageDifference > 0) {
+            if (defenceDifference > 0) {
               playerService
                 .updatePlayer(player)
                 .then(() =>
                   msg.channel.send(
-                    `You sucessfully bought ${shield.name}. ` +
-                      `Your defence now is ${
-                        shield.defence
-                      }(+ ${damageDifference})`
+                    "You sucessfully bought`" +
+                      shield.name +
+                      "`. Your defence now is " +
+                      shield.defence +
+                      " (+" +
+                      defenceDifference +
+                      ")"
                   )
                 )
                 .catch(erro => {
@@ -54,8 +59,13 @@ export function shieldShop(msg: Discord.Message, player: Player) {
                 .updatePlayer(player)
                 .then(() =>
                   msg.channel.send(
-                    `You sucessfully bought ${shield.name}. ` +
-                      `Your damage now is ${shield.defence}(${damageDifference})`
+                    "You sucessfully bought`" +
+                      shield.name +
+                      "`. Your defence now is " +
+                      shield.defence +
+                      " (" +
+                      defenceDifference +
+                      ")"
                   )
                 )
                 .catch(erro => {
@@ -73,6 +83,9 @@ export function shieldShop(msg: Discord.Message, player: Player) {
         } else {
           msg.channel.send("There is no shield with this id");
         }
+      })
+      .catch(() => {
+        console.log("User do not answered");
       });
   });
 }

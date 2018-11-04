@@ -9,12 +9,14 @@ import { playerService } from "../services/playerService";
  */
 export function weaponShop(msg: Discord.Message, player: Player) {
   const weapons = JsonHandle.getAllWeapons();
-  let defineMsg: string = "ID    Name    Damage    Price";
+  let defineMsg: string = "";
   weapons.forEach(
     weapon =>
-      (defineMsg += `${weapon.id}    ${weapon.name}    ${weapon.damage}    ${
-        weapon.price
-      } \n`)
+      (defineMsg +=
+        `Id: ${weapon.id}\n` +
+        `Name: ${weapon.name}\n` +
+        `Damage: ${weapon.damage}\n` +
+        `Price: ${weapon.price}\n\n`)
   );
   msg.channel.send(defineMsg).then(() => {
     msg.channel
@@ -37,10 +39,13 @@ export function weaponShop(msg: Discord.Message, player: Player) {
                 .updatePlayer(player)
                 .then(() =>
                   msg.channel.send(
-                    `You sucessfully bought ${weapon.name}. ` +
-                      `Your damage now is ${
-                        weapon.damage
-                      }(+ ${damageDifference})`
+                    "You sucessfully bought`" +
+                      weapon.name +
+                      "`. Your damage now is " +
+                      weapon.damage +
+                      " (+" +
+                      damageDifference +
+                      ")"
                   )
                 )
                 .catch(erro => {
@@ -54,8 +59,13 @@ export function weaponShop(msg: Discord.Message, player: Player) {
                 .updatePlayer(player)
                 .then(() =>
                   msg.channel.send(
-                    `You sucessfully bought ${weapon.name}. ` +
-                      `Your damage now is ${weapon.damage}(${damageDifference})`
+                    "You sucessfully bought`" +
+                      weapon.name +
+                      "`. Your damage now is " +
+                      weapon.damage +
+                      " (" +
+                      damageDifference +
+                      ")"
                   )
                 )
                 .catch(erro => {

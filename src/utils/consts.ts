@@ -6,4 +6,4 @@ export const PREFIX: string = "_";
 /**
  * Maximum level of exploration
  */
-export const EXPLORATION_MAX_LEVEL = 20;
+export const EXPLORATION_MAX_LEVEL = 5;

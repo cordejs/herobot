@@ -40,16 +40,6 @@ class PlayerService extends BaseEntityService<Player> {
   }
 
   /**
-   * Return the total amount of damage that the player give
-   */
-  playerDamage(player: Player): number {
-    return this.calcDamage(
-      player.weapon.damage,
-      player.damageProficience.level
-    );
-  }
-
-  /**
    * Calculate the total amount of damage that will be gived based in the damage value and bonus.
    * @param damage weapon
    * @param bonus proficience
@@ -57,7 +47,7 @@ class PlayerService extends BaseEntityService<Player> {
   private calcDamage(damage: number, bonus?: number): number {
     if (damage !== undefined) {
       if (bonus === undefined) bonus = 1;
-      return Math.floor(Math.pow(damage + bonus / 2, 2));
+      return Math.floor(damage * 1.8 + bonus);
     }
     return 0;
   }
@@ -83,7 +73,7 @@ class PlayerService extends BaseEntityService<Player> {
   private calcDefence(defence: number, bonus?: number): number {
     if (defence !== undefined) {
       if (bonus === undefined) bonus = 1;
-      return Math.floor(defence + (bonus / 10) * 5);
+      return Math.floor(defence * 1.2 + bonus);
     }
     return 0;
   }
@@ -95,7 +85,7 @@ class PlayerService extends BaseEntityService<Player> {
    */
   calcDamageTaken(damage: number, defence: number): number {
     if (damage !== undefined && defence !== undefined) {
-      return Math.floor((defence * damage) / 100);
+      return damage - defence >= 0 ? damage - defence : 0;
     }
   }
 
@@ -109,7 +99,7 @@ class PlayerService extends BaseEntityService<Player> {
       monster.hp =
         monster.hp -
         this.calcDamageTaken(
-          this.playerDamage(player),
+          this.calcDamage(player.weapon.damage, player.damageProficience.level),
           this.calcDefence(monster.shield)
         );
     }
@@ -125,7 +115,7 @@ class PlayerService extends BaseEntityService<Player> {
       player.hpActual -
       this.calcDamageTaken(
         this.calcDamage(monster.damage),
-        this.playerDamage(player)
+        this.calcDefence(player.shield.defence, player.shieldProficience.level)
       );
   }
 
@@ -178,13 +168,13 @@ class PlayerService extends BaseEntityService<Player> {
   /**
    * Calcs the amount of exp the player will receive in the given time and
    * convert it to minutes.
-   * @param exp Time to calculate the exp. The value must be in TimeStamp
+   * @param time Time to calculate the exp. The value must be in TimeStamp
    * without milliseconds
    */
-  generateExpTotal(exp: number): number {
-    exp = Math.floor((exp / 60) % 60);
+  generateExpTotal(time: number): number {
+    time = Math.floor((time / 60) % 60);
     let total: number = 0;
-    for (let i = 0; i < exp; i++) {
+    for (let i = 0; i < time; i++) {
       total += randomNumber(5, 20);
     }
     return total;
@@ -252,6 +242,7 @@ class PlayerService extends BaseEntityService<Player> {
         monster.hp = fullMonsterHp;
       }
 
+      // Monster attacks player
       playerService.defendAttack(player, monster);
 
       // Player died in exploration, so the number of gold, exp, monsters killed and
@@ -261,6 +252,18 @@ class PlayerService extends BaseEntityService<Player> {
         player.monstersKilled += player.actionStatus.monstersKilled;
         player.gold += player.actionStatus.gold;
         player.xp += player.actionStatus.exp;
+
+        if (player.xp > player.levelMaxXp) {
+          while (player.xp > player.levelMaxXp) {
+            const nextLevel = JsonHandle.getLevelById(player.level + 1);
+            player.xp = player.xp - player.levelMaxXp;
+            player.levelMaxXp = nextLevel.exp;
+            player.level++;
+            player.hpTotal = player.hpActual = nextLevel.hp;
+          }
+        }
+
+        player.hpActual = player.hpTotal;
 
         const status: PlayStatus = {
           action: Action.EXPLORING,

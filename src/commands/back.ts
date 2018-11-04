@@ -8,12 +8,12 @@ export function back(msg: Discord.Message): void {
     if (player === null) {
       msg.channel.send("You seems not to have a hero to call him back");
     } else if (
-      player.adventureStartedTime !== undefined ||
-      player.trainDamageStartedTime !== undefined ||
-      player.trainShieldStartedTime !== undefined
+      player.adventureStartedTime !== 0 ||
+      player.trainDamageStartedTime !== 0 ||
+      player.trainShieldStartedTime !== 0
     ) {
       try {
-        const status = playerService.updatePlayerTraining(player);
+        const status = playerService.finishPlayerTraining(player);
 
         msg.channel.send(
           `You killed ${status.monstersKilled} monsters. ` +

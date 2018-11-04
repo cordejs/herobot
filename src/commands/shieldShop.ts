@@ -7,7 +7,19 @@ import { Hero } from "../models/hero";
  * Informs all available items from selected type.
  * @param msg Discord last message related to the command
  */
-export function shieldShop(msg: Discord.Message, hero: Hero) {
+export function shieldShop(msg: Discord.Message, hero?: Hero) {
+  if (hero) {
+    shieldShopBase(msg, hero);
+  } else {
+    heroService.findbyUserID(msg.author.id).then(hero => {
+      if (hero) {
+        shieldShopBase(msg, hero);
+      }
+    });
+  }
+}
+
+function shieldShopBase(msg: Discord.Message, hero: Hero) {
   const shields = JsonHandle.getAllShieldS();
   let defineMsg: string = "";
   shields.forEach(
@@ -18,7 +30,14 @@ export function shieldShop(msg: Discord.Message, hero: Hero) {
         `Defence: ${shield.defence}\n` +
         `Price: ${shield.price}\n\n`)
   );
-  msg.channel.send(defineMsg).then(() => {
+  msg.channel.send(defineMsg).then((message: Discord.Message) => {
+    message
+      .react("⏪")
+      .then(() =>
+        message
+          .react("◀")
+          .then(() => message.react("▶").then(() => message.react("⏩")))
+      );
     msg.channel
       .awaitMessages(responseName => responseName.author.id === msg.author.id, {
         max: 1,

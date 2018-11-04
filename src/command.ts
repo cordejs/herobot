@@ -13,6 +13,7 @@ import { train } from "./commands/train";
 import { status } from "./commands/status";
 import { back } from "./commands/back";
 import { shop } from "./commands/shop";
+import { hp } from "./commands/hp";
 
 /**
  * Receives a message, treating it and sending to the right method
@@ -40,6 +41,7 @@ export function commandHandle(msg: Discord.Message) {
   else if (command === "train" || command == "t") train(msg, args[1]);
   else if (command === "status" || command === "s") status(msg);
   else if (command === "back" || command === "b") back(msg);
+  else if (command === "hp" || command === "life" || command === "h") hp(msg);
   else {
     msg.reply(" I didn't understand what do you mean");
   }

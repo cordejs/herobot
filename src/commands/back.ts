@@ -1,6 +1,6 @@
 import * as Discord from "discord.js";
 import { playerService } from "../services/playerService";
-import { PlayerDieError } from "../errors/PlayerDieError";
+import { PlayerDieError } from "../errors/playerDieError";
 import { getTime } from "../utils/time";
 
 export function back(msg: Discord.Message): void {

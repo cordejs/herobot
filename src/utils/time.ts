@@ -41,3 +41,26 @@ export function getTime(number: number) {
 function expand(number: number): string {
   return number < 10 ? `0${number}` : number.toString();
 }
+
+export function daysBetweenx(timestamp1: number, timestamp2: number) {
+  // Calculate the difference in milliseconds
+  let difference_ms = timestamp2 - timestamp1;
+  // take out milliseconds
+  const seconds = Math.floor(difference_ms % 60);
+  difference_ms = difference_ms / 60;
+  const minutes = Math.floor(difference_ms % 60);
+  difference_ms = difference_ms / 60;
+  const hours = Math.floor(difference_ms % 24);
+  const days = Math.floor(difference_ms / 24);
+
+  return (
+    days +
+    " days, " +
+    hours +
+    " hours, " +
+    minutes +
+    " minutes, and " +
+    seconds +
+    " seconds"
+  );
+}

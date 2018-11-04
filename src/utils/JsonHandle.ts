@@ -9,7 +9,7 @@ import { Weapon } from "../interfaces/weapon.js";
 import { Adventure } from "../interfaces/adventure.js";
 import { Monster } from "../interfaces/monster.js";
 import { Level } from "../types/level.js";
-
+import * as fs from "fs";
 /**
  * Class with static method for search of data in json files
  */
@@ -51,19 +51,83 @@ export class JsonHandle {
     throw new Error(`${typeof data} not exists`);
   }
 
-  static getShieldById(shieldId: number): Shield {
+  public static getAllShieldS(): Array<Shield> {
+    const array: Array<Shield> = new Array<Shield>();
+
+    for (const obj in shields) {
+      const shield: Shield = shields[obj];
+      array.push({
+        defence: shield.defence,
+        id: obj,
+        name: shield.name,
+        price: shield.price
+      });
+    }
+    return array;
+  }
+
+  public static getAllWeapons(): Array<Weapon> {
+    const array: Array<Weapon> = new Array<Weapon>();
+
+    for (const obj in weapons) {
+      const weapon: Weapon = weapons[obj];
+      array.push({
+        damage: weapon.damage,
+        id: obj,
+        name: weapon.name,
+        price: weapon.price
+      });
+    }
+    return array;
+  }
+
+  public static getAllAdventures(): Array<Adventure> {
+    const array: Array<Adventure> = new Array<Adventure>();
+
+    for (const obj in weapons) {
+      const adventure: Adventure = adventures[obj];
+      array.push({
+        id: obj,
+        idMonster: adventure.idMonster,
+        level: adventure.level,
+        name: adventure.name
+      });
+    }
+    return array;
+  }
+
+  public static getAllMonsters(): Array<Monster> {
+    const array: Array<Monster> = new Array<Monster>();
+
+    for (const obj in weapons) {
+      const monster: Monster = monsters[obj];
+      array.push({
+        id: obj,
+        damage: monster.damage,
+        givedGold: monster.givedGold,
+        givedXp: monster.givedXp,
+        hp: monster.hp,
+        level: monster.level,
+        name: monster.name,
+        shield: monster.shield
+      });
+    }
+    return array;
+  }
+
+  public static getShieldById(shieldId: number): Shield {
     const data = JsonHandle.genericDataGetById<Shield>(shields, shieldId);
     data.id = shieldId.toString();
     return data;
   }
 
-  static getWeaponById(weaponId: number): Weapon {
+  public static getWeaponById(weaponId: number): Weapon {
     const data = JsonHandle.genericDataGetById<Weapon>(weapons, weaponId);
     data.id = weaponId.toString();
     return data;
   }
 
-  static getAdventureById(adventureId: number): Adventure {
+  public static getAdventureById(adventureId: number): Adventure {
     const data = JsonHandle.genericDataGetById<Adventure>(
       adventures,
       adventureId
@@ -72,13 +136,13 @@ export class JsonHandle {
     return data;
   }
 
-  static getMonsterById(monsterId: number): Monster {
+  public static getMonsterById(monsterId: number): Monster {
     const data = JsonHandle.genericDataGetById<Monster>(monsters, monsterId);
     data.id = monsterId.toString();
     return data;
   }
 
-  static getProficienceById(proficienceId: number): Level {
+  public static getProficienceById(proficienceId: number): Level {
     const data = JsonHandle.genericDataGetById<Level>(
       proficienceLevels,
       proficienceId
@@ -87,7 +151,7 @@ export class JsonHandle {
     return data;
   }
 
-  static getLevelById(level: number): Level {
+  public static getLevelById(level: number): Level {
     const data = JsonHandle.genericDataGetById<Level>(levels, level);
     data.value = level;
     return data;

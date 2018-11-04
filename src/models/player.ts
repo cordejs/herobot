@@ -95,5 +95,11 @@ export class Player extends Entity {
     this.shieldProficience = shieldProficience;
     this.weapon = JsonHandle.getWeaponById(1);
     this.shield = JsonHandle.getShieldById(1);
+
+    this.adventureStartedTime = 0;
+    this.trainDamageStartedTime = 0;
+    this.trainShieldStartedTime = 0;
+    this.actionStatus = null;
+    this.adventure = null;
   }
 }

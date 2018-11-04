@@ -8,7 +8,7 @@ import { Weapon } from "../interfaces/weapon";
 import { JsonHandle } from "../utils/JsonHandle";
 import { Entity } from "./entity";
 
-export class Player extends Entity {
+export class Hero extends Entity {
   name: string;
   level: number;
   hpTotal: number;

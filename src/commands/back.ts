@@ -1,19 +1,19 @@
 import * as Discord from "discord.js";
-import { playerService } from "../services/playerService";
-import { PlayerDieError } from "../errors/playerDieError";
 import { getTime } from "../utils/time";
+import { heroService } from "../services/heroService";
+import { HeroDieError } from "../errors/heroDieError";
 
 export function back(msg: Discord.Message): void {
-  playerService.findbyUserID(msg.author.id).then(player => {
-    if (player === null) {
+  heroService.findbyUserID(msg.author.id).then(hero => {
+    if (hero === null) {
       msg.channel.send("You seems not to have a hero to call him back");
     } else if (
-      player.adventureStartedTime !== 0 ||
-      player.trainDamageStartedTime !== 0 ||
-      player.trainShieldStartedTime !== 0
+      hero.adventureStartedTime !== 0 ||
+      hero.trainDamageStartedTime !== 0 ||
+      hero.trainShieldStartedTime !== 0
     ) {
       try {
-        const status = playerService.finishPlayerTraining(player);
+        const status = heroService.finishHeroTraining(hero);
 
         msg.channel.send(
           `You killed ${status.monstersKilled} monsters. ` +
@@ -21,8 +21,8 @@ export function back(msg: Discord.Message): void {
             ` You explored for ${getTime(status.time)}`
         );
       } catch (error) {
-        // Player died in exploration
-        const er: PlayerDieError = error;
+        // hero died in exploration
+        const er: HeroDieError = error;
         msg.channel.send(er.message);
       }
     } else {

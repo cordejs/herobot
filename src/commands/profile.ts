@@ -1,64 +1,64 @@
 import * as Discord from "discord.js";
-import { playerService } from "../services/playerService";
+import { heroService } from "../services/heroService";
 
 /**
- * Shows player's profile
+ * Shows hero's profile
  * @param msg Discord last message related to the command
  */
 export function profile(msg: Discord.Message) {
-  playerService.findbyUserID(msg.author.id).then(player => {
+  heroService.findbyUserID(msg.author.id).then(hero => {
     msg.channel.send(
       "Name: `" +
-        player.name +
+        hero.name +
         "`\n" +
         "Gold: **$" +
-        player.gold +
+        hero.gold +
         "**\n" +
         "Class: `" +
-        player.heroClass +
+        hero.heroClass +
         "`\n" +
         "Hp: " +
-        player.hpActual +
+        hero.hpActual +
         " / " +
-        player.hpTotal +
+        hero.hpTotal +
         "\n" +
         "Level: **" +
-        player.level +
+        hero.level +
         "** (" +
-        player.xp +
+        hero.xp +
         " / " +
-        player.levelMaxXp +
+        hero.levelMaxXp +
         " )\n" +
         "Damage proficience level: **" +
-        player.damageProficience.level +
+        hero.damageProficience.level +
         "** (" +
-        player.damageProficience.xp +
+        hero.damageProficience.xp +
         " / " +
-        player.damageProficience.levelMaxXp +
+        hero.damageProficience.levelMaxXp +
         ")\n" +
         "Shield proficience level: **" +
-        player.shieldProficience.level +
+        hero.shieldProficience.level +
         "** (" +
-        player.shieldProficience.xp +
+        hero.shieldProficience.xp +
         " / " +
-        player.shieldProficience.levelMaxXp +
+        hero.shieldProficience.levelMaxXp +
         ")\n" +
         "Weapon: `" +
-        player.weapon.name +
+        hero.weapon.name +
         "`\n" +
         "Shield: `" +
-        player.shield.name +
+        hero.shield.name +
         "`\n" +
         "Damage: **" +
-        playerService.calcDamage(
-          player.weapon.damage,
-          player.damageProficience.level
+        heroService.calcDamage(
+          hero.weapon.damage,
+          hero.damageProficience.level
         ) +
         "**\n" +
         "Defence: **" +
-        playerService.calcDefence(
-          player.shield.defence,
-          player.shieldProficience.level
+        heroService.calcDefence(
+          hero.shield.defence,
+          hero.shieldProficience.level
         ) +
         "**"
     );

@@ -1,21 +1,21 @@
 import * as Discord from "discord.js";
-import { playerService } from "../services/playerService";
+import { heroService } from "../services/heroService";
 
 /**
- * Inform player's experience
+ * Inform hero's experience
  * @param msg Discord last message related to the command
  */
 export function xp(msg: Discord.Message) {
-  playerService.findbyUserID(msg.author.id).then(player => {
-    if (player !== null) {
-      const percentage = (player.xp * 100) / player.levelMaxXp;
+  heroService.findbyUserID(msg.author.id).then(hero => {
+    if (hero !== null) {
+      const percentage = (hero.xp * 100) / hero.levelMaxXp;
       msg.channel.send(
         "You are current in level " +
-          player.level +
+          hero.level +
           ". Your experience is " +
-          player.xp +
+          hero.xp +
           "/" +
-          player.levelMaxXp +
+          hero.levelMaxXp +
           " (" +
           percentage +
           "%)"

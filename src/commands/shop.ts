@@ -1,5 +1,5 @@
 import * as Discord from "discord.js";
-import { playerService } from "../services/playerService";
+import { heroService } from "../services/heroService";
 import { weaponShop } from "./weaponShop";
 import { shieldShop } from "./shieldShop";
 /**
@@ -8,9 +8,9 @@ import { shieldShop } from "./shieldShop";
  */
 
 export function shop(msg: Discord.Message) {
-  playerService.findbyUserID(msg.author.id).then(player => {
-    if (player === null) {
-      msg.channel.send("Create a player before check the shop ");
+  heroService.findbyUserID(msg.author.id).then(hero => {
+    if (hero === null) {
+      msg.channel.send("Create a hero before check the shop ");
       return;
     }
 
@@ -30,9 +30,9 @@ export function shop(msg: Discord.Message) {
             .content.toLocaleLowerCase()
             .trim();
           if (type === "shield") {
-            shieldShop(msg, player);
+            shieldShop(msg, hero);
           } else if (type === "sword") {
-            weaponShop(msg, player);
+            weaponShop(msg, hero);
           }
         });
     });

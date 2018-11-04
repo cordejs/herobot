@@ -1,16 +1,16 @@
 import * as Discord from "discord.js";
-import { playerService } from "../services/playerService";
-import { createPlayer } from "../commands/create";
+import { heroService } from "../services/heroService";
+import { createHero } from "../commands/create";
 
 /**
  * Reboot all informations about the user. Making him have the attributes values equals to someone that
  * just started the game.
- * @see createObjectPlayer() at '*../interfaces/player*'
+ * @see createObjecthero() at '*../interfaces/hero*'
  * @param msg Discord last message related to the command
  */
 export function reset(msg: Discord.Message) {
-  playerService.findbyUserID(msg.author.id).then(player => {
-    if (player === null) {
+  heroService.findbyUserID(msg.author.id).then(hero => {
+    if (hero === null) {
       msg.channel
         .send(
           "Hmmm. Looks like that you haven't a character created. Would you like to " +
@@ -28,9 +28,9 @@ export function reset(msg: Discord.Message) {
                 .first()
                 .content.trim()
                 .toLowerCase();
-              // Redirect user to player creation function
+              // Redirect user to hero creation function
               if (response === "y" || response === "yes") {
-                createPlayer(msg);
+                createHero(msg);
               }
             });
         });
@@ -51,9 +51,9 @@ export function reset(msg: Discord.Message) {
                 .toLowerCase();
 
               if (ans.toLowerCase() === "yes" || ans.toLowerCase() === "y") {
-                player.reset();
-                playerService.updatePlayer(player).then(() => {
-                  msg.channel.send("Player `" + player.name + "` reseted");
+                hero.reset();
+                heroService.updateHero(hero).then(() => {
+                  msg.channel.send("hero `" + hero.name + "` reseted");
                 });
               } else if (
                 ans.toLowerCase() === "no" ||

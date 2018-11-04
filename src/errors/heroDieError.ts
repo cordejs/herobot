@@ -2,9 +2,9 @@ import { PlayStatus } from "../interfaces/playStatus";
 import { getTime } from "../utils/time";
 
 /**
- * Treats player death in exploration
+ * Treats hero death in exploration
  */
-export class PlayerDieError extends Error {
+export class HeroDieError extends Error {
   constructor(status: PlayStatus) {
     super();
     super.message =

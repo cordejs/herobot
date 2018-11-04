@@ -1,17 +1,15 @@
 import * as Discord from "discord.js";
-import { playerService } from "../services/playerService";
 import { PREFIX } from "../utils/consts";
+import { heroService } from "../services/heroService";
 
 /**
- * Removes a user's player
+ * Removes a user's hero
  * @param msg Discord last message related to the command
  */
-export function deletePlayer(msg: Discord.Message) {
-  playerService.findbyUserID(msg.author.id).then(player => {
-    if (player === null) {
-      msg.channel.send(
-        "You can not delete a player being that you haven't one"
-      );
+export function deletehero(msg: Discord.Message) {
+  heroService.findbyUserID(msg.author.id).then(hero => {
+    if (hero === null) {
+      msg.channel.send("You can not delete a hero being that you haven't one");
     } else {
       msg.channel
         .send("Are you sure that want to delete your amazing character ?")
@@ -26,9 +24,9 @@ export function deletePlayer(msg: Discord.Message) {
               const ans = answer.first().content;
               if (ans.toLowerCase() === "yes" || ans.toLowerCase() === "y") {
                 const userId = msg.author.id;
-                playerService.remove(userId).then(() => {
+                heroService.remove(userId).then(() => {
                   msg.channel.send(
-                    `Player was removed with success. When you be ready to start again, tip ${PREFIX}create to make a new character`
+                    `hero was removed with success. When you be ready to start again, tip ${PREFIX}create to make a new character`
                   );
                 });
               } else if (

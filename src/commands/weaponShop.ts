@@ -1,13 +1,13 @@
 import * as Discord from "discord.js";
 import { JsonHandle } from "../utils/JsonHandle";
-import { Player } from "../models/player";
-import { playerService } from "../services/playerService";
+import { Hero } from "../models/hero";
+import { heroService } from "../services/heroService";
 
 /**
  * Informs all available items from selected type.
  * @param msg Discord last message related to the command
  */
-export function weaponShop(msg: Discord.Message, player: Player) {
+export function weaponShop(msg: Discord.Message, hero: Hero) {
   const weapons = JsonHandle.getAllWeapons();
   let defineMsg: string = "";
   weapons.forEach(
@@ -29,14 +29,14 @@ export function weaponShop(msg: Discord.Message, player: Player) {
         const id = response.first().content;
         const weapon = JsonHandle.getWeaponById(+id);
         if (weapon !== undefined) {
-          if (player.gold - weapon.price >= 0) {
-            const damageDifference = weapon.damage - player.weapon.damage;
-            player.gold -= weapon.price;
-            player.weapon = weapon;
+          if (hero.gold - weapon.price >= 0) {
+            const damageDifference = weapon.damage - hero.weapon.damage;
+            hero.gold -= weapon.price;
+            hero.weapon = weapon;
 
             if (damageDifference > 0) {
-              playerService
-                .updatePlayer(player)
+              heroService
+                .updateHero(hero)
                 .then(() =>
                   msg.channel.send(
                     "You sucessfully bought`" +
@@ -55,8 +55,8 @@ export function weaponShop(msg: Discord.Message, player: Player) {
                   );
                 });
             } else {
-              playerService
-                .updatePlayer(player)
+              heroService
+                .updateHero(hero)
                 .then(() =>
                   msg.channel.send(
                     "You sucessfully bought`" +

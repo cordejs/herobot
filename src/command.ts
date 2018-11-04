@@ -1,8 +1,8 @@
-import { createPlayer } from "./commands/create";
+import { createHero } from "./commands/create";
 import { profile } from "./commands/profile";
 import * as Discord from "discord.js";
 
-import { deletePlayer } from "./commands/delete";
+import { deletehero } from "./commands/delete";
 import { reset } from "./commands/reset";
 import { xp } from "./commands/xp";
 
@@ -27,10 +27,10 @@ export function commandHandle(msg: Discord.Message) {
 
   const command = args[0].toLowerCase();
 
-  if (command === "create" || command === "c") createPlayer(msg);
+  if (command === "create" || command === "c") createHero(msg);
   else if (command === "profile" || command === "p") profile(msg);
   else if (command === "shop" || command === "shp") shop(msg);
-  else if (command === "delete" || command === "d") deletePlayer(msg);
+  else if (command === "delete" || command === "d") deletehero(msg);
   else if (command === "reset" || command === "r") reset(msg);
   else if (command === "shop" || command === "shp") shop(msg);
   else if (command === "experience" || command === "exp" || command === "xp")

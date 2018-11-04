@@ -1,22 +1,22 @@
 import * as Discord from "discord.js";
-import { playerService } from "../services/playerService";
+import { heroService } from "../services/heroService";
 import { getTime } from "../utils/time";
-import { PlayerDieError } from "../errors/playerDieError";
+import { HeroDieError } from "../errors/heroDieError";
 
 /**
- * Inform the situation of the player in his exploration or trainning
+ * Inform the situation of the hero in his exploration or trainning
  * @param msg Discord last message related to the command
  */
 export function status(msg: Discord.Message) {
-  playerService.findbyUserID(msg.author.id).then(player => {
-    if (player === null) {
-      msg.channel.send("Create a player before check his `status`");
+  heroService.findbyUserID(msg.author.id).then(hero => {
+    if (hero === null) {
+      msg.channel.send("Create a hero before check his `status`");
       return;
     }
-    // Player in exploration
-    if (player.adventureStartedTime !== 0) {
+    // hero in exploration
+    if (hero.adventureStartedTime !== 0) {
       try {
-        const status = playerService.updatePlayerTraining(player);
+        const status = heroService.updateHeroTraining(hero);
 
         msg.channel.send(
           `You killed ${status.monstersKilled} monsters. ` +
@@ -24,32 +24,32 @@ export function status(msg: Discord.Message) {
             ` You explored for ${getTime(status.time)}`
         );
       } catch (error) {
-        // Player died in exploration
-        const er: PlayerDieError = error;
+        // hero died in exploration
+        const er: HeroDieError = error;
         msg.channel.send(er.message);
       }
-      // Player training damage
-    } else if (player.trainDamageStartedTime !== 0) {
-      const trained = playerService.upgradeProficience(player);
+      // hero training damage
+    } else if (hero.trainDamageStartedTime !== 0) {
+      const trained = heroService.upgradeProficience(hero);
 
       msg.channel.send(
-        `The player ${player.name} is training damage for ${getTime(
+        `The hero ${hero.name} is training damage for ${getTime(
           trained
-        )}.` + ` You alredy got ${player.actionStatus.exp} exp`
+        )}.` + ` You alredy got ${hero.actionStatus.exp} exp`
       );
-      // Player training shield
-    } else if (player.trainShieldStartedTime !== 0) {
-      const trained = playerService.upgradeProficience(player);
+      // hero training shield
+    } else if (hero.trainShieldStartedTime !== 0) {
+      const trained = heroService.upgradeProficience(hero);
 
       msg.channel.send(
-        `The player ${player.name} is training shield for ${getTime(
+        `The hero ${hero.name} is training shield for ${getTime(
           trained
-        )}.` + ` You alredy got ${player.actionStatus.exp} exp`
+        )}.` + ` You alredy got ${hero.actionStatus.exp} exp`
       );
     } else {
       msg.channel.send("You are not exploring or training.");
       return;
     }
-    playerService.updatePlayer(player);
+    heroService.updateHero(hero);
   });
 }

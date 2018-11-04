@@ -1,12 +1,11 @@
-import * as weapon from "../../data/weapon.json"
-import * as shield from "../../data/shield.json"
+import * as weapon from "../../data/weapon.json";
+import * as shield from "../../data/shield.json";
 
-class equipService {
+export class EquipService {
   private route = "/equipment";
-  findAllItens(type: string) : object
-  { 
-    var objJson = type.toLowerCase() == "shield" ? shield : weapon;
+  findAllItens(type: string): object {
+    const objJson = type.toLowerCase() == "shield" ? shield : weapon;
     return objJson;
   }
 }
-export const equipServ : equipService = new equipService();
+export const equipServ: EquipService = new EquipService();

@@ -1,22 +1,22 @@
 import * as Discord from "discord.js";
 import { getHeroClass } from "../utils/classHandle";
-import { playerService } from "../services/playerService";
-import { Player } from "../models/player";
+import { heroService } from "../services/heroService";
+import { Hero } from "../models/hero";
 
 /**
  * Create a new user selecting a name and a class for him.
  * @param msg Discord last message related to the command
  */
-export function createPlayer(msg: Discord.Message) {
-  // First check if the user already have an player
-  playerService.findbyUserID(msg.author.id).then(player => {
-    if (player !== null) {
+export function createHero(msg: Discord.Message) {
+  // First check if the user already have an hero
+  heroService.findbyUserID(msg.author.id).then(hero => {
+    if (hero !== null) {
       msg.channel.send(
-        "You already have a player created called `" + player.name + "`"
+        "You already have a hero created called `" + hero.name + "`"
       );
     } else {
-      // If haven't, ask for player's name
-      msg.channel.send("What is your player name ?").then(() => {
+      // If haven't, ask for hero's name
+      msg.channel.send("What is your hero name ?").then(() => {
         // The user has 10 seconds to answer before creation procedure be canceled
         msg.channel
           .awaitMessages(
@@ -28,15 +28,15 @@ export function createPlayer(msg: Discord.Message) {
             }
           )
           .then(getName => {
-            const playerName = getName.first().content;
+            const heroName = getName.first().content;
 
-            if (playerName === undefined || playerName.trim() === "") {
+            if (heroName === undefined || heroName.trim() === "") {
               msg.channel.send(
-                "You can not create a player without name :(. I know that you exists"
+                "You can not create a hero without name :(. I know that you exists"
               );
             } else {
               msg.channel
-                .send("Hello " + playerName + ". What is your class ?")
+                .send("Hello " + heroName + ". What is your class ?")
                 .then(() => {
                   msg.channel
                     .awaitMessages(
@@ -52,10 +52,10 @@ export function createPlayer(msg: Discord.Message) {
                       const className = getClass.first().content;
 
                       if (getHeroClass(className) !== undefined) {
-                        playerService
-                          .createPlayer(
-                            new Player(
-                              playerName,
+                        heroService
+                          .createhero(
+                            new Hero(
+                              heroName,
                               getHeroClass(className.toString()),
                               msg.author.id
                             )
@@ -65,16 +65,16 @@ export function createPlayer(msg: Discord.Message) {
                           )
                           .catch(error => {
                             console.log(
-                              "Fail at player creation. Error: " + error
+                              "Fail at hero creation. Error: " + error
                             );
                             msg.channel.send(
-                              "Wasn't possible to create your player"
+                              "Wasn't possible to create your hero"
                             );
                           });
                       } else {
                         msg.channel.send(
                           "You said your name, but not witch class you wanna be. We can not " +
-                            "create a player for you in that way"
+                            "create a hero for you in that way"
                         );
                       }
                     });
@@ -83,7 +83,7 @@ export function createPlayer(msg: Discord.Message) {
           })
           .catch(() =>
             msg.channel.send(
-              "Player creation cancelled beause you are not speaking to me :("
+              "hero creation cancelled beause you are not speaking to me :("
             )
           );
       });

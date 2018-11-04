@@ -1,10 +1,10 @@
 import * as Discord from "discord.js";
 import { ProficienceType } from "../enums/proficienceType";
-import { playerService } from "../services/playerService";
+import { heroService } from "../services/heroService";
 import { getTimeStampFormated } from "../utils/time";
 
 /**
- * Sends player to train a Proficience(Damage or Defence)
+ * Sends hero to train a Proficience(Damage or Defence)
  * @param msg User's message on discord
  */
 export function train(msg: Discord.Message, proficience: string) {
@@ -13,19 +13,19 @@ export function train(msg: Discord.Message, proficience: string) {
     (proficience.toLowerCase() === ProficienceType.DAMAGE.toLowerCase() ||
       proficience.toLowerCase() === ProficienceType.SHIELD.toLowerCase())
   ) {
-    playerService.findbyUserID(msg.author.id).then(player => {
-      if (player === null) {
+    heroService.findbyUserID(msg.author.id).then(hero => {
+      if (hero === null) {
         msg.channel.send(
           "Your can not send your character to train being that you haven't one"
         );
       } else {
         if (proficience === ProficienceType.DAMAGE)
-          player.trainShieldStartedTime = getTimeStampFormated();
-        else player.trainShieldStartedTime = getTimeStampFormated();
+          hero.trainShieldStartedTime = getTimeStampFormated();
+        else hero.trainShieldStartedTime = getTimeStampFormated();
 
-        playerService
-          .updatePlayer(player)
-          .then(() => msg.channel.send("Player successfully sent to train"))
+        heroService
+          .updateHero(hero)
+          .then(() => msg.channel.send("hero successfully sent to train"))
           .catch(error => {
             console.log("train method error: " + error);
             msg.channel.send(

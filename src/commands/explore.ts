@@ -1,10 +1,10 @@
 import * as Discord from "discord.js";
-import { playerService } from "../services/playerService";
 import { Adventure } from "../interfaces/adventure";
 
 import * as adventures from "../../data/adventures.json";
 import { getTimeStampFormated } from "../utils/time";
 import { EXPLORATION_MAX_LEVEL } from "../utils/consts";
+import { heroService } from "../services/heroService";
 
 /**
  * Send user user to farm(Get gold, xp, and equips)
@@ -14,8 +14,8 @@ import { EXPLORATION_MAX_LEVEL } from "../utils/consts";
  */
 export function explore(msg: Discord.Message, level: number) {
   if (level > 0 && level <= EXPLORATION_MAX_LEVEL) {
-    playerService.findbyUserID(msg.author.id).then(player => {
-      if (player !== null) {
+    heroService.findbyUserID(msg.author.id).then(hero => {
+      if (hero !== null) {
         const adv: Adventure = adventures[level];
 
         if (adv === undefined) {
@@ -23,11 +23,11 @@ export function explore(msg: Discord.Message, level: number) {
           return;
         }
 
-        player.adventure = adv;
-        player.adventureStartedTime = getTimeStampFormated();
+        hero.adventure = adv;
+        hero.adventureStartedTime = getTimeStampFormated();
 
-        playerService.updatePlayer(player).then(() => {
-          msg.channel.send("Send player to explore " + adv.name) +
+        heroService.updateHero(hero).then(() => {
+          msg.channel.send("Send hero to explore " + adv.name) +
             ". Good Farmning!";
         });
       }

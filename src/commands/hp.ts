@@ -1,17 +1,17 @@
 import * as Discord from "discord.js";
-import { playerService } from "../services/playerService";
+import { heroService } from "../services/heroService";
 /**
- * Shows player's total amount of life
+ * Shows hero's total amount of life
  * @param msg Discord last message related to the command
  */
 export function hp(msg: Discord.Message) {
-  playerService.findbyUserID(msg.author.id).then(player => {
-    if (player !== null) {
+  heroService.findbyUserID(msg.author.id).then(hero => {
+    if (hero !== null) {
       msg.channel.send(
-        "Your current hp is " + player.hpActual + " / " + player.hpTotal
+        "Your current hp is " + hero.hpActual + " / " + hero.hpTotal
       );
     } else {
-      msg.reply(" You don't seems to have a player");
+      msg.reply(" You don't seems to have a hero");
     }
   });
 }

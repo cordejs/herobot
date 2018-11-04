@@ -4,30 +4,6 @@ import { commandHandle } from "./command";
 
 import { PREFIX } from "./utils/consts";
 
-/**
- * Bot commands:
- * @function create -> Creates a new User. Needs to informn the name and the class
- * @function profile -> Shows user's profile
- * @function delete -> Removes user's player
- *
- * @function reset -> Resets all user's informations
- * @function xp -> Shows user's actual experience
- * @function gold -> Shows user's actual gold
- *
- * @function train -> Sends user's player to train a specific proficience(Damage or Defence)
- * Here the user will only get proficience level. No xp or gold
- * @function explore -> Sends player to kill monsters. There he will receive xp, gold and equips
- * @function status TO DO -> Shows how the user's player is going in the exploration. It shows how long the player
- * is in the exploration, how much exp, gold and equips he received. Also shows his current level and hp
- *
- * @function shop TO DO -> Shows the equips for sell
- * @function buy TO DO -> Buys an equip by his ID
- * @function boosters TO DO -> Lists the boosters and his prices
- *
- * @function sell TO DO -> Sells a player's equip
- * @function help TO DO -> Inform all commands with their abreviations and description
- */
-
 const client = new Discord.Client();
 
 // Tell the world that we're ready!!

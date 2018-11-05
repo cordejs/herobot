@@ -2,6 +2,7 @@ import * as Discord from "discord.js";
 import { JsonHandle } from "../utils/JsonHandle";
 import { heroService } from "../services/heroService";
 import { Hero } from "../models/hero";
+import { userReaction } from "../bot";
 
 /**
  * Informs all available items from selected type.
@@ -22,7 +23,6 @@ export function shieldShop(msg: Discord.Message, hero?: Hero) {
 function shieldShopBase(msg: Discord.Message, hero: Hero) {
   const shields = JsonHandle.getAllShieldS();
   const items: Array<string> = new Array<string>();
-  let index: number = 0;
 
   shields.forEach(shield =>
     items.push(
@@ -33,7 +33,7 @@ function shieldShopBase(msg: Discord.Message, hero: Hero) {
     )
   );
 
-  msg.channel.send(items[index]).then(async (message: Discord.Message) => {
+  msg.channel.send(items[0]).then(async (message: Discord.Message) => {
     const filter = (reaction, user) => {
       return reaction.emoji.name === "▶";
     };
@@ -43,44 +43,15 @@ function shieldShopBase(msg: Discord.Message, hero: Hero) {
     await message.react("▶");
     await message.react("⏩");
 
-    message.awaitReactions(filter, { max: 100, time: 5000 }).then(reaction => {
-      switch (reaction.first().emoji.name) {
-        case "▶": {
-          if (index + 1 !== items.length) {
-            index++;
-            message.edit(items[index]);
-          }
-          break;
-        }
-        case "◀": {
-          if (index - 1 !== 0) {
-            index--;
-            message.edit(items[index]);
-          }
-          break;
-        }
-        case "◀": {
-          if (index - 1 !== 0) {
-            index--;
-            message.edit(items[index]);
-          }
-          break;
-        }
-        case "⏪": {
-          message.edit(items[0]);
-          break;
-        }
-        case "⏩": {
-          message.edit(items[items.length - 1]);
-          break;
-        }
-      }
-    });
+    userReaction.data = shields;
+    userReaction.index = 0;
+    userReaction.userId = msg.author.id;
+    userReaction.message = message;
 
     msg.channel
       .awaitMessages(responseName => responseName.author.id === msg.author.id, {
         max: 1,
-        time: 10000,
+        time: 60000,
         errors: ["time"]
       })
       .then(response => {

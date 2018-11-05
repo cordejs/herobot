@@ -6,19 +6,10 @@ import * as Discord from "discord.js";
 import * as connections from "../connection";
 import { commandHandle } from "./command";
 
-import { PREFIX } from "./utils/consts";
+import { PREFIX, reactionData } from "./utils/global";
+import { Shield } from "./interfaces/shield";
 
 const client = new Discord.Client();
-
-/**
- * Store the list of shields/weapons that the user is seeing to buy in "shop" command
- */
-export let userReaction = {
-  userId: null,
-  data: null,
-  index: 0,
-  message: null
-};
 
 const events = {
   MESSAGE_REACTION_ADD: "messageReactionAdd",
@@ -44,12 +35,12 @@ function changeItemSelection(
   reaction: Discord.MessageReaction,
   user: Discord.User
 ) {
-  if (user.id === userReaction.userId) {
-    userReaction.index++;
+  if (user.id === reactionData.userId) {
+    reactionData.index++;
 
-    const data = userReaction.data;
-    const index = userReaction.index;
-    const shield = data[index];
+    const data = reactionData.data;
+    const index = reactionData.index;
+    const shield: Shield = data[index];
 
     reaction.message.edit(
       `Id: ${shield.id}\n` +
@@ -84,7 +75,7 @@ function changeItemSelection(
 client.on("raw", async event => {
   // This will prevent from trying to build data that isn't relevant to that event.
   if (!events.hasOwnProperty(event.t)) return;
-  if (userReaction.userId === null) return;
+  if (reactionData.userId === null) return;
 });
 
 client.on("messageReactionAdd", (reaction, user) => {

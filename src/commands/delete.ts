@@ -1,5 +1,5 @@
 import * as Discord from "discord.js";
-import { PREFIX } from "../utils/consts";
+import { PREFIX } from "../utils/global";
 import { heroService } from "../services/heroService";
 
 /**

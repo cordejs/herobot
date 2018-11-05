@@ -2,7 +2,7 @@ import * as Discord from "discord.js";
 import { JsonHandle } from "../utils/JsonHandle";
 import { heroService } from "../services/heroService";
 import { Hero } from "../models/hero";
-import { userReaction } from "../bot";
+import { reactionData } from "../utils/global";
 
 /**
  * Informs all available items from selected type.
@@ -43,10 +43,10 @@ function shieldShopBase(msg: Discord.Message, hero: Hero) {
     await message.react("▶");
     await message.react("⏩");
 
-    userReaction.data = shields;
-    userReaction.index = 0;
-    userReaction.userId = msg.author.id;
-    userReaction.message = message;
+    reactionData.data = shields;
+    reactionData.index = 0;
+    reactionData.userId = msg.author.id;
+    reactionData.message = message;
 
     msg.channel
       .awaitMessages(responseName => responseName.author.id === msg.author.id, {

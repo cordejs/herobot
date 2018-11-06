@@ -1,5 +1,5 @@
 /**
- * First of all. Thanks Discord.js Thanks https://discordjs.guide ❤️
+ * ❤️❤️❤️ Thanks Discord.js https://discordjs.guide ❤️❤️❤️
  */
 
 import * as Discord from "discord.js";
@@ -8,6 +8,8 @@ import { commandHandle } from "./command";
 
 import { PREFIX, reactionData } from "./utils/global";
 import { Shield } from "./interfaces/shield";
+import { Equipment } from "./interfaces/equipment";
+import { Weapon } from "./interfaces/weapon";
 
 const client = new Discord.Client();
 
@@ -40,13 +42,28 @@ function changeItemSelection(
 
     const data = reactionData.data;
     const index = reactionData.index;
-    const shield: Shield = data[index];
+    const equip: Equipment = data[index];
 
+    showEquipment(equip, reaction);
+  }
+}
+
+function showEquipment(equip: Equipment, reaction: Discord.MessageReaction) {
+  // equip is a shield
+  if ("defence" in equip) {
     reaction.message.edit(
-      `Id: ${shield.id}\n` +
-        `Name: ${shield.name}\n` +
-        `Defence: ${shield.defence}\n` +
-        `Price: ${shield.price}\n\n`
+      `Id: ${(equip as Shield).id}\n` +
+        `Name: ${(equip as Shield).name}\n` +
+        `Defence: ${(equip as Shield).defence}\n` +
+        `Price: ${(equip as Shield).price}\n\n`
+    );
+    // Equip is a weapon
+  } else if ("damage" in equip) {
+    reaction.message.edit(
+      `Id: ${(equip as Weapon).id}\n` +
+        `Name: ${(equip as Weapon).name}\n` +
+        `Damage: ${(equip as Weapon).damage}\n` +
+        `Price: ${(equip as Weapon).price}\n\n`
     );
   }
 }
@@ -71,7 +88,6 @@ function changeItemSelection(
  *    }
  * }
  */
-
 client.on("raw", async event => {
   // This will prevent from trying to build data that isn't relevant to that event.
   if (!events.hasOwnProperty(event.t)) return;

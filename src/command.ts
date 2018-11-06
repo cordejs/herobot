@@ -14,7 +14,6 @@ import { status } from "./commands/status";
 import { back } from "./commands/back";
 import { shop } from "./commands/shop";
 import { hp } from "./commands/hp";
-import { shieldShop } from "./commands/shieldShop";
 
 /**
  * Receives a message, treating it and sending to the right method
@@ -32,15 +31,8 @@ export function commandHandle(msg: Discord.Message) {
   else if (command === "profile" || command === "p") profile(msg);
   else if (command === "delete" || command === "d") deletehero(msg);
   else if (command === "reset" || command === "r") reset(msg);
-  else if (command === "shop") {
-    const arg = args[1];
-    if (arg !== undefined) {
-      if (arg.toLocaleLowerCase() === "shield") {
-        shieldShop(msg);
-      } else if (arg.toLocaleLowerCase() === "weapon") {
-      }
-    }
-  } else if (command === "experience" || command === "exp" || command === "xp")
+  else if (command === "shop") shop(msg, args[1]);
+  else if (command === "experience" || command === "exp" || command === "xp")
     xp(msg);
   else if (command === "gold" || command === "g" || command === "money")
     gold(msg);

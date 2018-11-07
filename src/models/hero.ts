@@ -86,6 +86,7 @@ export class Hero extends Entity {
     this.level = 1;
     this.levelMaxXp = 100;
     this.hpTotal = 100;
+    this.gold = 0;
 
     this.deaths = 0;
     this.monstersKilled = 0;

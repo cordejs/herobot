@@ -33,18 +33,16 @@ export function status(msg: Discord.Message) {
       const trained = heroService.upgradeProficience(hero);
 
       msg.channel.send(
-        `The hero ${hero.name} is training damage for ${getTime(
-          trained
-        )}.` + ` You alredy got ${hero.actionStatus.exp} exp`
+        `The hero ${hero.name} is training damage for ${getTime(trained)}.` +
+          ` You alredy got ${hero.actionStatus.exp} exp`
       );
       // hero training shield
     } else if (hero.trainShieldStartedTime !== 0) {
       const trained = heroService.upgradeProficience(hero);
 
       msg.channel.send(
-        `The hero ${hero.name} is training shield for ${getTime(
-          trained
-        )}.` + ` You alredy got ${hero.actionStatus.exp} exp`
+        `The hero ${hero.name} is training shield for ${getTime(trained)}.` +
+          ` You alredy got ${hero.actionStatus.exp} exp`
       );
     } else {
       msg.channel.send("You are not exploring or training.");

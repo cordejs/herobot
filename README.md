@@ -1,18 +1,25 @@
 # HeroBot
-
-[![GitHub issues](https://img.shields.io/github/issues/lgmagalhaes88/HeroBot.svg)](https://github.com/lgmagalhaes88/HeroBot/issues)
-[![GitHub forks](https://img.shields.io/github/forks/lgmagalhaes88/HeroBot.svg)](https://github.com/lgmagalhaes88/HeroBot/network)
-[![GitHub stars](https://img.shields.io/github/stars/lgmagalhaes88/HeroBot.svg)](https://github.com/lgmagalhaes88/HeroBot/stargazers)
-[![GitHub license](https://img.shields.io/github/license/lgmagalhaes88/HeroBot.svg?)](https://github.com/lgmagalhaes88/HeroBot/blob/master/LICENSE)
-[![Greenkeeper badge](https://badges.greenkeeper.io/lgmagalhaes88/HeroBot.svg)](https://greenkeeper.io/)
-[![TypeScript](https://badges.frapsoft.com/typescript/version/typescript-next.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
-
-<p>
-A Discord bot to play RPG. Add HeroBot to your server \o/ <a href="https://discordapp.com/api/oauth2/authorize?client_id=495052325258395672&permissions=8&scope=bot">
-<img border="0" style="float: right" alt="W3Schools" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCH5K8nK8Ucll_OCrEHngzkZ7k3E7qmDF-TEY_kRU0WzO3uegL" width="70" height="70">
-</a>
+<p align="center">
+  <img src="https://github.com/lgmagalhaes88/HeroBot/blob/master/docs/logo.jpg" widht="300" height="300" style="margin-bottom: 10px">
 </p>
+
+<p align="center">
+
+  <img src="https://img.shields.io/github/issues/lgmagalhaes88/HeroBot.svg" href="https://github.com/lgmagalhaes88/HeroBot/issues">
+  <img src="https://img.shields.io/github/forks/lgmagalhaes88/HeroBot.svg" href="https://github.com/lgmagalhaes88/HeroBot/network">
+  <img src="https://img.shields.io/github/stars/lgmagalhaes88/HeroBot.svg" href="https://github.com/lgmagalhaes88/HeroBot/stargazers">
+  <img src="https://img.shields.io/github/license/lgmagalhaes88/HeroBot.svg" href="(https://github.com/lgmagalhaes88/HeroBot/blob/master/LICENSE">
+  <img src="https://badges.greenkeeper.io/lgmagalhaes88/HeroBot.svg" href="https://greenkeeper.io/">
+  <img src="https://badges.frapsoft.com/typescript/version/typescript-next.svg?v=101" href="https://github.com/ellerbrock/typescript-badges/">
   
+</p>
+
+A Discord bot to play RPG.
+
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCH5K8nK8Ucll_OCrEHngzkZ7k3E7qmDF-TEY_kRU0WzO3uegL" width="80" height="80" href="https://discordapp.com/api/oauth2/authorize?client_id=495052325258395672&permissions=8&scope=bot">
+
+---
+
 ## Connecting
 
 For security proposes, the file `connection.ts` isn't commit. If you want to run the app, put your own bot token and a firebase projet configurations.

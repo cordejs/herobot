@@ -3,7 +3,7 @@ import { Adventure } from "../interfaces/adventure";
 
 import * as adventures from "../../data/adventures.json";
 import { getTimeStampFormated } from "../utils/time";
-import { EXPLORATION_MAX_LEVEL } from "../utils/consts";
+import { EXPLORATION_MAX_LEVEL } from "../utils/global";
 import { heroService } from "../services/heroService";
 
 /**

@@ -33,6 +33,78 @@ client.on("message", async msg => {
   commandHandle(msg);
 });
 
+function backOneItem(reaction: Discord.MessageReaction, user: Discord.User) {
+  if (user.id === reactionData.userId && reactionData.index - 1 > -1) {
+    reactionData.index--;
+
+    const data = reactionData.data;
+    const index = reactionData.index;
+    const equip: Equipment = data[index];
+
+    showEquipment(equip, reaction);
+  }
+}
+
+function fowardOneItem(reaction: Discord.MessageReaction, user: Discord.User) {
+  if (
+    user.id === reactionData.userId &&
+    reactionData.index + 1 < reactionData.data.length
+  ) {
+    reactionData.index++;
+
+    const data = reactionData.data;
+    const index = reactionData.index;
+    const equip: Equipment = data[index];
+
+    showEquipment(equip, reaction);
+  }
+}
+
+function goToLastItem(reaction: Discord.MessageReaction, user: Discord.User) {
+  if (user.id === reactionData.userId) {
+    reactionData.index = reactionData.data.length - 1;
+
+    const data = reactionData.data;
+    const index = reactionData.index;
+    const equip: Equipment = data[index];
+
+    showEquipment(equip, reaction);
+  }
+}
+
+function goToFirstItem(reaction: Discord.MessageReaction, user: Discord.User) {
+  if (user.id === reactionData.userId) {
+    reactionData.index = 0;
+
+    const data = reactionData.data;
+    const index = reactionData.index;
+    const equip: Equipment = data[index];
+
+    showEquipment(equip, reaction);
+  }
+}
+
+function reactionHandle(reaction: Discord.MessageReaction, user: Discord.User) {
+  switch (reaction.emoji.name) {
+    case "⏪": {
+      goToFirstItem(reaction, user);
+      break;
+    }
+    case "◀": {
+      backOneItem(reaction, user);
+      break;
+    }
+    case "▶": {
+      fowardOneItem(reaction, user);
+      break;
+    }
+    case "⏩": {
+      goToLastItem(reaction, user);
+      break;
+    }
+  }
+}
+
 function changeItemSelection(
   reaction: Discord.MessageReaction,
   user: Discord.User
@@ -96,12 +168,12 @@ client.on("raw", async event => {
 
 client.on("messageReactionAdd", (reaction, user) => {
   console.log(`${user.username} reacted with "${reaction.emoji.name}".`);
-  changeItemSelection(reaction, user);
+  reactionHandle(reaction, user);
 });
 
 client.on("messageReactionRemove", (reaction, user) => {
   console.log(`${user.username} reacted with "${reaction.emoji.name}".`);
-  changeItemSelection(reaction, user);
+  reactionHandle(reaction, user);
 });
 
 // Creates the connection with Discord using (wisping: a secret token. u.u)

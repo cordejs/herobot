@@ -1,26 +1,26 @@
-import { createHero } from "./commands/create";
-import { profile } from "./commands/profile";
+import { createHero } from "../commands/create";
+import { profile } from "../commands/profile";
 import * as Discord from "discord.js";
 
-import { deletehero } from "./commands/delete";
-import { reset } from "./commands/reset";
-import { xp } from "./commands/xp";
+import { deletehero } from "../commands/delete";
+import { reset } from "../commands/reset";
+import { xp } from "../commands/xp";
 
-import { gold } from "./commands/gold";
-import { explore } from "./commands/explore";
-import { PREFIX } from "./utils/global";
-import { train } from "./commands/train";
-import { status } from "./commands/status";
-import { back } from "./commands/back";
-import { shop } from "./commands/shop";
-import { hp } from "./commands/hp";
-import { buy } from "./commands/buy";
+import { gold } from "../commands/gold";
+import { explore } from "../commands/explore";
+import { PREFIX } from "./global";
+import { train } from "../commands/train";
+import { status } from "../commands/status";
+import { back } from "../commands/back";
+import { shop } from "../commands/shop";
+import { hp } from "../commands/hp";
+import { buy } from "../commands/buy";
 
 /**
  * Receives a message, treating it and sending to the right method
  * @param msg message sent by Discord
  */
-export function commandHandle(msg: Discord.Message) {
+export function commandHandler(msg: Discord.Message) {
   const args = msg.content
     .slice(PREFIX.length)
     .trim()

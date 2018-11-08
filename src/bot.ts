@@ -4,7 +4,7 @@
 
 import * as Discord from "discord.js";
 import * as connections from "../connection";
-import { commandHandle } from "./command";
+import { commandHandler } from "./utils/commandHandler";
 
 import { PREFIX, reactionData } from "./utils/global";
 import { Shield } from "./interfaces/shield";
@@ -30,7 +30,7 @@ client.on("message", async msg => {
   // Checking if the command has the prefix
   if (!msg.content.startsWith(PREFIX, 0)) return;
 
-  commandHandle(msg);
+  commandHandler(msg);
 });
 
 function backOneItem(reaction: Discord.MessageReaction, user: Discord.User) {

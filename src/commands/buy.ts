@@ -3,6 +3,12 @@ import { heroService } from "../services/heroService";
 import { reactionData } from "../utils/global";
 import { Equipment } from "../interfaces/equipment";
 
+/**
+ * Buy a equip from store
+ * @since 1.0
+ * @param msg message caller
+ * @param equipId id of the equip that user wants to buy
+ */
 export function buy(msg: Discord.Message, equipId: string): void {
   if (equipId === undefined) {
     msg.channel.send(

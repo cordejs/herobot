@@ -3,6 +3,7 @@ import { heroService } from "../services/heroService";
 
 /**
  * Shows hero's profile
+ * @since 1.0
  * @param msg Discord last message related to the command
  */
 export function profile(msg: Discord.Message) {

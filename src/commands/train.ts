@@ -5,6 +5,7 @@ import { getTimeStampFormated } from "../utils/time";
 
 /**
  * Sends hero to train a Proficience(Damage or Defence)
+ * @since 1.0
  * @param msg User's message on discord
  */
 export function train(msg: Discord.Message, proficience: string) {

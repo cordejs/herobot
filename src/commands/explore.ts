@@ -8,6 +8,7 @@ import { heroService } from "../services/heroService";
 
 /**
  * Send user user to farm(Get gold, xp, and equips)
+ * @since 1.0
  * @param msg Discord last message related to the command
  * @param level difficult of the farm field. How bigger the number, harder is the field.
  * The amount of gold, xp received by the user increases according to the value of the level

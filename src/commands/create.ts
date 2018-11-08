@@ -5,6 +5,7 @@ import { Hero } from "../models/hero";
 
 /**
  * Create a new user selecting a name and a class for him.
+ * @since 1.0
  * @param msg Discord last message related to the command
  */
 export function createHero(msg: Discord.Message) {

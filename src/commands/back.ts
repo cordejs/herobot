@@ -3,6 +3,11 @@ import { getTime } from "../utils/time";
 import { heroService } from "../services/heroService";
 import { HeroDieError } from "../errors/heroDieError";
 
+/**
+ * Returns hero from exploration / training
+ * @since 1.0
+ * @param msg message caller
+ */
 export function back(msg: Discord.Message): void {
   heroService.findbyUserID(msg.author.id).then(hero => {
     if (hero === null) {

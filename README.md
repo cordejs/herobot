@@ -1,4 +1,5 @@
 # HeroBot
+
 <p align="center">
   <img src="https://github.com/lgmagalhaes88/HeroBot/blob/master/docs/logo.jpg" widht="300" height="300" style="margin-bottom: 10px">
 </p>
@@ -11,7 +12,7 @@
   <img src="https://img.shields.io/github/license/lgmagalhaes88/HeroBot.svg" href="(https://github.com/lgmagalhaes88/HeroBot/blob/master/LICENSE">
   <img src="https://badges.greenkeeper.io/lgmagalhaes88/HeroBot.svg" href="https://greenkeeper.io/">
   <img src="https://badges.frapsoft.com/typescript/version/typescript-next.svg?v=101" href="https://github.com/ellerbrock/typescript-badges/">
-  
+  <img src="https://travis-ci.org/lgmagalhaes88/HeroBot.svg?branch=master" href="https://travis-ci.org/lgmagalhaes88/HeroBot">
 </p>
 
 A Discord bot to play RPG.

@@ -5,3 +5,6 @@ ts-built/
 
 # Connection informations
 connection.ts
+
+# Documentation
+devdoc/

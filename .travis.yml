@@ -8,9 +8,6 @@ cache:
     - "node_modules"
 before_install:
   - npm i -g npm@latest
-install:
-  - npm ci
-  - npm run build:dev
 script:
   - npm test
   - npm build

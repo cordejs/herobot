@@ -1,10 +1,10 @@
 export const firebaseConnection = {
-  apiKey: "AIzaSyCG67XA-No7Ix2vxEi7J-Ntau0qKF2styw",
-  authDomain: "discord-app-adventure-rpg.firebaseapp.com",
-  databaseURL: "https://discord-app-adventure-rpg.firebaseio.com",
-  projectId: "discord-app-adventure-rpg",
-  storageBucket: "discord-app-adventure-rpg.appspot.com",
-  messagingSenderId: "112462376249"
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  databaseURL: process.env.DATABASE_URL,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MENSSAGING_SENDER_ID
 };
 
 export const SuperSecretDiscordToken = {

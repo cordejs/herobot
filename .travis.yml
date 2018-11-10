@@ -9,7 +9,3 @@ before_install:
 script:
   - npm test
   - npm build
-deploy:
-  provider: heroku
-  api_key:
-    secure: "YOUR ENCRYPTED API KEY"

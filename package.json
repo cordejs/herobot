@@ -32,7 +32,8 @@
     "bot": "node build/src/bot.js",
     "build:test": "webpack -p --config ./src/environment/webpack.config.ts",
     "build-docs": "rimraf docs && typedoc --options typedoc.json src/",
-    "build:prod": "webpack -p --define process.env.NODE_ENV='\"production\"' --config ./src/environment/webpack.config.ts"
+    "build:prod": "webpack -p --define process.env.NODE_ENV='\"production\"' --config ./src/environment/webpack.config.ts",
+    "postinstall": "tsc -p ."
   },
   "repository": {
     "type": "git",

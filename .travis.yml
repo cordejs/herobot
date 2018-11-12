@@ -7,5 +7,4 @@ cache:
 before_install:
   - npm i -g npm@latest
 script:
-  - npm test
   - npm build

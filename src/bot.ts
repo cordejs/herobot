@@ -9,6 +9,8 @@ import { commandHandler } from "./utils/commandHandler";
 import { PREFIX, reactionData } from "./utils/global";
 import { Shield } from "./interfaces/shield";
 import { Equipment } from "./interfaces/equipment";
+
+import * as database from "mysql";
 import { Weapon } from "./interfaces/weapon";
 
 const client = new Discord.Client();
@@ -175,6 +177,18 @@ client.on("messageReactionRemove", (reaction, user) => {
   console.log(`${user.username} reacted with "${reaction.emoji.name}".`);
   reactionHandle(reaction, user);
 });
+
+export const db = database.createConnection({
+  host: "localhost",
+  user: "yourusername",
+  password: "yourpassword"
+});
+
+db.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
+
 
 // Creates the connection with Discord using (wisping: a secret token. u.u)
 client.login(connections.SuperSecretDiscordToken.token);

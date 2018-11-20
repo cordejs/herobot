@@ -9,6 +9,7 @@ import { commandHandler } from "./utils/commandHandler";
 import { PREFIX, reactionData } from "./utils/global";
 import { Shield } from "./interfaces/shield";
 import { Equipment } from "./interfaces/equipment";
+
 import { Weapon } from "./interfaces/weapon";
 
 const client = new Discord.Client();

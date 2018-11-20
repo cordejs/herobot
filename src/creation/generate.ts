@@ -9,11 +9,11 @@ function calcLevelExp(value) {
 /**
  * creates a JSON with all proficience levels
  */
-generateProficienceJSON = function () {
+function generateProficienceJSON() {
   let json = "{\n";
   const repets = 200;
 
-  for (var i = 1; i <= repets; i++) {
+  for (let i = 1; i <= repets; i++) {
     json += `"${i}": {\n`;
     json += `  "exp": ${calcProficienceExp(i)}\n`;
     json += "}";
@@ -26,17 +26,17 @@ generateProficienceJSON = function () {
   json += "}";
 
   console.log(json);
-};
+}
 
 /**
  * creates a JSON with all player levels
  */
-generateLevelsJSON = function () {
+function generateLevelsJSON() {
   let json = "{\n";
   const repets = 200;
   let hpbase = 100;
 
-  for (var i = 1; i <= repets; i++) {
+  for (let i = 1; i <= repets; i++) {
     json += `"${i}": {\n`;
     json += `  "exp": ${calcLevelExp(i)},\n`;
     json += `  "hp": ${hpbase + 10}\n`;
@@ -52,12 +52,12 @@ generateLevelsJSON = function () {
   json += "}";
 
   console.log(json);
-};
+}
 
-generateLevelsOnlyNumbers = function () {
+function generateLevelsOnlyNumbers() {
   let data = "";
   const repets = 200;
-  for (var i = 1; i <= repets; i++) {
+  for (let i = 1; i <= repets; i++) {
     data += `${calcLevelExp(i)} \n`;
   }
   console.log(data);

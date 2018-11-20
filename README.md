@@ -6,13 +6,12 @@
 
 <p align="center">
 
-  <img src="https://img.shields.io/github/issues/lgmagalhaes88/HeroBot.svg" href="https://github.com/lgmagalhaes88/HeroBot/issues">
-  <img src="https://img.shields.io/github/forks/lgmagalhaes88/HeroBot.svg" href="https://github.com/lgmagalhaes88/HeroBot/network">
-  <img src="https://img.shields.io/github/stars/lgmagalhaes88/HeroBot.svg" href="https://github.com/lgmagalhaes88/HeroBot/stargazers">
-  <img src="https://img.shields.io/github/license/lgmagalhaes88/HeroBot.svg" href="(https://github.com/lgmagalhaes88/HeroBot/blob/master/LICENSE">
-  <img src="https://badges.greenkeeper.io/lgmagalhaes88/HeroBot.svg" href="https://greenkeeper.io/">
-  <img src="https://badges.frapsoft.com/typescript/version/typescript-next.svg?v=101" href="https://github.com/ellerbrock/typescript-badges/">
-  <img src="https://travis-ci.org/lgmagalhaes88/HeroBot.svg?branch=master" href="https://travis-ci.org/lgmagalhaes88/HeroBot">
+  <img src="https://img.shields.io/github/issues/lgmagalhaes88/HeroBot.svg?style=flat-square" href="https://github.com/lgmagalhaes88/HeroBot/issues">
+  <img src="https://img.shields.io/github/forks/lgmagalhaes88/HeroBot.svg?style=flat-square" href="https://github.com/lgmagalhaes88/HeroBot/network">
+  <img src="https://img.shields.io/github/stars/lgmagalhaes88/HeroBot.svg?style=flat-square" href="https://github.com/lgmagalhaes88/HeroBot/stargazers">
+  <img src="https://img.shields.io/github/license/lgmagalhaes88/HeroBot.svg?style=flat-square" href="(https://github.com/lgmagalhaes88/HeroBot/blob/master/LICENSE">
+  <img src="https://badges.greenkeeper.io/lgmagalhaes88/HeroBot.svg?style=flat-square" href="https://greenkeeper.io/">
+  <img src="https://travis-ci.org/lgmagalhaes88/HeroBot.svg?branch=master&style=flat-square" href="https://travis-ci.org/lgmagalhaes88/HeroBot">
 </p>
 
 A Discord bot to play RPG. [Click here to add HeroBot to your server](https://discordapp.com/api/oauth2/authorize?client_id=495052325258395672&permissions=8&scope=bot)

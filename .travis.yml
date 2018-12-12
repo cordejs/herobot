@@ -3,8 +3,6 @@ node_js:
   - "10"
 install:
   - npm install
-before_script:
-  - npm install
 cache:
   directories:
     - "node_modules"
@@ -16,3 +14,7 @@ notifications:
   email:
     on_success: always
     on_failure: always
+branches:
+  only:
+  - master
+  - dev

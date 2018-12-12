@@ -6,8 +6,9 @@
   "dependencies": {
     "@types/node": "^10.12.12",
     "discord.js": "^11.4.2",
-    "firebase-tools": "^6.1.2",
+    "event-stream": "^3.3.4",
     "firebase": "^5.6.0",
+    "firebase-tools": "^6.1.2",
     "nodemon": "^1.18.6"
   },
   "devDependencies": {
@@ -24,6 +25,9 @@
     "build:prod": "webpack -p --define process.env.NODE_ENV='\"production\"' --config ./src/environment/webpack.config.ts",
     "postinstall": "tsc -p ."
   },
+  "keywords": [
+    "heroku"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lgmagalhaes88/HeroBot.git"
@@ -32,6 +36,9 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/lgmagalhaes88/HeroBot/issues"
+  },
+  "engines": {
+    "node": "10.x"
   },
   "homepage": "https://github.com/lgmagalhaes88/HeroBot#readme"
 }

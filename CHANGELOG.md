@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 1.0.0 - 2017-06-20
+## 1.0.0 - 2018-06-20
 ### Added
 - back  #14
 - buy #5

@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 1.0.1 - 2018-12-15
+
+- Minor bug fixes
+- Refatored database services
+- changed prefix from **_** to **!**
+
 ## 1.0.0 - 2018-06-20
 ### Added
 - back  #14

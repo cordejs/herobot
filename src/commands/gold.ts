@@ -11,5 +11,5 @@ export function gold(msg: Discord.Message) {
     if (hero !== null) {
       msg.channel.send("Your current gold is $" + hero.gold);
     }
-  });
+  }).catch((error) => msg.channel.send(error));
 }

@@ -35,7 +35,7 @@ export function train(msg: Discord.Message, proficience: string) {
             );
           });
       }
-    });
+    }).catch((error) => msg.channel.send(error));
   } else {
     msg.channel.send(
       "Please, you must choose train your `damage` or your `shield`"

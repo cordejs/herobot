@@ -112,7 +112,7 @@ class HeroService extends BaseEntityService<Hero> {
    */
   defendAttack(hero: Hero, monster: Monster) {
     hero.hpActual =
-    hero.hpActual -
+      hero.hpActual -
       this.calcDamageTaken(
         this.calcDamage(monster.damage),
         this.calcDefence(hero.shield.defence, hero.shieldProficience.level)

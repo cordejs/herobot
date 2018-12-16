@@ -12,15 +12,15 @@ export function xp(msg: Discord.Message) {
       const percentage = (hero.xp * 100) / hero.levelMaxXp;
       msg.channel.send(
         "You are current in level " +
-          hero.level +
-          ". Your experience is " +
-          hero.xp +
-          "/" +
-          hero.levelMaxXp +
-          " (" +
-          percentage +
-          "%)"
+        hero.level +
+        ". Your experience is " +
+        hero.xp +
+        "/" +
+        hero.levelMaxXp +
+        " (" +
+        percentage +
+        "%)"
       );
     }
-  });
+  }).catch((error) => msg.channel.send(error));
 }

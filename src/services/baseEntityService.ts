@@ -2,6 +2,7 @@ import * as firebase from "firebase";
 import "firebase/database";
 import * as connections from "../../connection";
 import { Entity } from "../models/entity";
+import { Emojis } from "../enums/emojis";
 
 export class BaseEntityService<T> {
   protected db: firebase.database.Database;
@@ -30,10 +31,13 @@ export class BaseEntityService<T> {
     return this.db
       .ref(route + "/" + key)
       .once("value")
-      .then(function(snapshot) {
+      .then(function (snapshot) {
         return new Promise<T>(resolve => {
           resolve(snapshot.val());
         });
+      }).catch(error => {
+        console.log(error);
+        return Promise.reject<T>("I found an problem trying to load your hero informations " + Emojis.SAD_CRYING + ". Try again later");
       });
   }
 
@@ -41,7 +45,7 @@ export class BaseEntityService<T> {
     return this.db
       .ref(route + "/")
       .once("value")
-      .then(function(snapshot) {
+      .then(function (snapshot) {
         return new Promise<T>(resolve => {
           resolve(snapshot.val());
         });
@@ -79,7 +83,7 @@ export class BaseEntityService<T> {
             snapshot.ref.remove().then(() => resolve());
           });
         },
-        function(error: any) {
+        function (error: any) {
           console.log(
             "Error when attempting to remove data from firebase" + error.code
           );

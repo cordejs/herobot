@@ -15,5 +15,5 @@ export function hp(msg: Discord.Message) {
     } else {
       msg.reply(" You don't seems to have a hero");
     }
-  });
+  }).catch((error) => msg.channel.send(error));
 }

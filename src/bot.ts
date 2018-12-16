@@ -1,6 +1,8 @@
 /**
+ * 
  * ❤️❤️❤️ Thanks Discord.js https://discordjs.guide ❤️❤️❤️
  * Add bot link: https://discordapp.com/oauth2/authorize?client_id=<Bot_Client_ID>&scope=bot&permissions=0
+ * 
  */
 
  // Set the varibles for development environment
@@ -14,6 +16,7 @@ import { PREFIX, reactionData } from "./utils/global";
 import { Shield } from "./interfaces/shield";
 import { Equipment } from "./interfaces/equipment";
 import { Weapon } from "./interfaces/weapon";
+import { Emojis } from "./enums/emojis";
 
 const client = new Discord.Client();
 
@@ -90,19 +93,19 @@ function goToFirstItem(reaction: Discord.MessageReaction, user: Discord.User) {
 
 function reactionHandle(reaction: Discord.MessageReaction, user: Discord.User) {
   switch (reaction.emoji.name) {
-    case "⏪": {
+    case Emojis.FIRST: {
       goToFirstItem(reaction, user);
       break;
     }
-    case "◀": {
+    case Emojis.BACK: {
       backOneItem(reaction, user);
       break;
     }
-    case "▶": {
+    case Emojis.NEXT: {
       fowardOneItem(reaction, user);
       break;
     }
-    case "⏩": {
+    case Emojis.LAST: {
       goToLastItem(reaction, user);
       break;
     }

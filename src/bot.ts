@@ -6,7 +6,7 @@
  */
 
 // Set the varibles for development environment
-require("../process")();
+require("dotenv").config();
 
 import * as Discord from "discord.js";
 import * as connections from "../connection";

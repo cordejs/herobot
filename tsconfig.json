@@ -15,10 +15,8 @@
     "preserveConstEnums": true
   },
   "include": [
-    "src/**/*"
-  ],
-  "files": [
-    "process.ts"
+    "src/**/*",
+    "./*.ts"
   ],
   "exclude": [
     "./tests/**/*.spec.ts"

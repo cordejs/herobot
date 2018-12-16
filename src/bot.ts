@@ -5,9 +5,8 @@
  * 
  */
 
- // Set the varibles for development environment
-import { defineVariables } from "../process";
-defineVariables();
+// Set the varibles for development environment
+require("../process")();
 
 import * as Discord from "discord.js";
 import * as connections from "../connection";

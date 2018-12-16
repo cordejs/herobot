@@ -1,5 +1,6 @@
 /**
  * ❤️❤️❤️ Thanks Discord.js https://discordjs.guide ❤️❤️❤️
+ * Add bot link: https://discordapp.com/oauth2/authorize?client_id=<Bot_Client_ID>&scope=bot&permissions=0
  */
 
  // Set the varibles for development environment

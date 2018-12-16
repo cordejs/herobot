@@ -89,5 +89,5 @@ export function createHero(msg: Discord.Message) {
           );
       });
     }
-  });
+  }).catch(() => msg.channel.send("I found an problem trying to create a character :(. Try again later"));
 }

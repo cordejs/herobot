@@ -5,4 +5,5 @@ ts-built/
 
 # Documentation
 devdoc/
+.env
 process.ts

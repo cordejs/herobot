@@ -1,7 +1,7 @@
 // First rename this file to "process.ts"
 // Then set the variables with your own project's variables
 
-export function defineVariables() {
+module.exports = function () {
     process.env = {
         API_KEY: "",
         AUTH_DOMAIN: "",

@@ -14,7 +14,12 @@
     "removeComments": true,
     "preserveConstEnums": true
   },
-  "include": ["src/**/*"],
+  "include": [
+    "src/**/*"
+  ],
+  "files": [
+    "process.ts"
+  ],
   "exclude": [
     "./tests/**/*.spec.ts"
   ],

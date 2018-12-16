@@ -9,7 +9,7 @@ import { Weapon } from "../interfaces/weapon.js";
 import { Adventure } from "../interfaces/adventure.js";
 import { Monster } from "../interfaces/monster.js";
 import { Level } from "../types/level.js";
-import * as fs from "fs";
+
 /**
  * Class with static method for search of data in json files
  */

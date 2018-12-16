@@ -2,14 +2,16 @@
  * ❤️❤️❤️ Thanks Discord.js https://discordjs.guide ❤️❤️❤️
  */
 
+ // Set the varibles for development environment
+import { defineVariables } from "../process";
+defineVariables();
+
 import * as Discord from "discord.js";
 import * as connections from "../connection";
 import { commandHandler } from "./utils/commandHandler";
-
 import { PREFIX, reactionData } from "./utils/global";
 import { Shield } from "./interfaces/shield";
 import { Equipment } from "./interfaces/equipment";
-
 import { Weapon } from "./interfaces/weapon";
 
 const client = new Discord.Client();
@@ -126,17 +128,17 @@ function showEquipment(equip: Equipment, reaction: Discord.MessageReaction) {
   if ("defence" in equip) {
     reaction.message.edit(
       `Id: ${(equip as Shield).id}\n` +
-        `Name: ${(equip as Shield).name}\n` +
-        `Defence: ${(equip as Shield).defence}\n` +
-        `Price: ${(equip as Shield).price}\n\n`
+      `Name: ${(equip as Shield).name}\n` +
+      `Defence: ${(equip as Shield).defence}\n` +
+      `Price: ${(equip as Shield).price}\n\n`
     );
     // Equip is a weapon
   } else if ("damage" in equip) {
     reaction.message.edit(
       `Id: ${(equip as Weapon).id}\n` +
-        `Name: ${(equip as Weapon).name}\n` +
-        `Damage: ${(equip as Weapon).damage}\n` +
-        `Price: ${(equip as Weapon).price}\n\n`
+      `Name: ${(equip as Weapon).name}\n` +
+      `Damage: ${(equip as Weapon).damage}\n` +
+      `Price: ${(equip as Weapon).price}\n\n`
     );
   }
 }

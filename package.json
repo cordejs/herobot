@@ -22,9 +22,8 @@
     "build": "tsc -p .",
     "bot": "node build/src/bot.js",
     "build-docs": "rimraf docs && typedoc --options typedoc.json src/",
-    "build:prod": "webpack -p --define process.env.NODE_ENV='\"production\"' --config ./src/environment/webpack.config.ts",
-    "postinstall": "tsc -p .",
-    "heroku": "heroku local worker"
+    "build:prod": "node -r build/config.js",
+    "postinstall": "tsc -p ."
   },
   "keywords": [
     "heroku"

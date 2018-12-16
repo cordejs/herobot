@@ -3,7 +3,7 @@ import { Reaction } from "../types/reation";
 /**
  * Character that must be tipped by the user when desire to talk with the bot
  */
-export const PREFIX: string = "_";
+export const PREFIX: string = "!";
 
 /**
  * Maximum level of exploration

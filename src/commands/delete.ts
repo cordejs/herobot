@@ -1,6 +1,6 @@
 import * as Discord from "discord.js";
 import { PREFIX } from "../utils/global";
-import { heroService } from "../services/heroService";
+import heroService from "../services/heroService";
 
 /**
  * Removes a user's hero
@@ -39,5 +39,5 @@ export function deletehero(msg: Discord.Message) {
             });
         });
     }
-  });
+  }).catch((error) => msg.channel.send(error));
 }

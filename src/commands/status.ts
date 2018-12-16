@@ -1,5 +1,5 @@
 import * as Discord from "discord.js";
-import { heroService } from "../services/heroService";
+import heroService from "../services/heroService";
 import { getTime } from "../utils/time";
 import { HeroDieError } from "../errors/heroDieError";
 
@@ -21,8 +21,8 @@ export function status(msg: Discord.Message) {
 
         msg.channel.send(
           `You killed ${status.monstersKilled} monsters. ` +
-            `Got ${status.gold} of gold and ${status.exp} of experience.` +
-            ` You explored for ${getTime(status.time)}`
+          `Got ${status.gold} of gold and ${status.exp} of experience.` +
+          ` You explored for ${getTime(status.time)}`
         );
       } catch (error) {
         // hero died in exploration
@@ -35,7 +35,7 @@ export function status(msg: Discord.Message) {
 
       msg.channel.send(
         `The hero ${hero.name} is training damage for ${getTime(trained)}.` +
-          ` You alredy got ${hero.actionStatus.exp} exp`
+        ` You alredy got ${hero.actionStatus.exp} exp`
       );
       // hero training shield
     } else if (hero.trainShieldStartedTime !== 0) {
@@ -43,12 +43,12 @@ export function status(msg: Discord.Message) {
 
       msg.channel.send(
         `The hero ${hero.name} is training shield for ${getTime(trained)}.` +
-          ` You alredy got ${hero.actionStatus.exp} exp`
+        ` You alredy got ${hero.actionStatus.exp} exp`
       );
     } else {
       msg.channel.send("You are not exploring or training.");
       return;
     }
     heroService.updateHero(hero);
-  });
+  }).catch((error) => msg.channel.send(error));
 }

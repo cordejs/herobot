@@ -1,8 +1,9 @@
 import * as Discord from "discord.js";
-import { heroService } from "../services/heroService";
+import heroService from "../services/heroService";
 import { JsonHandle } from "../utils/JsonHandle";
 import { reactionData } from "../utils/global";
 import { Equipment } from "../interfaces/equipment";
+import { Emojis } from "../enums/emojis";
 
 /**
  * Informs all available items from selected type.
@@ -51,14 +52,14 @@ export function shop(msg: Discord.Message, shopType: string) {
           });
       });
     }
-  });
+  }).catch((error) => msg.channel.send(error));
 }
 
 async function addReactions(botMessage: Discord.Message) {
-  await botMessage.react("⏪");
-  await botMessage.react("◀");
-  await botMessage.react("▶");
-  await botMessage.react("⏩");
+  await botMessage.react(Emojis.FIRST);
+  await botMessage.react(Emojis.BACK);
+  await botMessage.react(Emojis.NEXT);
+  await botMessage.react(Emojis.LAST);
 }
 
 function addRectionData(
@@ -83,9 +84,9 @@ function shieldShop(msg: Discord.Message) {
   shields.forEach(shield =>
     items.push(
       `Id: ${shield.id}\n` +
-        `Name: ${shield.name}\n` +
-        `Defence: ${shield.defence}\n` +
-        `Price: ${shield.price}\n\n`
+      `Name: ${shield.name}\n` +
+      `Defence: ${shield.defence}\n` +
+      `Price: ${shield.price}\n\n`
     )
   );
 
@@ -106,9 +107,9 @@ function weaponShop(msg: Discord.Message) {
   weapons.forEach(weapons =>
     items.push(
       `Id: ${weapons.id}\n` +
-        `Name: ${weapons.name}\n` +
-        `Damage: ${weapons.damage}\n` +
-        `Price: ${weapons.price}\n\n`
+      `Name: ${weapons.name}\n` +
+      `Damage: ${weapons.damage}\n` +
+      `Price: ${weapons.price}\n\n`
     )
   );
 

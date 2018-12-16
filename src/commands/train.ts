@@ -1,6 +1,6 @@
 import * as Discord from "discord.js";
 import { ProficienceType } from "../enums/proficienceType";
-import { heroService } from "../services/heroService";
+import heroService from "../services/heroService";
 import { getTimeStampFormated } from "../utils/time";
 
 /**
@@ -35,7 +35,7 @@ export function train(msg: Discord.Message, proficience: string) {
             );
           });
       }
-    });
+    }).catch((error) => msg.channel.send(error));
   } else {
     msg.channel.send(
       "Please, you must choose train your `damage` or your `shield`"

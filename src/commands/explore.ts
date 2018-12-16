@@ -4,8 +4,7 @@ import { Adventure } from "../interfaces/adventure";
 import * as adventures from "../../data/adventures.json";
 import { getTimeStampFormated } from "../utils/time";
 import { EXPLORATION_MAX_LEVEL } from "../utils/global";
-import { heroService } from "../services/heroService";
-
+import heroService from "../services/heroService";
 /**
  * Send user user to farm(Get gold, xp, and equips)
  * @since 1.0
@@ -32,12 +31,12 @@ export function explore(msg: Discord.Message, level: number) {
             ". Good Farmning!";
         });
       }
-    });
+    }).catch((error) => msg.channel.send(error));
   } else {
     msg.channel.send(
       "You must choose a number between 1 and " +
-        EXPLORATION_MAX_LEVEL +
-        " to send your "
+      EXPLORATION_MAX_LEVEL +
+      " to send your "
     );
   }
 }

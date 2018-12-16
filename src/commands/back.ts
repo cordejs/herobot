@@ -1,7 +1,7 @@
 import * as Discord from "discord.js";
 import { getTime } from "../utils/time";
-import { heroService } from "../services/heroService";
 import { HeroDieError } from "../errors/heroDieError";
+import heroService from "../services/heroService";
 
 /**
  * Returns hero from exploration / training
@@ -22,8 +22,8 @@ export function back(msg: Discord.Message): void {
 
         msg.channel.send(
           `You killed ${status.monstersKilled} monsters. ` +
-            `Got ${status.gold} of gold and ${status.exp} of experience.` +
-            ` You explored for ${getTime(status.time)}`
+          `Got ${status.gold} of gold and ${status.exp} of experience.` +
+          ` You explored for ${getTime(status.time)}`
         );
       } catch (error) {
         // hero died in exploration
@@ -35,5 +35,5 @@ export function back(msg: Discord.Message): void {
         "Well.. Your hero are not training or exploring. YOU HAVE TO DO SOMETHING ABOUT THIS"
       );
     }
-  });
+  }).catch((error) => msg.channel.send(error));
 }

@@ -112,7 +112,7 @@ class HeroService extends BaseEntityService<Hero> {
    */
   defendAttack(hero: Hero, monster: Monster) {
     hero.hpActual =
-    hero.hpActual -
+      hero.hpActual -
       this.calcDamageTaken(
         this.calcDamage(monster.damage),
         this.calcDefence(hero.shield.defence, hero.shieldProficience.level)
@@ -234,7 +234,7 @@ class HeroService extends BaseEntityService<Hero> {
     // MUST REFATORE (Remove the loop and make the calc based in the timeTrained)
     for (let i = 0; i <= timeTrained; i++) {
       // hero always hit the monster first
-      heroService.attackMonster(hero, monster);
+      this.attackMonster(hero, monster);
 
       if (monster.hp <= 0) {
         hero.actionStatus.exp += monster.givedXp;
@@ -244,7 +244,7 @@ class HeroService extends BaseEntityService<Hero> {
       }
 
       // Monster attacks hero
-      heroService.defendAttack(hero, monster);
+      this.defendAttack(hero, monster);
 
       // hero died in exploration, so the number of gold, exp, monsters killed and
       // death is setted in his profile.
@@ -301,4 +301,4 @@ class HeroService extends BaseEntityService<Hero> {
   }
 }
 
-export const heroService: HeroService = new HeroService();
+export default new HeroService();

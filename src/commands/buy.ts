@@ -1,7 +1,7 @@
 import * as Discord from "discord.js";
-import { heroService } from "../services/heroService";
 import { reactionData } from "../utils/global";
 import { Equipment } from "../interfaces/equipment";
+import heroService from "../services/heroService";
 
 /**
  * Buy a equip from store
@@ -61,9 +61,9 @@ export function buy(msg: Discord.Message, equipId: string): void {
         .then(() =>
           msg.channel.send(
             "Congratualitions! You now are equiping " +
-              equipToBuy.name +
-              " " +
-              equipType
+            equipToBuy.name +
+            " " +
+            equipType
           )
         )
         .catch(error => {
@@ -72,8 +72,5 @@ export function buy(msg: Discord.Message, equipId: string): void {
             "I'm so sorry in say that, but we found a when delivering your equip"
           );
         });
-    })
-    .catch(error => {
-      console.log(error);
-    });
+    }).catch((error) => msg.channel.send(error));
 }

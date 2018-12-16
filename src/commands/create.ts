@@ -1,7 +1,8 @@
 import * as Discord from "discord.js";
 import { getHeroClass } from "../utils/classHandle";
-import { heroService } from "../services/heroService";
 import { Hero } from "../models/hero";
+import { Emojis } from "../enums/emojis";
+import heroService from "../services/heroService";
 
 /**
  * Create a new user selecting a name and a class for him.
@@ -33,7 +34,7 @@ export function createHero(msg: Discord.Message) {
 
             if (heroName === undefined || heroName.trim() === "") {
               msg.channel.send(
-                "You can not create a hero without name :(. I know that you exists"
+                "You can not create a hero without name " + Emojis.SLIGHTLY_SAD + " I know that you exists"
               );
             } else {
               msg.channel
@@ -75,7 +76,7 @@ export function createHero(msg: Discord.Message) {
                       } else {
                         msg.channel.send(
                           "You said your name, but not witch class you wanna be. We can not " +
-                            "create a hero for you in that way"
+                          "create a hero for you in that way"
                         );
                       }
                     });
@@ -84,10 +85,10 @@ export function createHero(msg: Discord.Message) {
           })
           .catch(() =>
             msg.channel.send(
-              "hero creation cancelled beause you are not speaking to me :("
+              "hero creation cancelled beause you are not speaking to me anymore" + Emojis.SLIGHTLY_SAD
             )
           );
       });
     }
-  });
+  }).catch((error) => msg.channel.send(error));
 }

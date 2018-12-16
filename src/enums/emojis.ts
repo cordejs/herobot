@@ -5,11 +5,11 @@ export enum Emojis {
   /**️
    * ▶️
    */
-  NEXT = ":arrow_forward:",
+  NEXT = "▶",
   /**️
    * ◀️
    */
-  BACK = ":arrow_backward:",
+  BACK = "◀",
   /**️
    * 😀
    */
@@ -21,9 +21,17 @@ export enum Emojis {
   /**️
    * ⏪
    */
-  FIRST = ":rewind:",
+  FIRST = "⏪",
   /**️
    * ⏩
    */
-  LAST = ":fast_forward:"
+  LAST = "⏩",
+  /**
+   * 😥
+   */
+  SAD_CRYING = "😥",
+  /**
+   * 🙁
+   */
+  SLIGHTLY_SAD = "🙁"
 }

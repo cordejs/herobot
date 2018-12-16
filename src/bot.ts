@@ -1,16 +1,22 @@
 /**
+ * 
  * ❤️❤️❤️ Thanks Discord.js https://discordjs.guide ❤️❤️❤️
+ * Add bot link: https://discordapp.com/oauth2/authorize?client_id=<Bot_Client_ID>&scope=bot&permissions=0
+ * 
  */
+
+ // Set the varibles for development environment
+import { defineVariables } from "../process";
+defineVariables();
 
 import * as Discord from "discord.js";
 import * as connections from "../connection";
 import { commandHandler } from "./utils/commandHandler";
-
 import { PREFIX, reactionData } from "./utils/global";
 import { Shield } from "./interfaces/shield";
 import { Equipment } from "./interfaces/equipment";
-
 import { Weapon } from "./interfaces/weapon";
+import { Emojis } from "./enums/emojis";
 
 const client = new Discord.Client();
 
@@ -87,19 +93,19 @@ function goToFirstItem(reaction: Discord.MessageReaction, user: Discord.User) {
 
 function reactionHandle(reaction: Discord.MessageReaction, user: Discord.User) {
   switch (reaction.emoji.name) {
-    case "⏪": {
+    case Emojis.FIRST: {
       goToFirstItem(reaction, user);
       break;
     }
-    case "◀": {
+    case Emojis.BACK: {
       backOneItem(reaction, user);
       break;
     }
-    case "▶": {
+    case Emojis.NEXT: {
       fowardOneItem(reaction, user);
       break;
     }
-    case "⏩": {
+    case Emojis.LAST: {
       goToLastItem(reaction, user);
       break;
     }
@@ -126,17 +132,17 @@ function showEquipment(equip: Equipment, reaction: Discord.MessageReaction) {
   if ("defence" in equip) {
     reaction.message.edit(
       `Id: ${(equip as Shield).id}\n` +
-        `Name: ${(equip as Shield).name}\n` +
-        `Defence: ${(equip as Shield).defence}\n` +
-        `Price: ${(equip as Shield).price}\n\n`
+      `Name: ${(equip as Shield).name}\n` +
+      `Defence: ${(equip as Shield).defence}\n` +
+      `Price: ${(equip as Shield).price}\n\n`
     );
     // Equip is a weapon
   } else if ("damage" in equip) {
     reaction.message.edit(
       `Id: ${(equip as Weapon).id}\n` +
-        `Name: ${(equip as Weapon).name}\n` +
-        `Damage: ${(equip as Weapon).damage}\n` +
-        `Price: ${(equip as Weapon).price}\n\n`
+      `Name: ${(equip as Weapon).name}\n` +
+      `Damage: ${(equip as Weapon).damage}\n` +
+      `Price: ${(equip as Weapon).price}\n\n`
     );
   }
 }

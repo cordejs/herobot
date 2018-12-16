@@ -1,5 +1,5 @@
 import * as Discord from "discord.js";
-import { heroService } from "../services/heroService";
+import heroService from "../services/heroService";
 import { createHero } from "../commands/create";
 
 /**
@@ -15,7 +15,7 @@ export function reset(msg: Discord.Message) {
       msg.channel
         .send(
           "Hmmm. Looks like that you haven't a character created. Would you like to " +
-            +"create one now ?"
+          +"create one now ?"
         )
         .then(() => {
           msg.channel
@@ -64,11 +64,11 @@ export function reset(msg: Discord.Message) {
               } else {
                 msg.channel.send(
                   "I don't know if it is a yes or a not, but i gonna understand it as a no." +
-                    +" So your profile will not be reseted :)"
+                  +" So your profile will not be reseted :)"
                 );
               }
             });
         });
     }
-  });
+  }).catch((error) => msg.channel.send(error));
 }

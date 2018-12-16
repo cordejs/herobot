@@ -1,5 +1,5 @@
 import * as Discord from "discord.js";
-import { heroService } from "../services/heroService";
+import heroService from "../services/heroService";
 
 /**
  * Shows hero's total amount of life
@@ -15,5 +15,5 @@ export function hp(msg: Discord.Message) {
     } else {
       msg.reply(" You don't seems to have a hero");
     }
-  });
+  }).catch((error) => msg.channel.send(error));
 }

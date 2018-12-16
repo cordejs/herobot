@@ -4,6 +4,9 @@ import * as connections from "../../connection";
 import { Entity } from "../models/entity";
 import { Emojis } from "../enums/emojis";
 
+/**
+ * Contains all method for a CRUD of an entity
+ */
 export class BaseEntityService<T> {
   protected db: firebase.database.Database;
 
@@ -49,6 +52,9 @@ export class BaseEntityService<T> {
         return new Promise<T>(resolve => {
           resolve(snapshot.val());
         });
+      }).catch(error => {
+        console.log(error);
+        return Promise.reject<T>("I found a problem when trying to collect the information " + Emojis.SAD_CRYING + ". Try again later");
       });
   }
 
@@ -58,38 +64,14 @@ export class BaseEntityService<T> {
    * @param id  indentifier of the entity
    */
   protected delete(route: string, id: string): Promise<void> {
-    return this.db.ref(route + "/" + id).remove();
-  }
-
-  /**
-   * Removes a entity(or collection of entities) based in where they are located and a field
-   * @param route path where the entity is located
-   * @param field atribute to be used in filter
-   * @param fieldValue value of the attribute used in filter
-   */
-  protected deleteByField(
-    route: string,
-    field: string,
-    fieldValue: string
-  ): Promise<void> {
-    this.db
-      .ref(route)
-      .orderByChild(field)
-      .equalTo(fieldValue)
-      .on(
-        "child_added",
-        snapshot => {
-          return new Promise<T>(resolve => {
-            snapshot.ref.remove().then(() => resolve());
-          });
-        },
-        function (error: any) {
-          console.log(
-            "Error when attempting to remove data from firebase" + error.code
-          );
-        }
-      );
-    throw new Error("Fail when attempting to remove data from firebase");
+    return this.db.ref(route + "/" + id).remove().then(function (snapshot) {
+      return new Promise<void>(resolve => {
+        resolve(snapshot.val());
+      });
+    }).catch(error => {
+      console.log(error);
+      return Promise.reject<void>("I found a problem when trying to delete the information " + Emojis.SAD_CRYING + ". Try again later");
+    });
   }
 
   /**
@@ -101,12 +83,33 @@ export class BaseEntityService<T> {
     const id = entity.id;
     this.adjustEntity(entity);
     delete entity.id;
-    return this.db.ref(route + "/" + id).update(entity);
+
+    return this.db.ref(route + "/" + id).update(entity).then(function (snapshot) {
+      return new Promise<void>(resolve => {
+        resolve(snapshot.val());
+      });
+    }).catch(error => {
+      console.log(error);
+      return Promise.reject<void>("I found an problem when trying to update your hero's informations " + Emojis.SAD_CRYING + ". Try again later");
+    });
   }
 
+  /**
+   * Remove all actual values of an entity from database and put the actual properties of the
+   * entity of the object
+   * @param route path to set the values
+   * @param entity who will have properties changed
+   */
   protected set(route: string, entity: Entity): Promise<void> {
     delete entity.id;
-    return this.db.ref(route).set(entity);
+    return this.db.ref(route).set(entity).then(function (snapshot) {
+      return new Promise<void>(resolve => {
+        resolve(snapshot.val());
+      });
+    }).catch(error => {
+      console.log(error);
+      return Promise.reject<void>("I found an problem when trying to set your hero's informations " + Emojis.SAD_CRYING + ". Try again later");
+    });;
   }
 
   private adjustEntity(entity: Entity) {

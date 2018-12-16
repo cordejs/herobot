@@ -1,5 +1,4 @@
 import { PlayStatus } from "../interfaces/playStatus";
-import { getTime } from "../utils/time";
 
 /**
  * Treats hero death in exploration

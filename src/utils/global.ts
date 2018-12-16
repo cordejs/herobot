@@ -1,4 +1,4 @@
-import { Reaction } from "../types/reation";
+import { Reaction } from "../interfaces/reation";
 
 /**
  * Character that must be tipped by the user when desire to talk with the bot

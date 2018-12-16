@@ -1,6 +1,6 @@
 import * as Discord from "discord.js";
 import { itemType } from "../enums/itemType";
-import { Equipment } from "../interfaces/equipment";
+import { Equipment } from "./equipment";
 
 /**
  * Store the list of shields/weapons that the user is seeing to buy in "shop" command
@@ -10,7 +10,7 @@ import { Equipment } from "../interfaces/equipment";
  * @property message - information of the message sent by the bot listing the array
  * @property
  */
-export type Reaction = {
+export interface Reaction {
   userId: string;
   data: Equipment[];
   index: number;

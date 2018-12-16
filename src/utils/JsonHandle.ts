@@ -8,7 +8,7 @@ import { Shield } from "../interfaces/shield.js";
 import { Weapon } from "../interfaces/weapon.js";
 import { Adventure } from "../interfaces/adventure.js";
 import { Monster } from "../interfaces/monster.js";
-import { Level } from "../types/level.js";
+import { Level } from "../interfaces/level.js";
 
 /**
  * Class with static method for search of data in json files

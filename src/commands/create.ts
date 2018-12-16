@@ -1,8 +1,8 @@
 import * as Discord from "discord.js";
 import { getHeroClass } from "../utils/classHandle";
-import { heroService } from "../services/heroService";
 import { Hero } from "../models/hero";
 import { Emojis } from "../enums/emojis";
+import heroService from "../services/heroService";
 
 /**
  * Create a new user selecting a name and a class for him.

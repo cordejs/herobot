@@ -1,5 +1,5 @@
 import * as Discord from "discord.js";
-import { heroService } from "../services/heroService";
+import heroService from "../services/heroService";
 import { getTime } from "../utils/time";
 import { HeroDieError } from "../errors/heroDieError";
 

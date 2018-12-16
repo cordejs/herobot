@@ -1,7 +1,6 @@
 import * as Discord from "discord.js";
 import { PREFIX } from "../utils/global";
-import { heroService } from "../services/heroService";
-import { Emojis } from "../enums/emojis";
+import heroService from "../services/heroService";
 
 /**
  * Removes a user's hero

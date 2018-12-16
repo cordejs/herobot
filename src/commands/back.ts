@@ -1,8 +1,7 @@
 import * as Discord from "discord.js";
 import { getTime } from "../utils/time";
-import { heroService } from "../services/heroService";
 import { HeroDieError } from "../errors/heroDieError";
-import { Emojis } from "../enums/emojis";
+import heroService from "../services/heroService";
 
 /**
  * Returns hero from exploration / training

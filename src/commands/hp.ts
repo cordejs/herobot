@@ -1,5 +1,5 @@
 import * as Discord from "discord.js";
-import { heroService } from "../services/heroService";
+import heroService from "../services/heroService";
 
 /**
  * Shows hero's total amount of life

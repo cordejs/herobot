@@ -1,5 +1,5 @@
 import * as Discord from "discord.js";
-import { heroService } from "../services/heroService";
+import heroService from "../services/heroService";
 import { JsonHandle } from "../utils/JsonHandle";
 import { reactionData } from "../utils/global";
 import { Equipment } from "../interfaces/equipment";

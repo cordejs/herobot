@@ -1,6 +1,6 @@
 import * as Discord from "discord.js";
 import { ProficienceType } from "../enums/proficienceType";
-import { heroService } from "../services/heroService";
+import heroService from "../services/heroService";
 import { getTimeStampFormated } from "../utils/time";
 
 /**

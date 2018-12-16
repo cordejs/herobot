@@ -1,8 +1,7 @@
 import * as Discord from "discord.js";
-import { heroService } from "../services/heroService";
 import { reactionData } from "../utils/global";
 import { Equipment } from "../interfaces/equipment";
-import { Emojis } from "../enums/emojis";
+import heroService from "../services/heroService";
 
 /**
  * Buy a equip from store

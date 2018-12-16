@@ -12,7 +12,7 @@ import heroService from "../services/heroService";
 export function createHero(msg: Discord.Message) {
   // First check if the user already have an hero
   heroService.findbyUserID(msg.author.id).then(hero => {
-    if (hero !== null) {
+    if (hero !== null || hero !== undefined) {
       msg.channel.send(
         "You already have a hero created called `" + hero.name + "`"
       );
@@ -62,16 +62,10 @@ export function createHero(msg: Discord.Message) {
                               msg.author.id
                             )
                           )
-                          .then(() =>
-                            msg.channel.send("You're now a " + className)
-                          )
+                          .then(() => msg.channel.send("You're now a " + className))
                           .catch(error => {
-                            console.log(
-                              "Fail at hero creation. Error: " + error
-                            );
-                            msg.channel.send(
-                              "Wasn't possible to create your hero"
-                            );
+                            console.log("Fail at hero creation. Error: " + error);
+                            msg.channel.send("Wasn't possible to create your hero");
                           });
                       } else {
                         msg.channel.send(

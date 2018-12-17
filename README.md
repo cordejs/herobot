@@ -14,7 +14,7 @@
   <img src="https://travis-ci.org/lgmagalhaes88/HeroBot.svg?branch=master&style=flat-square" href="https://travis-ci.org/lgmagalhaes88/HeroBot">
 </p>
 
-A Discord bot to play RPG. [Click here to add HeroBot to your server](https://discordapp.com/api/oauth2/authorize?client_id=495052325258395672&permissions=8&scope=bot)
+A Discord bot to play RPG.
 
 ---
 

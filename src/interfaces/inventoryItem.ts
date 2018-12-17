@@ -1,6 +1,6 @@
 import { Item } from "./item";
 
-export interface IventoryItem {
+export interface InventoryItem {
     item: Item,
     amount?: number,
     equiped: boolean

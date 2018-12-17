@@ -7,7 +7,7 @@ import { Shield } from "../interfaces/shield";
 import { Weapon } from "../interfaces/weapon";
 import { JsonHandle } from "../utils/JsonHandle";
 import { Entity } from "./entity";
-import { IventoryItem } from "../interfaces/inventoryItem";
+import { InventoryItem } from "../interfaces/inventoryItem";
 
 export class Hero extends Entity {
   name: string;
@@ -29,7 +29,7 @@ export class Hero extends Entity {
   damageProficience: Proficience;
   shieldProficience: Proficience;
   actionStatus: PlayStatus;
-  inventory: IventoryItem[];
+  inventory: InventoryItem[];
 
   /**
    * @param name name of the player

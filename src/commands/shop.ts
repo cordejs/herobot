@@ -2,7 +2,7 @@ import * as Discord from "discord.js";
 import heroService from "../services/heroService";
 import { JsonHandle } from "../utils/JsonHandle";
 import { reactionData } from "../utils/global";
-import { Equipment } from "../interfaces/equipment";
+import { Item } from "../interfaces/item";
 import { Emojis } from "../enums/emojis";
 
 /**
@@ -63,7 +63,7 @@ async function addReactions(botMessage: Discord.Message) {
 }
 
 function addRectionData(
-  equips: Equipment[],
+  equips: Item[],
   botMessage: Discord.Message,
   userMessage: Discord.Message
 ) {

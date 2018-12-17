@@ -1,4 +1,4 @@
-export interface Equipment {
+export interface Item {
   id?: String;
   name: String;
   price: number;

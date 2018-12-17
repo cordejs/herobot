@@ -13,7 +13,7 @@ import * as connections from "../connection";
 import { commandHandler } from "./utils/commandHandler";
 import { PREFIX, reactionData } from "./utils/global";
 import { Shield } from "./interfaces/shield";
-import { Equipment } from "./interfaces/equipment";
+import { Item } from "./interfaces/item";
 import { Weapon } from "./interfaces/weapon";
 import { Emojis } from "./enums/emojis";
 
@@ -45,7 +45,7 @@ function backOneItem(reaction: Discord.MessageReaction, user: Discord.User) {
 
     const data = reactionData.data;
     const index = reactionData.index;
-    const equip: Equipment = data[index];
+    const equip: Item = data[index];
 
     showEquipment(equip, reaction);
   }
@@ -60,7 +60,7 @@ function fowardOneItem(reaction: Discord.MessageReaction, user: Discord.User) {
 
     const data = reactionData.data;
     const index = reactionData.index;
-    const equip: Equipment = data[index];
+    const equip: Item = data[index];
 
     showEquipment(equip, reaction);
   }
@@ -72,7 +72,7 @@ function goToLastItem(reaction: Discord.MessageReaction, user: Discord.User) {
 
     const data = reactionData.data;
     const index = reactionData.index;
-    const equip: Equipment = data[index];
+    const equip: Item = data[index];
 
     showEquipment(equip, reaction);
   }
@@ -84,7 +84,7 @@ function goToFirstItem(reaction: Discord.MessageReaction, user: Discord.User) {
 
     const data = reactionData.data;
     const index = reactionData.index;
-    const equip: Equipment = data[index];
+    const equip: Item = data[index];
 
     showEquipment(equip, reaction);
   }
@@ -120,13 +120,13 @@ function changeItemSelection(
 
     const data = reactionData.data;
     const index = reactionData.index;
-    const equip: Equipment = data[index];
+    const equip: Item = data[index];
 
     showEquipment(equip, reaction);
   }
 }
 
-function showEquipment(equip: Equipment, reaction: Discord.MessageReaction) {
+function showEquipment(equip: Item, reaction: Discord.MessageReaction) {
   // equip is a shield
   if ("defence" in equip) {
     reaction.message.edit(

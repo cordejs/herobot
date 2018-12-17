@@ -1,6 +1,6 @@
 import * as Discord from "discord.js";
 import { reactionData } from "../utils/global";
-import { Equipment } from "../interfaces/equipment";
+import { Item } from "../interfaces/item";
 import heroService from "../services/heroService";
 
 /**
@@ -37,7 +37,7 @@ export function buy(msg: Discord.Message, equipId: string): void {
         return;
       }
 
-      const equipToBuy: Equipment = reactionData.data.find(
+      const equipToBuy: Item = reactionData.data.find(
         equip => equip.id === equipId
       );
 
@@ -56,21 +56,18 @@ export function buy(msg: Discord.Message, equipId: string): void {
       }
 
       hero.gold -= equipToBuy.price;
-      heroService
-        .updateHero(hero)
-        .then(() =>
-          msg.channel.send(
-            "Congratualitions! You now are equiping " +
-            equipToBuy.name +
-            " " +
-            equipType
-          )
-        )
+
+      if (hero.inventory === undefined) {
+        hero.inventory = [];
+      }
+
+      hero.inventory.push({ amount: 1, equiped: false, item: equipToBuy });
+
+      heroService.updateHero(hero).then(() =>
+        msg.channel.send("Congratualitions! You now are equiping " + equipToBuy.name + " " + equipType))
         .catch(error => {
           console.error(error);
-          msg.channel.send(
-            "I'm so sorry in say that, but we found a when delivering your equip"
-          );
+          msg.channel.send("I'm so sorry in say that, but we found a when delivering your equip");
         });
     }).catch((error) => msg.channel.send(error));
 }

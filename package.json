@@ -8,7 +8,7 @@
     "discord.js": "^11.4.2",
     "dotenv": "^6.2.0",
     "event-stream": "^3.3.4",
-    "firebase": "^5.7.0",
+    "firebase": "^5.7.1",
     "firebase-tools": "^6.1.2",
     "nodemon": "1.18.8"
   },

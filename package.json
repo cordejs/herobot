@@ -9,7 +9,7 @@
     "dotenv": "^6.2.0",
     "event-stream": "^3.3.4",
     "firebase": "^5.7.0",
-    "firebase-tools": "^6.2.2",
+    "firebase-tools": "6.2.1",
     "nodemon": "1.18.8"
   },
   "devDependencies": {

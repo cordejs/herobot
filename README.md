@@ -1,5 +1,7 @@
 # HeroBot
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ff4c6e85363843db8f9531829c3a2fb7)](https://app.codacy.com/app/lucasgsm88/HeroBot?utm_source=github.com&utm_medium=referral&utm_content=lgmagalhaes88/HeroBot&utm_campaign=Badge_Grade_Dashboard)
+
 <p align="center">
   <img src="https://github.com/lgmagalhaes88/HeroBot/blob/master/docs/logo.jpg" widht="300" height="300" style="margin-bottom: 10px">
 </p>

@@ -1,13 +1,13 @@
 import * as Discord from "discord.js";
 import heroService from "../services/heroService";
-import { JsonHandle } from "../utils/JsonHandle";
+import { JsonHandle } from "../utils/jsonHandle";
 import { reactionData } from "../utils/global";
-import { Equipment } from "../interfaces/equipment";
+import { Item } from "../interfaces/item";
 import { Emojis } from "../enums/emojis";
 
 /**
  * Informs all available items from selected type.
- * @since 1.0
+@since 0.1
  * @param msg Discord last message related to the command
  * @param shopType Specify the type of shop (weapon/shield)
  */
@@ -63,7 +63,7 @@ async function addReactions(botMessage: Discord.Message) {
 }
 
 function addRectionData(
-  equips: Equipment[],
+  equips: Item[],
   botMessage: Discord.Message,
   userMessage: Discord.Message
 ) {

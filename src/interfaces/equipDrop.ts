@@ -1,6 +1,6 @@
-import { Equipment } from "./equipment";
+import { Item } from "./item";
 
 export interface EquipDrop {
-  equipment: Equipment;
+  equipment: Item;
   dropPercentage: number;
 }

@@ -1,10 +1,11 @@
 {
   "name": "herobot",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "A discord bot to play RPG",
   "main": "./src/bot.ts",
   "dependencies": {
     "@types/node": "10.12.18",
+    "cloc": "^2.4.0",
     "discord.js": "^11.4.2",
     "dotenv": "^6.2.0",
     "event-stream": "^3.3.4",
@@ -24,7 +25,8 @@
     "bot": "node build/src/bot.js",
     "build-docs": "rimraf docs && typedoc --options typedoc.json src/",
     "build:prod": "node -r build/config.js",
-    "postinstall": "tsc -p ."
+    "postinstall": "tsc -p .",
+    "count": "cloc src/"
   },
   "keywords": [
     "heroku"

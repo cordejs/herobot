@@ -5,8 +5,9 @@ import { PlayStatus } from "../interfaces/playStatus";
 import { Proficience } from "../interfaces/proficience";
 import { Shield } from "../interfaces/shield";
 import { Weapon } from "../interfaces/weapon";
-import { JsonHandle } from "../utils/JsonHandle";
+import { JsonHandle } from "../utils/jsonHandle";
 import { Entity } from "./entity";
+import { InventoryItem } from "../interfaces/inventoryItem";
 
 export class Hero extends Entity {
   name: string;
@@ -28,6 +29,7 @@ export class Hero extends Entity {
   damageProficience: Proficience;
   shieldProficience: Proficience;
   actionStatus: PlayStatus;
+  inventory: InventoryItem[];
 
   /**
    * @param name name of the player
@@ -96,6 +98,10 @@ export class Hero extends Entity {
     this.shieldProficience = shieldProficience;
     this.weapon = JsonHandle.getWeaponById(1);
     this.shield = JsonHandle.getShieldById(1);
+
+    this.inventory = [];
+    this.inventory.push({ item: this.weapon, amount: 1, equiped: true });
+    this.inventory.push({ item: this.shield, amount: 1, equiped: true });
 
     this.adventureStartedTime = 0;
     this.trainDamageStartedTime = 0;

@@ -3,7 +3,7 @@ import heroService from "../services/heroService";
 
 /**
  * Inform hero's experience
- * @since 1.0
+@since 0.1
  * @param msg Discord last message related to the command
  */
 export function xp(msg: Discord.Message) {

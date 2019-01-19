@@ -1,5 +1,5 @@
-import { Equipment } from "./equipment";
+import { Item } from "./item";
 
-export interface Weapon extends Equipment {
+export interface Weapon extends Item {
   damage: number;
 }

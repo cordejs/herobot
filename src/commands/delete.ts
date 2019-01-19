@@ -4,7 +4,7 @@ import heroService from "../services/heroService";
 
 /**
  * Removes a user's hero
- * @since 1.0
+@since 0.1
  * @param msg Discord last message related to the command
  */
 export function deletehero(msg: Discord.Message) {

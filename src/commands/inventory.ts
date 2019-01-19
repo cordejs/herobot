@@ -4,7 +4,7 @@ import { EmbedMessage } from "../interfaces/embedMessage";
 
 /**
  * Shows all items that the hero has
- * @since 1.1
+ * @since 0.2
  * @param msg Discord last message related to the command
  */
 export function inventory(msg: Discord.Message) {

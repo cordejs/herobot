@@ -17,6 +17,7 @@ import { hp } from "../commands/hp";
 import { buy } from "../commands/buy";
 import { help } from "../commands/help";
 import { inventory } from "../commands/inventory";
+import { sell } from "../commands/sell";
 
 /**
  * Receives a message, treating it and sending to the right method
@@ -45,6 +46,7 @@ export function commandHandler(msg: Discord.Message) {
   else if (command === "hp" || command === "life" || command === "h") hp(msg);
   else if (command === "help") help(msg);
   else if (command === "inventory") inventory(msg);
+  else if (command === "sell") sell(msg, args[1]);
   else {
     msg.reply(" I didn't understand what do you mean");
   }

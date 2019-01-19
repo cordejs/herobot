@@ -5,7 +5,7 @@ import heroService from "../services/heroService";
 
 /**
  * Returns hero from exploration / training
- * @since 1.0
+ * @since 0.1
  * @param msg message caller
  */
 export function back(msg: Discord.Message): void {

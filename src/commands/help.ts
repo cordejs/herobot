@@ -2,7 +2,7 @@ import * as Discord from "discord.js";
 
 /**
  * Shows hero's total amount of life
- * @since 1.0
+@since 0.1
  * @param msg Discord last message related to the command
  */
 export function help(msg: Discord.Message) {

@@ -6,7 +6,7 @@ import heroService from "../services/heroService";
 
 /**
  * Create a new user selecting a name and a class for him.
- * @since 1.0
+@since 0.1
  * @param msg Discord last message related to the command
  */
 export function createHero(msg: Discord.Message) {

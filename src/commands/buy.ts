@@ -5,7 +5,7 @@ import heroService from "../services/heroService";
 
 /**
  * Buy a equip from store
- * @since 1.0
+@since 0.1
  * @param msg message caller
  * @param equipId id of the equip that user wants to buy
  */

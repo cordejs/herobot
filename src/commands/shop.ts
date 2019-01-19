@@ -7,7 +7,7 @@ import { Emojis } from "../enums/emojis";
 
 /**
  * Informs all available items from selected type.
- * @since 1.0
+@since 0.1
  * @param msg Discord last message related to the command
  * @param shopType Specify the type of shop (weapon/shield)
  */

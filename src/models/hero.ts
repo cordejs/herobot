@@ -5,7 +5,7 @@ import { PlayStatus } from "../interfaces/playStatus";
 import { Proficience } from "../interfaces/proficience";
 import { Shield } from "../interfaces/shield";
 import { Weapon } from "../interfaces/weapon";
-import { JsonHandle } from "../utils/JsonHandle";
+import { JsonHandle } from "../utils/jsonHandle";
 import { Entity } from "./entity";
 import { InventoryItem } from "../interfaces/inventoryItem";
 

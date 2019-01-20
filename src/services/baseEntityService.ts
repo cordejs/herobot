@@ -102,9 +102,9 @@ export class BaseEntityService<T> {
    */
   protected set(route: string, entity: Entity): Promise<void> {
     delete entity.id;
-    return this.db.ref(route).set(entity).then(function (snapshot) {
+    return this.db.ref(route).set(entity).then(function () {
       return new Promise<void>(resolve => {
-        resolve(snapshot.val());
+        resolve();
       });
     }).catch(error => {
       console.log(error);

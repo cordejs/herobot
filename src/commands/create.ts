@@ -12,7 +12,7 @@ import heroService from "../services/heroService";
 export function createHero(msg: Discord.Message) {
   // First check if the user already have an hero
   heroService.findbyUserID(msg.author.id).then(hero => {
-    if (hero !== null || hero !== undefined) {
+    if (hero !== null && hero !== undefined) {
       msg.channel.send(
         "You already have a hero created called `" + hero.name + "`"
       );

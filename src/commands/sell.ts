@@ -14,7 +14,7 @@ export function sell(msg: Discord.Message, itemID: string) {
             return;
         }
         else if (itemID !== "" && itemID !== null && itemID !== undefined) {
-            let itemToSell: InventoryItem = hero.inventory.find(itemInventory => itemInventory.item.id == itemID);
+            const itemToSell: InventoryItem = hero.inventory.find(itemInventory => itemInventory.item.id == itemID);
             if (itemToSell !== undefined) {
                 msg.channel.send("Are you sure that want to sell " + itemToSell.item.name + " for $" + itemToSell.item.price + " ?")
                     .then(() => {

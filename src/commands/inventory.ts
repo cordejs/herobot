@@ -21,7 +21,7 @@ export function inventory(msg: Discord.Message) {
                 hero.inventory.push({ item: hero.shield, amount: 1, equiped: true });
             }
 
-            let messages: EmbedMessage[] = [];
+            const messages: EmbedMessage[] = [];
 
             hero.inventory.forEach(inventoryItem => {
                 messages.push({

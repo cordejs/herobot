@@ -84,9 +84,9 @@ export class BaseEntityService<T> {
     this.adjustEntity(entity);
     delete entity.id;
 
-    return this.db.ref(route + "/" + id).update(entity).then(function (snapshot) {
+    return this.db.ref(route + "/" + id).update(entity).then(function () {
       return new Promise<void>(resolve => {
-        resolve(snapshot.val());
+        resolve();
       });
     }).catch(error => {
       console.log(error);

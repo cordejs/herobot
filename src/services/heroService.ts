@@ -7,8 +7,8 @@ import { Action } from "../enums/action";
 import { Proficience } from "../interfaces/proficience";
 import { PlayStatus } from "../interfaces/playStatus";
 import { HeroDieError } from "../errors/heroDieError";
-import { JsonHandle } from "../utils/jsonHandle";
 import { randomNumber } from "../utils/random";
+import { JsonHandle } from "../utils/jsonHandle";
 
 class HeroService extends BaseEntityService<Hero> {
   private route = "/heros";

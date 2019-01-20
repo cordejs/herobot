@@ -109,7 +109,7 @@ export class BaseEntityService<T> {
     }).catch(error => {
       console.log(error);
       return Promise.reject<void>("I found an problem when trying to set your hero's informations " + Emojis.SAD_CRYING + ". Try again later");
-    });;
+    });
   }
 
   private adjustEntity(entity: Entity) {

@@ -9,7 +9,7 @@ import { EmbedMessage } from "../interfaces/embedMessage";
  */
 export function inventory(msg: Discord.Message) {
     heroService.findbyUserID(msg.author.id).then(hero => {
-        if (hero === null) {
+        if (hero !== null && hero !== undefined) {
             msg.channel.send("Create a hero before check his `status`");
             return;
         }

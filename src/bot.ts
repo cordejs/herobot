@@ -8,7 +8,7 @@
 // Set the varibles for development environment
 require("dotenv").config();
 import * as Discord from "discord.js";
-import * as connections from "../connection";
+import * as connections from "../config";
 import { commandHandler } from "./utils/commandHandler";
 import { PREFIX, reactionData } from "./utils/global";
 import { Shield } from "./interfaces/shield";

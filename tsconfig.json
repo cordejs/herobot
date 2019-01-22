@@ -1,6 +1,7 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
+    "allowJs": true,
     "module": "commonjs",
     "target": "esnext",
     "noImplicitAny": false,
@@ -16,7 +17,8 @@
   },
   "include": [
     "src/**/*",
-    "./*.ts"
+    "./*.ts",
+    "./*.js"
   ],
   "exclude": [
     "./tests/**/*.spec.ts"

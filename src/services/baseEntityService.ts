@@ -1,6 +1,6 @@
 import * as firebase from "firebase";
 import "firebase/database";
-import * as connections from "../../connection";
+import * as connections from "../../config";
 import { Entity } from "../models/entity";
 import { Emojis } from "../enums/emojis";
 

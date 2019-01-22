@@ -1,13 +1,12 @@
 /**
- * 
+ *
  * ❤️❤️❤️ Thanks Discord.js https://discordjs.guide ❤️❤️❤️
  * Add bot link: https://discordapp.com/oauth2/authorize?client_id=<Bot_Client_ID>&scope=bot&permissions=0
- * 
+ *
  */
 
 // Set the varibles for development environment
 require("dotenv").config();
-
 import * as Discord from "discord.js";
 import * as connections from "../connection";
 import { commandHandler } from "./utils/commandHandler";
@@ -183,4 +182,4 @@ client.on("messageReactionRemove", (reaction, user) => {
 });
 
 // Creates the connection with Discord using (wisping: a secret token. u.u)
-client.login(connections.SuperSecretDiscordToken.token);
+client.login(connections.superSecretDiscordToken.token);

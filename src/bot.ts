@@ -4,11 +4,8 @@
  * Add bot link: https://discordapp.com/oauth2/authorize?client_id=<Bot_Client_ID>&scope=bot&permissions=0
  *
  */
-
-// Set the varibles for development environment
-require("dotenv").config();
-import * as Discord from "discord.js";
 import * as connections from "../config";
+import * as Discord from "discord.js";
 import { commandHandler } from "./utils/commandHandler";
 import { PREFIX, reactionData } from "./utils/global";
 import { Shield } from "./interfaces/shield";

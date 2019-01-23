@@ -14,3 +14,5 @@ export const firebaseConnection = {
 export const superSecretDiscordToken = {
   token: process.env.DISCORD_TOKEN
 };
+
+export const projectVersion = require('./package.json').version;

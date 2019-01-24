@@ -55,7 +55,7 @@ export class Hero extends Entity {
       this.level++;
       this.levelMaxXp = JsonHandle.getLevelById(this.level).exp;
     }
-    this.xp = value;
+    this.xp += value;
   }
 
   /**

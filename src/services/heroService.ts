@@ -245,20 +245,29 @@ class HeroService extends BaseEntityService<Hero> {
     const nextMonsterLife = damageToMonster % monster.hp;
     const hitsToKillHero = hero.hpActual / damageToHero;
 
+    let goldEarned: number;
+    let expEarned: number;
+
     // Hero is alive
     if (heroLifeLost > 0 || hitsToKillHero > hits) {
       hero.hpActual -= heroLifeLost;
 
-      hero.updateExp(monster.givedXp * monstersKilled);
-      hero.gold += monster.givedGold * monstersKilled;
+      expEarned = monster.givedXp * monstersKilled;
+      goldEarned = monster.givedGold * monstersKilled;
+      hero.gold += goldEarned;
+
+      hero.updateExp(expEarned);
     } // Hero is dead
     else {
       monstersKilled = (damageToMonster * hitsToKillHero) / monster.hp;
-      const expEarned = monster.givedXp * monstersKilled;
-      const goldEarned = monster.givedGold * monstersKilled;
+      expEarned = monster.givedXp * monstersKilled;
+      goldEarned = monster.givedGold * monstersKilled;
 
       hero.updateExp(expEarned);
       hero.gold += goldEarned;
+
+      hero.hpActual = hero.hpTotal;
+      this.updateHero(hero);
 
       throw new HeroDieError({
         exp: expEarned,
@@ -269,7 +278,13 @@ class HeroService extends BaseEntityService<Hero> {
       });
     }
 
-    return null;
+    return {
+      exp: expEarned,
+      gold: goldEarned,
+      monstersKilled: monstersKilled,
+      time: hero.adventureStartedTime + (hitsToKillHero * 20),
+      action: Action.EXPLORING
+    };
   }
 }
 

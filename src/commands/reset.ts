@@ -5,7 +5,7 @@ import { createHero } from "../commands/create";
 /**
  * Reboot all informations about the user. Making him have the attributes values equals to someone that
  * just started the game.
-@since 0.1
+ * @since 0.1
  * @see createObjecthero() at '*../interfaces/hero*'
  * @param msg Discord last message related to the command
  */

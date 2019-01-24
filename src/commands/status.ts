@@ -5,7 +5,7 @@ import { HeroDieError } from "../errors/heroDieError";
 
 /**
  * Inform the situation of the hero in his exploration or trainning
-@since 0.1
+ * @since 0.1
  * @param msg Discord last message related to the command
  */
 export function status(msg: Discord.Message) {

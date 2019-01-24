@@ -3,7 +3,7 @@ import heroService from "../services/heroService";
 
 /**
  * Shows hero's total amount of gold
-@since 0.1
+ * @since 0.1
  * @param msg Discord last message related to the command
  */
 export function gold(msg: Discord.Message) {

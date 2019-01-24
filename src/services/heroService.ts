@@ -209,24 +209,22 @@ class HeroService extends BaseEntityService<Hero> {
     const monster = JsonHandle.getMonsterById(hero.adventure.idMonster);
     const fullMonsterHp = monster.hp;
 
-    let time;
-    if (hero.actionStatus === null) {
-      time = getTimeStampFormated() - hero.adventureStartedTime;
+    const time = getTimeStampFormated() - hero.adventureStartedTime;
 
+    if (hero.actionStatus === null) {
       hero.actionStatus = {
         action: Action.EXPLORING,
         gold: 0,
         monstersKilled: 0,
         exp: 0,
-        time: 0
+        time: time
       };
-    } else {
-      time = getTimeStampFormated() - hero.actionStatus.time;
     }
 
     // hit/20secs
     // Each value is a hit
-    const hits = Math.floor(time / 20);
+    const hitConst = 20;
+    const hits = Math.floor(time / hitConst);
 
     const damageToMonster = this.calcDamageTaken(
       this.calcDamage(hero.weapon.damage, hero.damageProficience.level),
@@ -238,53 +236,53 @@ class HeroService extends BaseEntityService<Hero> {
       this.calcDefence(hero.shield.defence, hero.shieldProficience.level)
     );
 
-    const heroLifeLost = hero.hpActual - (damageToHero * hits);
-    let monstersKilled = (damageToMonster * hits) / monster.hp;
+    const heroLifeLost = damageToHero * hits;
+    let monstersKilled = Math.floor((damageToMonster * hits) / monster.hp);
 
-    // Gets the amount of damage given to monster
-    const nextMonsterLife = damageToMonster % monster.hp;
-    const hitsToKillHero = hero.hpActual / damageToHero;
+    const hitsToKillHero = Math.floor(hero.hpTotal / damageToHero);
 
     let goldEarned: number;
     let expEarned: number;
 
     // Hero is alive
-    if (heroLifeLost > 0 || hitsToKillHero > hits) {
-      hero.hpActual -= heroLifeLost;
+    if (heroLifeLost < hero.hpTotal) {
+      hero.hpActual = hero.hpTotal - heroLifeLost;
 
       expEarned = monster.givedXp * monstersKilled;
       goldEarned = monster.givedGold * monstersKilled;
-      hero.gold += goldEarned;
 
-      hero.updateExp(expEarned);
+      hero.actionStatus.gold = goldEarned;
+      hero.actionStatus.exp = expEarned;
+      hero.actionStatus.time = time;
+      hero.actionStatus.monstersKilled = monstersKilled;
+
     } // Hero is dead
     else {
-      monstersKilled = (damageToMonster * hitsToKillHero) / monster.hp;
+      monstersKilled = Math.floor((damageToMonster * hitsToKillHero) / monster.hp);
       expEarned = monster.givedXp * monstersKilled;
       goldEarned = monster.givedGold * monstersKilled;
 
-      hero.updateExp(expEarned);
       hero.gold += goldEarned;
+      hero.monstersKilled += monstersKilled;
+      hero.updateExp(expEarned);
 
       hero.hpActual = hero.hpTotal;
+      hero.adventureStartedTime = 0;
+
+      const dieError: PlayStatus = {
+        exp: hero.actionStatus.exp + expEarned,
+        gold: hero.actionStatus.gold + goldEarned,
+        monstersKilled: hero.actionStatus.monstersKilled + monstersKilled,
+        time: time - (hitsToKillHero * hitConst),
+        action: Action.EXPLORING
+      };
+
+      hero.actionStatus = null;
       this.updateHero(hero);
 
-      throw new HeroDieError({
-        exp: expEarned,
-        gold: goldEarned,
-        monstersKilled: monstersKilled,
-        time: hero.adventureStartedTime + (hitsToKillHero * 20),
-        action: Action.EXPLORING
-      });
+      throw new HeroDieError(dieError);
     }
-
-    return {
-      exp: expEarned,
-      gold: goldEarned,
-      monstersKilled: monstersKilled,
-      time: hero.adventureStartedTime + (hitsToKillHero * 20),
-      action: Action.EXPLORING
-    };
+    return hero.actionStatus;
   }
 }
 

@@ -1,15 +1,11 @@
 /**
- * 
+ *
  * ❤️❤️❤️ Thanks Discord.js https://discordjs.guide ❤️❤️❤️
  * Add bot link: https://discordapp.com/oauth2/authorize?client_id=<Bot_Client_ID>&scope=bot&permissions=0
- * 
+ *
  */
-
-// Set the varibles for development environment
-require("dotenv").config();
-
+import * as connections from "../config";
 import * as Discord from "discord.js";
-import * as connections from "../connection";
 import { commandHandler } from "./utils/commandHandler";
 import { PREFIX, reactionData } from "./utils/global";
 import { Shield } from "./interfaces/shield";
@@ -26,7 +22,7 @@ const events = {
 
 // Tell the world that we're ready!!
 client.on("ready", () => {
-  console.log(`Ready for play! ${client.user.tag}!`);
+  console.log(`Ready for play! ${client.user.tag}! version: ${connections.projectVersion}`);
 });
 
 // Correspond to the receptor of all messages sent by the users in Discord
@@ -183,4 +179,4 @@ client.on("messageReactionRemove", (reaction, user) => {
 });
 
 // Creates the connection with Discord using (wisping: a secret token. u.u)
-client.login(connections.SuperSecretDiscordToken.token);
+client.login(connections.superSecretDiscordToken.token);

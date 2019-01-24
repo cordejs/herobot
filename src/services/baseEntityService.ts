@@ -1,6 +1,6 @@
 import * as firebase from "firebase";
 import "firebase/database";
-import * as connections from "../../connection";
+import * as connections from "../../config";
 import { Entity } from "../models/entity";
 import { Emojis } from "../enums/emojis";
 
@@ -109,7 +109,7 @@ export class BaseEntityService<T> {
     }).catch(error => {
       console.log(error);
       return Promise.reject<void>("I found an problem when trying to set your hero's informations " + Emojis.SAD_CRYING + ". Try again later");
-    });;
+    });
   }
 
   private adjustEntity(entity: Entity) {

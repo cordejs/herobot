@@ -7,8 +7,8 @@ import { Action } from "../enums/action";
 import { Proficience } from "../interfaces/proficience";
 import { PlayStatus } from "../interfaces/playStatus";
 import { HeroDieError } from "../errors/heroDieError";
-import { JsonHandle } from "../utils/jsonHandle";
 import { randomNumber } from "../utils/random";
+import { JsonHandle } from "../utils/jsonHandle";
 
 class HeroService extends BaseEntityService<Hero> {
   private route = "/heros";
@@ -185,7 +185,7 @@ class HeroService extends BaseEntityService<Hero> {
    * @throws heroDieError if the hero died in exploration
    */
   updateHeroTraining(hero: Hero): PlayStatus {
-    return this.calcheroTrainingBase(hero, false);
+    return this.calcHeroTrainingBase(hero, false);
   }
 
   /**
@@ -193,7 +193,7 @@ class HeroService extends BaseEntityService<Hero> {
    * @throws heroDieError if the hero died in exploration
    */
   finishHeroTraining(hero: Hero): PlayStatus {
-    return this.calcheroTrainingBase(hero, true);
+    return this.calcHeroTrainingBase(hero, true);
   }
 
   /**
@@ -205,97 +205,85 @@ class HeroService extends BaseEntityService<Hero> {
    * @return Result of hero exploration
    * @throws heroDieError of type PlayStatus meaning that the hero died in exploration
    */
-  private calcheroTrainingBase(
-    hero: Hero,
-    finishTraning: boolean
-  ): PlayStatus {
+  private calcHeroTrainingBase(hero: Hero, finishTraning: boolean): PlayStatus {
     const monster = JsonHandle.getMonsterById(hero.adventure.idMonster);
     const fullMonsterHp = monster.hp;
 
-    let time;
-    if (hero.actionStatus === null) {
-      time = getTimeStampFormated() - hero.adventureStartedTime;
+    const time = getTimeStampFormated() - hero.adventureStartedTime;
 
+    if (hero.actionStatus === null) {
       hero.actionStatus = {
         action: Action.EXPLORING,
         gold: 0,
         monstersKilled: 0,
         exp: 0,
-        time: 0
+        time: time
       };
-    } else {
-      time = getTimeStampFormated() - hero.actionStatus.time;
     }
 
-    // Time in minutes
-    const timeTrained = Math.floor(time / 60);
+    // hit/20secs
+    // Each value is a hit
+    const hitConst = 20;
+    const hits = Math.floor(time / hitConst);
 
-    // Each value is a second, each second is a hit.
-    // MUST REFATORE (Remove the loop and make the calc based in the timeTrained)
-    for (let i = 0; i <= timeTrained; i++) {
-      // hero always hit the monster first
-      this.attackMonster(hero, monster);
+    const damageToMonster = this.calcDamageTaken(
+      this.calcDamage(hero.weapon.damage, hero.damageProficience.level),
+      this.calcDefence(monster.shield)
+    );
 
-      if (monster.hp <= 0) {
-        hero.actionStatus.exp += monster.givedXp;
-        hero.actionStatus.gold += monster.givedGold;
-        hero.actionStatus.monstersKilled++;
-        monster.hp = fullMonsterHp;
-      }
+    const damageToHero = this.calcDamageTaken(
+      this.calcDamage(monster.damage),
+      this.calcDefence(hero.shield.defence, hero.shieldProficience.level)
+    );
 
-      // Monster attacks hero
-      this.defendAttack(hero, monster);
+    const heroLifeLost = damageToHero * hits;
+    let monstersKilled = Math.floor((damageToMonster * hits) / monster.hp);
 
-      // hero died in exploration, so the number of gold, exp, monsters killed and
-      // death is setted in his profile.
-      if (hero.hpActual <= 0) {
-        hero.deaths++;
-        hero.monstersKilled += hero.actionStatus.monstersKilled;
-        hero.gold += hero.actionStatus.gold;
-        hero.xp += hero.actionStatus.exp;
+    const hitsToKillHero = Math.floor(hero.hpTotal / damageToHero);
 
-        if (hero.xp > hero.levelMaxXp) {
-          while (hero.xp > hero.levelMaxXp) {
-            const nextLevel = JsonHandle.getLevelById(hero.level + 1);
-            hero.xp = hero.xp - hero.levelMaxXp;
-            hero.levelMaxXp = nextLevel.exp;
-            hero.level++;
-            hero.hpTotal = hero.hpActual = nextLevel.hp;
-          }
-        }
+    let goldEarned: number;
+    let expEarned: number;
 
-        hero.hpActual = hero.hpTotal;
+    // Hero is alive
+    if (heroLifeLost < hero.hpTotal) {
+      hero.hpActual = hero.hpTotal - heroLifeLost;
 
-        const status: PlayStatus = {
-          action: Action.EXPLORING,
-          exp: hero.actionStatus.exp,
-          time: hero.adventureStartedTime,
-          gold: hero.actionStatus.gold,
-          monstersKilled: hero.actionStatus.monstersKilled
-        };
+      expEarned = monster.givedXp * monstersKilled;
+      goldEarned = monster.givedGold * monstersKilled;
 
-        hero.adventureStartedTime = 0;
-        hero.actionStatus = null;
-        hero.adventure = null;
+      hero.actionStatus.gold = goldEarned;
+      hero.actionStatus.exp = expEarned;
+      hero.actionStatus.time = time;
+      hero.actionStatus.monstersKilled = monstersKilled;
 
-        this.updateHero(hero);
-        throw new HeroDieError(status);
-      }
-    } // hero didn't dead in exploration
+    } // Hero is dead
+    else {
+      monstersKilled = Math.floor((damageToMonster * hitsToKillHero) / monster.hp);
+      expEarned = monster.givedXp * monstersKilled;
+      goldEarned = monster.givedGold * monstersKilled;
 
-    hero.actionStatus.time = getTimeStampFormated();
+      hero.gold += goldEarned;
+      hero.monstersKilled += monstersKilled;
+      hero.updateExp(expEarned);
 
-    if (finishTraning) {
+      hero.hpActual = hero.hpTotal;
       hero.adventureStartedTime = 0;
+      hero.adventure = null;
+
+      const dieError: PlayStatus = {
+        exp: hero.actionStatus.exp + expEarned,
+        gold: hero.actionStatus.gold + goldEarned,
+        monstersKilled: hero.actionStatus.monstersKilled + monstersKilled,
+        time: time - (hitsToKillHero * hitConst),
+        action: Action.EXPLORING
+      };
+
       hero.actionStatus = null;
+      this.updateHero(hero);
+
+      throw new HeroDieError(dieError);
     }
-
-    this.updateHero(hero);
-
-    const statushero: PlayStatus = hero.actionStatus;
-    statushero.time = getTimeStampFormated() - hero.adventureStartedTime;
-
-    return statushero;
+    return hero.actionStatus;
   }
 }
 

@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.1.0 - 2019-01-24
+
+### Added
+
+- hello command to do #85
+- hi command #110
+- help command to do #7
+- inventory command to do #56
+
+### Bugs Fixed
+
+- Bot sends hero to exploration even when he is already explorating #119
+
 ## 0.0.3 - 2019-01-23
 
 ### Bugs Fixed

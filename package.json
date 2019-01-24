@@ -1,6 +1,6 @@
 {
   "name": "herobot",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "A discord bot to play RPG",
   "main": "./src/bot.ts",
   "dependencies": {
@@ -23,7 +23,7 @@
     "build-watch": "tsc --watch",
     "build": "tsc -p .",
     "bot": "node build/src/bot.js",
-    "build-docs": "rimraf docs && typedoc --options typedoc.json src/",
+    "build-docs": "typedoc --out ./doc",
     "build:prod": "node -r build/config.js",
     "postinstall": "tsc -p .",
     "count": "cloc src/"

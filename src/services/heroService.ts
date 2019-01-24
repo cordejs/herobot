@@ -269,7 +269,7 @@ class HeroService extends BaseEntityService<Hero> {
         const status: PlayStatus = {
           action: Action.EXPLORING,
           exp: hero.actionStatus.exp,
-          time: time,
+          time: hero.adventureStartedTime,
           gold: hero.actionStatus.gold,
           monstersKilled: hero.actionStatus.monstersKilled
         };
@@ -288,14 +288,12 @@ class HeroService extends BaseEntityService<Hero> {
     if (finishTraning) {
       hero.adventureStartedTime = 0;
       hero.actionStatus = null;
-    } else {
-      hero.actionStatus.time = getTimeStampFormated();
     }
 
     this.updateHero(hero);
 
     const statushero: PlayStatus = hero.actionStatus;
-    statushero.time = time;
+    statushero.time = getTimeStampFormated() - hero.adventureStartedTime;
 
     return statushero;
   }

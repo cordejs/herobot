@@ -268,6 +268,7 @@ class HeroService extends BaseEntityService<Hero> {
 
       hero.hpActual = hero.hpTotal;
       hero.adventureStartedTime = 0;
+      hero.adventure = null;
 
       const dieError: PlayStatus = {
         exp: hero.actionStatus.exp + expEarned,

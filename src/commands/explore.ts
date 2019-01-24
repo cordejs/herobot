@@ -3,7 +3,7 @@ import { Adventure } from "../interfaces/adventure";
 
 import * as adventures from "../../data/adventures.json";
 import { getTimeStampFormated } from "../utils/time";
-import { EXPLORATION_MAX_LEVEL } from "../utils/global";
+import { EXPLORATION_MAX_LEVEL, PREFIX } from "../utils/global";
 import heroService from "../services/heroService";
 /**
  * Send user user to farm(Get gold, xp, and equips)
@@ -23,13 +23,18 @@ export function explore(msg: Discord.Message, level: number) {
           return;
         }
 
-        hero.adventure = adv;
-        hero.adventureStartedTime = getTimeStampFormated();
+        if (hero.adventure === null) {
+          hero.adventure = adv;
+          hero.adventureStartedTime = getTimeStampFormated();
 
-        heroService.updateHero(hero).then(() => {
-          msg.channel.send("Send hero to explore " + adv.name) +
-            ". Good Farmning!";
-        });
+          heroService.updateHero(hero).then(() => {
+            msg.channel.send("Send hero to explore " + adv.name) +
+              ". Good Farmning!";
+          });
+        } else {
+          msg.channel.send("You is already exploring. Say `" + PREFIX + "status` to see how your hero is goin on");
+        }
+
       }
     }).catch((error) => msg.channel.send(error));
   } else {

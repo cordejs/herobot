@@ -1,5 +1,16 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
+
+## 0.0.3 - 2019-01-23
+
+### Bugs Fixed
+
+- status time wrong #116
+- explore don't do nothing  #115
+- create command don't do nothing #113
+- inventory command showing nothing #112
+- xp command with "undefined" values #111
 
 ## 0.0.2 - 2018-12-15
 
@@ -8,7 +19,9 @@ All notable changes to this project will be documented in this file.
 - changed prefix from **_** to **!**
 
 ## 0.0.1 - 2018-06-20
+
 ### Added
+
 - back  #14
 - buy #5
 - create
@@ -23,7 +36,8 @@ All notable changes to this project will be documented in this file.
 - train
 - xp
 
-##  Bugs Fixed:
+### Bugs Fixed
+
 - status command error #16
 - treat user's response after answer #12
 - after delete character, bot shows "NaN"  #11

@@ -1,6 +1,7 @@
 
 // Set the varibles for development environment
 require("dotenv").config();
+import * as shields from "../../data/shield.json";
 
 export const firebaseConnection = {
   apiKey: process.env.API_KEY,
@@ -14,5 +15,8 @@ export const firebaseConnection = {
 export const superSecretDiscordToken = {
   token: process.env.DISCORD_TOKEN
 };
+
+
+
 
 export const projectVersion = require('./package.json').version;

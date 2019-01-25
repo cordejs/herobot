@@ -8,10 +8,7 @@ import * as connections from "../config";
 import * as Discord from "discord.js";
 import { commandHandler } from "./utils/commandHandler";
 import { PREFIX, reactionData } from "./utils/global";
-import { Shield } from "./interfaces/shield";
-import { Item } from "./interfaces/item";
-import { Weapon } from "./interfaces/weapon";
-import { Emojis } from "./enums/emojis";
+import { reactionHandle } from "./commands/shop";
 
 const client = new Discord.Client();
 
@@ -35,113 +32,6 @@ client.on("message", async msg => {
   commandHandler(msg);
 });
 
-function backOneItem(reaction: Discord.MessageReaction, user: Discord.User) {
-  if (user.id === reactionData.userId && reactionData.index - 1 > -1) {
-    reactionData.index--;
-
-    const data = reactionData.data;
-    const index = reactionData.index;
-    const equip: Item = data[index];
-
-    showEquipment(equip, reaction);
-  }
-}
-
-function fowardOneItem(reaction: Discord.MessageReaction, user: Discord.User) {
-  if (
-    user.id === reactionData.userId &&
-    reactionData.index + 1 < reactionData.data.length
-  ) {
-    reactionData.index++;
-
-    const data = reactionData.data;
-    const index = reactionData.index;
-    const equip: Item = data[index];
-
-    showEquipment(equip, reaction);
-  }
-}
-
-function goToLastItem(reaction: Discord.MessageReaction, user: Discord.User) {
-  if (user.id === reactionData.userId) {
-    reactionData.index = reactionData.data.length - 1;
-
-    const data = reactionData.data;
-    const index = reactionData.index;
-    const equip: Item = data[index];
-
-    showEquipment(equip, reaction);
-  }
-}
-
-function goToFirstItem(reaction: Discord.MessageReaction, user: Discord.User) {
-  if (user.id === reactionData.userId) {
-    reactionData.index = 0;
-
-    const data = reactionData.data;
-    const index = reactionData.index;
-    const equip: Item = data[index];
-
-    showEquipment(equip, reaction);
-  }
-}
-
-function reactionHandle(reaction: Discord.MessageReaction, user: Discord.User) {
-  switch (reaction.emoji.name) {
-    case Emojis.FIRST: {
-      goToFirstItem(reaction, user);
-      break;
-    }
-    case Emojis.BACK: {
-      backOneItem(reaction, user);
-      break;
-    }
-    case Emojis.NEXT: {
-      fowardOneItem(reaction, user);
-      break;
-    }
-    case Emojis.LAST: {
-      goToLastItem(reaction, user);
-      break;
-    }
-  }
-}
-
-function changeItemSelection(
-  reaction: Discord.MessageReaction,
-  user: Discord.User
-) {
-  if (user.id === reactionData.userId) {
-    reactionData.index++;
-
-    const data = reactionData.data;
-    const index = reactionData.index;
-    const equip: Item = data[index];
-
-    showEquipment(equip, reaction);
-  }
-}
-
-function showEquipment(equip: Item, reaction: Discord.MessageReaction) {
-  // equip is a shield
-  if ("defence" in equip) {
-    reaction.message.edit(
-      `Id: ${(equip as Shield).id}\n` +
-      `Name: ${(equip as Shield).name}\n` +
-      `Defence: ${(equip as Shield).defence}\n` +
-      `Price: ${(equip as Shield).price}\n\n`
-    );
-    // Equip is a weapon
-  } else if ("damage" in equip) {
-    reaction.message.edit(
-      `Id: ${(equip as Weapon).id}\n` +
-      `Name: ${(equip as Weapon).name}\n` +
-      `Damage: ${(equip as Weapon).damage}\n` +
-      `Price: ${(equip as Weapon).price}\n\n`
-    );
-  }
-}
-
 /**
  * listens for all client events and returns a set amount of data.
  * Response example:
@@ -164,15 +54,23 @@ function showEquipment(equip: Item, reaction: Discord.MessageReaction) {
  */
 client.on("raw", async event => {
   // This will prevent from trying to build data that isn't relevant to that event.
-  if (!events.hasOwnProperty(event.t)) return;
-  if (reactionData.userId === null) return;
+  if (!events.hasOwnProperty(event.t)) {
+    return;
+  }
+  else if (reactionData.userId === null) {
+    return;
+  }
 });
 
+// Event that is called when user add a action of bot's message
+// this event is used by heroBot to manage the display of data
 client.on("messageReactionAdd", (reaction, user) => {
   console.log(`${user.username} reacted with "${reaction.emoji.name}".`);
   reactionHandle(reaction, user);
 });
 
+// Event that is called when user removes a action of bot's message
+// this event is used by heroBot to manage the display of data
 client.on("messageReactionRemove", (reaction, user) => {
   console.log(`${user.username} reacted with "${reaction.emoji.name}".`);
   reactionHandle(reaction, user);

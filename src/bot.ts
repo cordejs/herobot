@@ -19,7 +19,7 @@ const events = {
 
 // Tell the world that we're ready!!
 client.on("ready", () => {
-  console.log(`Ready for play! ${client.user.tag}! version: ${connections.projectVersion}`);
+  console.log(`HeroBot is ready! ${client.user.tag}! version: ${connections.projectVersion}`);
 });
 
 // Correspond to the receptor of all messages sent by the users in Discord

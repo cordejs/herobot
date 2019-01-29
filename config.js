@@ -1,4 +1,3 @@
-
 // Set the varibles for development environment
 require("dotenv").config();
 

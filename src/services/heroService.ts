@@ -10,6 +10,7 @@ import { HeroDieError } from "../errors/heroDieError";
 import { randomNumber } from "../utils/random";
 import { JsonHandle } from "../utils/jsonHandle";
 
+/** @internal */
 class HeroService extends BaseEntityService<Hero> {
   private route = "/heros";
 
@@ -287,4 +288,5 @@ class HeroService extends BaseEntityService<Hero> {
   }
 }
 
-export default new HeroService();
+const heroService = new HeroService();
+export default heroService;

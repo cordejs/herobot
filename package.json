@@ -26,7 +26,8 @@
     "build-docs": "typedoc --out ./doc",
     "build:prod": "node -r build/config.js",
     "postinstall": "tsc -p .",
-    "count": "cloc src/"
+    "count": "cloc src/",
+    "install-hooks": "symlinks.sh"
   },
   "keywords": [
     "heroku"

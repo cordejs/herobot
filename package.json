@@ -33,7 +33,8 @@
     "postinstall": "tsc -p .",
     "count": "cloc src/",
     "start": "ts-node src/index.ts",
-    "ignore-reset": "ignore.sh"
+    "ignore-reset": "ignore.sh",
+    "commit": "commit.sh"
   },
   "keywords": [
     "heroku"

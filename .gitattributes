@@ -27,7 +27,8 @@
 *.tab text
 *.tsv text
 
-*.sh  eol=lf
+*.sh linguist-language=shell
+*.js linguist-language=javascript
 
 # Graphics
 *.png binary

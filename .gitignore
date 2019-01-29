@@ -1,9 +1,6 @@
-# build folder
-build/
+.idea/
+.vscode/
 node_modules/
-ts-built/
-
-# Documentation
-devdoc/
-.env
-process.ts
+build/
+tmp/
+temp/

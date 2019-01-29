@@ -5,14 +5,13 @@
 *.html   text
 *.json   text
 *.md     text
-*.sh     text
 *.txt    text
 *.xml    text
 *.yaml   text
 
 # Make sure that these Windows files always have CRLF line endings in checkout
-*.bat    text eol=crlf
-*.js      text eol=crlf
+*.sh    text eol=lf
+*.js    text eol=lf
 
 # Never perform LF normalization on these files
 *.ico    binary

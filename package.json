@@ -32,7 +32,8 @@
     "build:prod": "node -r build/config.js",
     "postinstall": "tsc -p .",
     "count": "cloc src/",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "ignore-reset": "ignore.sh"
   },
   "keywords": [
     "heroku"

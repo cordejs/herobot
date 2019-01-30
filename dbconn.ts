@@ -41,13 +41,7 @@ export function connect(): Promise<void> {
     }
   }).then(connection => {
     dbConnection = connection;
-    console.log("> Connected to " + connection.options.database +
-      "\n > Entities: " + connection.options.entities +
-      "\n > Connection: " + connection.options.name +
-      "\n > database Type: " + connection.options.type +
-      "\n > Logging: " + connection.options.logger +
-      "\n > Database Size: " + connection.options.database.length +
-      "\n\n");
+    console.log("> Connected to " + connection.options.database);
     return Promise.resolve();
   }).catch(error => {
     console.log(error);

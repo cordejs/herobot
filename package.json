@@ -35,7 +35,8 @@
     "install-hooks": "symlinks.sh",
     "start": "ts-node src/index.ts",
     "ignore-reset": "ignore.sh",
-    "commit": "commit.sh"
+    "commit": "commit.sh",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "keywords": [
     "heroku"

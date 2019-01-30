@@ -36,7 +36,10 @@
     "start": "ts-node src/index.ts",
     "ignore-reset": "ignore.sh",
     "commit": "commit.sh",
-    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "migrations-run": "typeorm migration:run",
+    "migration-revert": "typeorm migration:revert",
+    "migration-create": "typeorm migration:create -n migration"
   },
   "keywords": [
     "heroku"

@@ -9,6 +9,7 @@
     "sourceMap": true,
     "outDir": "build",
     "declaration": false,
+    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,

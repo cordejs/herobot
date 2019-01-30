@@ -1,16 +1,16 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Migration2019012901 implements MigrationInterface {
+export class Migration1548891232589 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.query("DROP TABLE IF EXISTS hero; " +
-            "DROP TABLE IF EXISTS item;" +
-            "DROP TABLE IF EXISTS adventure;" +
+        await queryRunner.query("DROP TABLE IF EXISTS adventure; " +
             "DROP TABLE IF EXISTS monster;" +
             "DROP TABLE IF EXISTS playstatus;" +
+            "DROP TABLE IF EXISTS inventory_item;" +
+            "DROP TABLE IF EXISTS hero;" +
             "DROP TABLE IF EXISTS weapon;" +
             "DROP TABLE IF EXISTS shield;" +
-            "DROP TABLE IF EXISTS inventory_item;" +
+            "DROP TABLE IF EXISTS item;" +
             "DROP TABLE IF EXISTS proficience;" +
             "DROP TABLE IF EXISTS play_status;" +
 

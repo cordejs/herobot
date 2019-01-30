@@ -20,28 +20,31 @@ export function connect(): Promise<void> {
     username: "postgres",
     password: "123",
     database: "botdb",
-    synchronize: false,
+    synchronize: true,
     logging: log,
     maxQueryExecutionTime: 20000,
-    migrationsRun: true,
     logger: "advanced-console",
     entities: [
-      "src/entity/**/*.ts"
+      "./build/src/entity/**/*.js"
     ],
     migrations: [
-      "src/migration/**/*.ts"
+      "./build/src/migration/**.js"
     ],
     subscribers: [
-      "src/subscriber/**/*.ts"
+      "./build/src/subscriber/**/*.js"
     ],
     cli: {
-      "entitiesDir": "src/entity",
-      "migrationsDir": "src/migration",
-      "subscribersDir": "src/subscriber"
+      "migrationsDir": "./src/migration"
     }
   }).then(connection => {
     dbConnection = connection;
     console.log("> Connected to " + connection.options.database);
+    console.log("Running migrations...");
+
+    connection.runMigrations().then(migrations => {
+      console.log("Finished migrations");
+    });
+
     return Promise.resolve();
   }).catch(error => {
     console.log(error);

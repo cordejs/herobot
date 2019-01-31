@@ -32,7 +32,7 @@
     "bot": "node build/src/bot.js",
     "build-docs": "typedoc --out ./doc",
     "build:prod": "node -r build/config.js",
-    "postinstall": "postInstall.sh",
+    "postinstall": "tsc -p .",
     "count": "cloc src/",
     "install-hooks": "symlinks.sh",
     "start": "ts-node src/index.ts",

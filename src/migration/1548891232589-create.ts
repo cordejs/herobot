@@ -26,7 +26,7 @@ export class Migration1548891232589 implements MigrationInterface {
             "    name CHARACTER(30) NOT NULL," +
             "    level INTEGER NOT NULL," +
             "    damage INTEGER NOT NULL," +
-            "            hp INTEGER NOT NULL," +
+            "    hp INTEGER NOT NULL," +
             "    shield INTEGER NOT NULL," +
             "    givedxp INTEGER NOT NULL," +
             "    givedgold INTEGER NOT NULL" +

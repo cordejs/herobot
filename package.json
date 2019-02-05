@@ -21,8 +21,10 @@
     "karma": "^4.0.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^2.0.1",
+    "prettier": "1.16.4",
     "ts-node": "^8.0.2",
     "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.2.4",
     "typings": "^2.1.1"
   },
@@ -41,7 +43,8 @@
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migrations-run": "typeorm migration:run",
     "migration-revert": "typeorm migration:revert",
-    "migration-create": "typeorm migration:create -n migration"
+    "migration-create": "typeorm migration:create -n migration",
+    "prettier-watch": "onchange '**/*.js' -- prettier --write {{changed}}"
   },
   "keywords": [
     "heroku"

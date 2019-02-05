@@ -55,6 +55,7 @@
     "no-trailing-whitespace": true,
     "no-null-keyword": false,
     "prefer-const": true,
-    "jsdoc-format": true
+    "jsdoc-format": true,
+    "extends": ["tslint:latest", "tslint-config-prettier"]
   }
 }

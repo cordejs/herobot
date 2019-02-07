@@ -38,13 +38,14 @@
     "count": "cloc src/",
     "install-hooks": "symlinks.sh",
     "start": "ts-node src/index.ts",
-    "ignore-reset": "ignore.sh",
+    "ignore-reset": "bash ignore.sh",
     "commit": "commit.sh",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migrations-run": "typeorm migration:run",
     "migration-revert": "typeorm migration:revert",
     "migration-create": "typeorm migration:create -n migration",
-    "prettier-watch": "onchange '**/*.js' -- prettier --write {{changed}}"
+    "prettier-watch": "onchange '**/*.js' -- prettier --write {{changed}}",
+    "release": "bash release.sh"
   },
   "keywords": [
     "heroku"

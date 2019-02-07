@@ -1,5 +1,3 @@
-import * as firebase from "firebase";
-import "firebase/database";
 import * as connections from "../../config";
 import { Entity } from "../models/entity";
 import { Emojis } from "../enums/emojis";
@@ -8,7 +6,7 @@ import { Emojis } from "../enums/emojis";
  * Contains all method for a CRUD of an entity
  */
 export class BaseEntityService<T> {
-  protected db: firebase.database.Database;
+  protected db;
 
   constructor() {}
 

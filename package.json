@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@types/node": "^10.12.20",
+    "husky": "^1.3.1",
     "jasmine-core": "^3.3.0",
     "karma": "^4.0.0",
     "karma-chrome-launcher": "^2.2.0",
@@ -45,7 +46,8 @@
     "migration-revert": "typeorm migration:revert",
     "migration-create": "typeorm migration:create -n migration",
     "prettier-watch": "onchange '**/*.js' -- prettier --write {{changed}}",
-    "release": "bash release.sh"
+    "release": "bash release.sh",
+    "tslint-check": "tslint-config-prettier-check ./tslint.json"
   },
   "keywords": [
     "heroku"

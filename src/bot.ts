@@ -9,6 +9,7 @@ import * as Discord from "discord.js";
 import { commandHandler } from "./utils/commandHandler";
 import { PREFIX, reactionData } from "./utils/global";
 import { reactionHandle } from "./commands/shop";
+import { dbConnection, connect } from "../dbconn";
 
 const client = new Discord.Client();
 
@@ -76,5 +77,8 @@ client.on("messageReactionRemove", (reaction, user) => {
   reactionHandle(reaction, user);
 });
 
-// Creates the connection with Discord using (wisping: a secret token. u.u)
-client.login(connections.superSecretDiscordToken.token);
+connect().then(() => {
+  // Creates the connection with Discord using (wisping: a secret token. u.u)
+  client.login(connections.superSecretDiscordToken.token);
+});
+

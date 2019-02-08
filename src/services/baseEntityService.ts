@@ -10,10 +10,7 @@ import { Emojis } from "../enums/emojis";
 export class BaseEntityService<T> {
   protected db: firebase.database.Database;
 
-  constructor() {
-    const app = firebase.initializeApp(connections.firebaseConnection);
-    this.db = app.database();
-  }
+  constructor() {}
 
   /**
    * Save a entity into database based in the informed route

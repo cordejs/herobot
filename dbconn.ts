@@ -1,10 +1,14 @@
 import { createConnection, Connection } from "typeorm";
+import * as conn from "./config";
 
 /**
  * Responsable for all database functions
  */
 export let dbConnection: Connection;
 
+/**
+ * Creates connection to database
+ */
 export function connect(): Promise<void> {
   let log: boolean = true;
 
@@ -13,13 +17,14 @@ export function connect(): Promise<void> {
     log = false;
   }
 
+  console.log(conn.dbConfig.username);
   return createConnection({
     type: "postgres",
-    host: "localhost",
-    port: 5432,
-    username: "postgres",
-    password: "123",
-    database: "botdb",
+    host: conn.dbConfig.host,
+    port: Number.parseInt(conn.dbConfig.port),
+    username: conn.dbConfig.username,
+    password: conn.dbConfig.password,
+    database: conn.dbConfig.database,
     synchronize: true,
     logging: log,
     maxQueryExecutionTime: 20000,

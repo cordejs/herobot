@@ -20,7 +20,11 @@ const events = {
 
 // Tell the world that we're ready!!
 client.on("ready", () => {
-  console.log(`HeroBot is ready! ${client.user.tag}! version: ${connections.projectVersion}`);
+  console.log(
+    `HeroBot is ready! ${client.user.tag}! version: ${
+      connections.projectVersion
+    }`
+  );
 });
 
 // Correspond to the receptor of all messages sent by the users in Discord
@@ -57,8 +61,7 @@ client.on("raw", async event => {
   // This will prevent from trying to build data that isn't relevant to that event.
   if (!events.hasOwnProperty(event.t)) {
     return;
-  }
-  else if (reactionData.userId === null) {
+  } else if (reactionData.userId === null) {
     return;
   }
 });
@@ -77,8 +80,12 @@ client.on("messageReactionRemove", (reaction, user) => {
   reactionHandle(reaction, user);
 });
 
-connect().then(() => {
-  // Creates the connection with Discord using (wisping: a secret token. u.u)
-  client.login(connections.superSecretDiscordToken.token);
-});
-
+connect()
+  .then(() => {
+    // Creates the connection with Discord using (wisping: a secret token. u.u)
+    client.login(connections.superSecretDiscordToken.token);
+  })
+  .catch(error => {
+    console.error("Unable to connect database");
+    console.error(error);
+  });

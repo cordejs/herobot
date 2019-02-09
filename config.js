@@ -1,17 +1,16 @@
 // Set the varibles for development environment
 require("dotenv").config();
 
-export const firebaseConnection = {
-  apiKey: process.env.API_KEY,
-  authDomain: process.env.AUTH_DOMAIN,
-  databaseURL: process.env.DATABASE_URL,
-  projectId: process.env.PROJECT_ID,
-  storageBucket: process.env.STORAGE_BUCKET,
-  messagingSenderId: process.env.MENSSAGING_SENDER_ID
-};
-
 export const superSecretDiscordToken = {
   token: process.env.DISCORD_TOKEN
 };
 
-export const projectVersion = require('./package.json').version;
+export const dbConfig = {
+  host: process.env.HOST,
+  port: process.env.PORT,
+  username: process.env.USER,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE
+};
+
+export const projectVersion = require("./package.json").version;

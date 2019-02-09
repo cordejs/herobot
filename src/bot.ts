@@ -21,7 +21,7 @@ const events = {
 // Tell the world that we're ready!!
 client.on("ready", () => {
   console.log(
-    `HeroBot is ready! ${client.user.tag}! version: ${
+    `HeroBot is ready! ${client.user.tag} version: ${
       connections.projectVersion
     }`
   );

@@ -49,11 +49,6 @@
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "pretty-quick": "pretty-quick"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
   "keywords": [
     "heroku"
   ],

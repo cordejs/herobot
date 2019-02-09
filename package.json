@@ -8,12 +8,8 @@
     "cloc": "^2.4.0",
     "discord.js": "^11.4.2",
     "dotenv": "^6.2.0",
-    "event-stream": "^4.0.1",
-    "nodemon": "1.18.10",
-    "cloc": "^2.4.0",
-    "discord.js": "^11.4.2",
-    "dotenv": "^6.2.0",
     "event-stream": "4.0.1",
+    "nodemon": "1.18.10",
     "pg": "^7.8.0",
     "reflect-metadata": "^0.1.10",
     "typeorm": "0.2.12"

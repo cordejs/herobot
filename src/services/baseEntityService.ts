@@ -1,5 +1,3 @@
-import * as firebase from "firebase";
-import "firebase/database";
 import * as connections from "../../config";
 import { Entity } from "../models/entity";
 import { Emojis } from "../enums/emojis";
@@ -8,7 +6,7 @@ import { Emojis } from "../enums/emojis";
  * Contains all method for a CRUD of an entity
  */
 export class BaseEntityService<T> {
-  protected db: firebase.database.Database;
+  protected db;
 
   constructor() {}
 
@@ -31,13 +29,18 @@ export class BaseEntityService<T> {
     return this.db
       .ref(route + "/" + key)
       .once("value")
-      .then(function (snapshot) {
+      .then(function(snapshot) {
         return new Promise<T>(resolve => {
           resolve(snapshot.val());
         });
-      }).catch(error => {
+      })
+      .catch(error => {
         console.log(error);
-        return Promise.reject<T>("I found an problem trying to load your hero informations " + Emojis.SAD_CRYING + ". Try again later");
+        return Promise.reject<T>(
+          "I found an problem trying to load your hero informations " +
+            Emojis.SAD_CRYING +
+            ". Try again later"
+        );
       });
   }
 
@@ -45,13 +48,18 @@ export class BaseEntityService<T> {
     return this.db
       .ref(route + "/")
       .once("value")
-      .then(function (snapshot) {
+      .then(function(snapshot) {
         return new Promise<T>(resolve => {
           resolve(snapshot.val());
         });
-      }).catch(error => {
+      })
+      .catch(error => {
         console.log(error);
-        return Promise.reject<T>("I found a problem when trying to collect the information " + Emojis.SAD_CRYING + ". Try again later");
+        return Promise.reject<T>(
+          "I found a problem when trying to collect the information " +
+            Emojis.SAD_CRYING +
+            ". Try again later"
+        );
       });
   }
 
@@ -61,14 +69,22 @@ export class BaseEntityService<T> {
    * @param id  indentifier of the entity
    */
   protected delete(route: string, id: string): Promise<void> {
-    return this.db.ref(route + "/" + id).remove().then(function (snapshot) {
-      return new Promise<void>(resolve => {
-        resolve(snapshot.val());
+    return this.db
+      .ref(route + "/" + id)
+      .remove()
+      .then(function(snapshot) {
+        return new Promise<void>(resolve => {
+          resolve(snapshot.val());
+        });
+      })
+      .catch(error => {
+        console.log(error);
+        return Promise.reject<void>(
+          "I found a problem when trying to delete the information " +
+            Emojis.SAD_CRYING +
+            ". Try again later"
+        );
       });
-    }).catch(error => {
-      console.log(error);
-      return Promise.reject<void>("I found a problem when trying to delete the information " + Emojis.SAD_CRYING + ". Try again later");
-    });
   }
 
   /**
@@ -81,14 +97,22 @@ export class BaseEntityService<T> {
     this.adjustEntity(entity);
     delete entity.id;
 
-    return this.db.ref(route + "/" + id).update(entity).then(function () {
-      return new Promise<void>(resolve => {
-        resolve();
+    return this.db
+      .ref(route + "/" + id)
+      .update(entity)
+      .then(function() {
+        return new Promise<void>(resolve => {
+          resolve();
+        });
+      })
+      .catch(error => {
+        console.log(error);
+        return Promise.reject<void>(
+          "I found an problem when trying to update your hero's informations " +
+            Emojis.SAD_CRYING +
+            ". Try again later"
+        );
       });
-    }).catch(error => {
-      console.log(error);
-      return Promise.reject<void>("I found an problem when trying to update your hero's informations " + Emojis.SAD_CRYING + ". Try again later");
-    });
   }
 
   /**
@@ -99,14 +123,22 @@ export class BaseEntityService<T> {
    */
   protected set(route: string, entity: Entity): Promise<void> {
     delete entity.id;
-    return this.db.ref(route).set(entity).then(function () {
-      return new Promise<void>(resolve => {
-        resolve();
+    return this.db
+      .ref(route)
+      .set(entity)
+      .then(function() {
+        return new Promise<void>(resolve => {
+          resolve();
+        });
+      })
+      .catch(error => {
+        console.log(error);
+        return Promise.reject<void>(
+          "I found an problem when trying to set your hero's informations " +
+            Emojis.SAD_CRYING +
+            ". Try again later"
+        );
       });
-    }).catch(error => {
-      console.log(error);
-      return Promise.reject<void>("I found an problem when trying to set your hero's informations " + Emojis.SAD_CRYING + ". Try again later");
-    });
   }
 
   private adjustEntity(entity: Entity) {

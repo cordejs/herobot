@@ -16,12 +16,6 @@
     "removeComments": true,
     "preserveConstEnums": true
   },
-  "include": [
-    "src/**/*",
-    "./*.ts",
-    "./*.js"
-  ],
-  "exclude": [
-    "./tests/**/*.spec.ts"
-  ],
+  "include": ["src/**/*", "./*.ts", "./*.js"],
+  "exclude": ["./tests/**/*.spec.ts"]
 }

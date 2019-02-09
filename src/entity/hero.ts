@@ -9,48 +9,47 @@ import { InventoryItem } from "../interfaces/inventoryItem";
 
 @Entity()
 export class Hero {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column()
+  name: string;
 
-    @Column()
-    name: string;
+  @Column()
+  level: number;
 
-    @Column()
-    level: number;
+  @Column()
+  hpTotal: number;
 
-    @Column()
-    hpTotal: number;
+  @Column()
+  hpActual: number;
 
-    @Column()
-    hpActual: number;
+  @Column()
+  xp: number;
 
-    @Column()
-    xp: number;
+  @Column()
+  levelMaxXp: number;
 
-    @Column()
-    levelMaxXp: number;
+  @Column()
+  heroClass: HeroClass;
 
-    @Column()
-    heroClass: HeroClass;
+  @Column()
+  gold: number;
 
-    @Column()
-    gold: number;
+  @Column()
+  deaths: number;
 
-    @Column()
-    deaths: number;
+  @Column()
+  monstersKilled: number;
 
-    @Column()
-    monstersKilled: number;
-
-    shield: Shield;
-    weapon: Weapon;
-    adventure: Adventure;
-    adventureStartedTime: number;
-    trainDamageStartedTime: number;
-    trainShieldStartedTime: number;
-    damageProficience: Proficience;
-    shieldProficience: Proficience;
-    actionStatus: PlayStatus;
-    inventory: InventoryItem[];
+  shield: Shield;
+  weapon: Weapon;
+  adventure: Adventure;
+  adventureStartedTime: number;
+  trainDamageStartedTime: number;
+  trainShieldStartedTime: number;
+  damageProficience: Proficience;
+  shieldProficience: Proficience;
+  actionStatus: PlayStatus;
+  inventory: InventoryItem[];
 }

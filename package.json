@@ -47,7 +47,8 @@
     "migration-create": "typeorm migration:create -n migration",
     "prettier-watch": "onchange '**/*.js' -- prettier --write {{changed}}",
     "release": "bash release.sh",
-    "tslint-check": "tslint-config-prettier-check ./tslint.json"
+    "tslint-check": "tslint-config-prettier-check ./tslint.json",
+    "pretty-quick": "pretty-quick"
   },
   "keywords": [
     "heroku"

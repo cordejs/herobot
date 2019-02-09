@@ -24,30 +24,26 @@ export function connect(): Promise<void> {
     logging: log,
     maxQueryExecutionTime: 20000,
     logger: "advanced-console",
-    entities: [
-      "./build/src/entity/**/*.js"
-    ],
-    migrations: [
-      "./build/src/migration/**.js"
-    ],
-    subscribers: [
-      "./build/src/subscriber/**/*.js"
-    ],
+    entities: ["./build/src/entity/**/*.js"],
+    migrations: ["./build/src/migration/**.js"],
+    subscribers: ["./build/src/subscriber/**/*.js"],
     cli: {
-      "migrationsDir": "./src/migration"
+      migrationsDir: "./src/migration"
     }
-  }).then(connection => {
-    dbConnection = connection;
-    console.log("> Connected to " + connection.options.database);
-    console.log("Running migrations...");
+  })
+    .then(connection => {
+      dbConnection = connection;
+      console.log("> Connected to " + connection.options.database);
+      console.log("Running migrations...");
 
-    connection.runMigrations().then(migrations => {
-      console.log("Finished migrations");
+      connection.runMigrations().then(migrations => {
+        console.log("Finished migrations");
+      });
+
+      return Promise.resolve();
+    })
+    .catch(error => {
+      console.log(error);
+      return Promise.reject();
     });
-
-    return Promise.resolve();
-  }).catch(error => {
-    console.log(error);
-    return Promise.reject();
-  });
 }

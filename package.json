@@ -11,7 +11,7 @@
     "event-stream": "^4.0.1",
     "firebase": "5.8.1",
     "firebase-tools": "^6.3.0",
-    "nodemon": "1.18.9",
+    "nodemon": "1.18.10",
     "pg": "^7.8.0",
     "reflect-metadata": "^0.1.10",
     "typeorm": "0.2.12",

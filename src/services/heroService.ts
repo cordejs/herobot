@@ -18,7 +18,8 @@ class HeroService extends BaseEntityService<Hero> {
   }
 
   findbyUserID(id: string): Promise<Hero> {
-    return super.find(id);
+    //return super.find(id);
+    return null;
   }
 
   remove(id: number): Promise<void> {

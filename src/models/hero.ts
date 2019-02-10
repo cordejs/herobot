@@ -1,13 +1,13 @@
 import { HeroClass } from "../enums/heroclass";
 import { ProficienceType } from "../enums/proficienceType";
 import { Adventure } from "../interfaces/adventure";
-import { PlayStatus } from "../interfaces/playStatus";
 import { Proficience } from "../interfaces/proficience";
 import { Shield } from "../interfaces/shield";
 import { Weapon } from "../interfaces/weapon";
 import { JsonHandle } from "../utils/jsonHandle";
 import { Entity } from "./entity";
 import { InventoryItem } from "../interfaces/inventoryItem";
+import { IPlayStatus } from "../interfaces/playStatus";
 
 export class Hero extends Entity {
   name: string;
@@ -28,7 +28,7 @@ export class Hero extends Entity {
   trainShieldStartedTime: number;
   damageProficience: Proficience;
   shieldProficience: Proficience;
-  actionStatus: PlayStatus;
+  actionStatus: IPlayStatus;
   inventory: InventoryItem[];
 
   /**

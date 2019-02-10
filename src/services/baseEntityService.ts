@@ -1,22 +1,29 @@
-import * as connections from "../../config";
-import { Entity } from "../models/entity";
-import { Emojis } from "../enums/emojis";
+import { BaseEntity, Connection } from "typeorm";
+import { dbConnection } from "../../dbconn";
 
 /**
  * Contains all method for a CRUD of an entity
  */
-export class BaseEntityService<T> {
-  protected db;
+export class BaseEntityService<T extends BaseEntity> {
+  protected db: Connection;
 
-  constructor() {}
+  constructor() {
+    this.db = dbConnection;
+  }
 
   /**
    * Save a entity into database based in the informed route
    * @param object
    * @param route
    */
-  protected create(route: string, object: T): void {
-    this.db.ref(route).push(object);
+  protected save(entity: T): Promise<T> {
+    return entity
+      .save()
+      .then(entity => Promise.resolve(entity))
+      .catch(error => {
+        console.error("Fail in entity save" + error);
+        return Promise.reject(error);
+      });
   }
 
   /**
@@ -25,42 +32,13 @@ export class BaseEntityService<T> {
    * @param route path where the group of data is located
    * @param key identifier of the data
    */
-  protected find(route: string, key: string): Promise<T> {
-    return this.db
-      .ref(route + "/" + key)
-      .once("value")
-      .then(function(snapshot) {
-        return new Promise<T>(resolve => {
-          resolve(snapshot.val());
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        return Promise.reject<T>(
-          "I found an problem trying to load your hero informations " +
-            Emojis.SAD_CRYING +
-            ". Try again later"
-        );
-      });
+  protected find(id: number, type: new () => T): Promise<T> {
+    return this.db.manager.findOne<T>(type, id);
   }
 
-  protected findAll(route: string): Promise<T> {
-    return this.db
-      .ref(route + "/")
-      .once("value")
-      .then(function(snapshot) {
-        return new Promise<T>(resolve => {
-          resolve(snapshot.val());
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        return Promise.reject<T>(
-          "I found a problem when trying to collect the information " +
-            Emojis.SAD_CRYING +
-            ". Try again later"
-        );
-      });
+  protected findAll(): Promise<T[]> {
+    let entity: new () => T;
+    return this.db.getRepository(entity).find();
   }
 
   /**
@@ -68,87 +46,25 @@ export class BaseEntityService<T> {
    * @param route path where the entity is located
    * @param id  indentifier of the entity
    */
-  protected delete(route: string, id: string): Promise<void> {
-    return this.db
-      .ref(route + "/" + id)
+  protected delete(entity: T): Promise<void> {
+    return entity
       .remove()
-      .then(function(snapshot) {
-        return new Promise<void>(resolve => {
-          resolve(snapshot.val());
-        });
-      })
+      .then(() => Promise.resolve())
       .catch(error => {
-        console.log(error);
-        return Promise.reject<void>(
-          "I found a problem when trying to delete the information " +
-            Emojis.SAD_CRYING +
-            ". Try again later"
-        );
+        console.error("can not remove entity:" + error);
+        return Promise.reject(error);
       });
   }
 
-  /**
-   * Replace all informations of a entity will new values
-   * @param route path where the entity is located
-   * @param entity object that will be removed
-   */
-  protected update(route: string, entity: Entity): Promise<void> {
-    const id = entity.id;
-    this.adjustEntity(entity);
-    delete entity.id;
-
+  protected deleteById(id: number): Promise<void> {
+    let entity: new () => T;
     return this.db
-      .ref(route + "/" + id)
-      .update(entity)
-      .then(function() {
-        return new Promise<void>(resolve => {
-          resolve();
-        });
-      })
+      .getRepository(entity)
+      .delete(id)
+      .then(() => Promise.resolve())
       .catch(error => {
-        console.log(error);
-        return Promise.reject<void>(
-          "I found an problem when trying to update your hero's informations " +
-            Emojis.SAD_CRYING +
-            ". Try again later"
-        );
+        console.error(error);
+        return Promise.reject(error);
       });
-  }
-
-  /**
-   * Remove all actual values of an entity from database and put the actual properties of the
-   * entity of the object
-   * @param route path to set the values
-   * @param entity who will have properties changed
-   */
-  protected set(route: string, entity: Entity): Promise<void> {
-    delete entity.id;
-    return this.db
-      .ref(route)
-      .set(entity)
-      .then(function() {
-        return new Promise<void>(resolve => {
-          resolve();
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        return Promise.reject<void>(
-          "I found an problem when trying to set your hero's informations " +
-            Emojis.SAD_CRYING +
-            ". Try again later"
-        );
-      });
-  }
-
-  private adjustEntity(entity: Entity) {
-    Object.getOwnPropertyNames(entity).forEach(proper => {
-      Object.defineProperty(
-        entity,
-        proper.replace("_", ""),
-        Object.getOwnPropertyDescriptor(entity, proper)
-      );
-      delete Object(entity)["_" + proper];
-    });
   }
 }

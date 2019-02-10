@@ -1,43 +1,32 @@
 import { BaseEntityService } from "./baseEntityService";
-import { Hero } from "../models/hero";
 import { Monster } from "../interfaces/monster";
 import { getTimeStampFormated } from "../utils/time";
 import { ProficienceType } from "../enums/proficienceType";
-import { Action } from "../enums/action";
-import { Proficience } from "../interfaces/proficience";
-import { PlayStatus } from "../interfaces/playStatus";
+import { Action, Task } from "../enums/action";
 import { HeroDieError } from "../errors/heroDieError";
 import { randomNumber } from "../utils/random";
 import { JsonHandle } from "../utils/jsonHandle";
+import { Hero } from "../entity/hero";
+import { Proficience } from "../entity/proficience";
+import { PlayStatus } from "../entity/playStatus";
+import { IPlayStatus } from "../interfaces/playStatus";
 
 /** @internal */
 class HeroService extends BaseEntityService<Hero> {
-  private route = "/heros";
-
-  createhero(hero: Hero): Promise<void> {
-    return super.set(this.route + "/" + hero.id, hero);
+  createhero(hero: Hero): Promise<Hero> {
+    return super.save(hero);
   }
 
   findbyUserID(id: string): Promise<Hero> {
-    return super.find(this.route, id).then(hero => {
-      return new Promise<Hero>(resolve => {
-        let heroGet: Hero;
-        heroGet = hero;
-        if (hero !== null) {
-          heroGet = Object.assign(new Hero(), hero);
-          heroGet.id = id;
-        }
-        resolve(heroGet);
-      });
-    });
+    return super.find(id);
   }
 
-  remove(id: string): Promise<void> {
-    return super.delete(this.route, id);
+  remove(id: number): Promise<void> {
+    return super.deleteById(id);
   }
 
-  updateHero(hero: Hero) {
-    return super.update(this.route, hero);
+  updateHero(hero: Hero): Promise<Hero> {
+    return super.save(hero);
   }
 
   /**
@@ -56,12 +45,12 @@ class HeroService extends BaseEntityService<Hero> {
   /**
    * Return the total amount of defence
    */
-  heroDefence(hero: Hero): number {
+  async heroDefence(hero: Hero): Promise<number> {
     if (hero !== undefined) {
-      return this.calcDefence(
-        hero.shield.defence,
-        hero.shieldProficience.level
-      );
+      const defenceProficience = await hero.defenceProficience;
+      const shield = await hero.shield;
+
+      return this.calcDefence(shield.defence, defenceProficience.level);
     }
   }
 
@@ -95,12 +84,15 @@ class HeroService extends BaseEntityService<Hero> {
    * @param hero who will atack the monster
    * @param monster the monster that will be attacked
    */
-  attackMonster(hero: Hero, monster: Monster) {
+  async attackMonster(hero: Hero, monster: Monster): Promise<void> {
     if (hero !== undefined && monster !== undefined) {
+      const weapon = await hero.weapon;
+      const damageProficience = await hero.damageProficiente;
+
       monster.hp =
         monster.hp -
         this.calcDamageTaken(
-          this.calcDamage(hero.weapon.damage, hero.damageProficience.level),
+          this.calcDamage(weapon.damage, damageProficience.level),
           this.calcDefence(monster.shield)
         );
     }
@@ -111,13 +103,18 @@ class HeroService extends BaseEntityService<Hero> {
    * @param hero who will defend monster attack
    * @param monster monster who will atack hero
    */
-  defendAttack(hero: Hero, monster: Monster) {
-    hero.hpActual =
-      hero.hpActual -
-      this.calcDamageTaken(
-        this.calcDamage(monster.damage),
-        this.calcDefence(hero.shield.defence, hero.shieldProficience.level)
-      );
+  async defendAttack(hero: Hero, monster: Monster): Promise<void> {
+    if (hero !== undefined && monster !== undefined) {
+      const shield = await hero.shield;
+      const defenceProficience = await hero.defenceProficience;
+
+      hero.hpActual =
+        hero.hpActual -
+        this.calcDamageTaken(
+          this.calcDamage(monster.damage),
+          this.calcDefence(shield.defence, defenceProficience.level)
+        );
+    }
   }
 
   /**
@@ -128,42 +125,25 @@ class HeroService extends BaseEntityService<Hero> {
    * @example 1min = 5~20 exp points
    * @param hero Who will have the proficience points calculated
    */
-  upgradeProficience(hero: Hero) {
-    let proficience: Proficience;
+  async upgradeProficience(hero: Hero) {
+    if (hero === undefined) return;
 
-    if (hero.trainDamageStartedTime !== undefined) {
-      proficience = hero.damageProficience;
-    } else if (hero.trainShieldStartedTime !== undefined) {
-      proficience = hero.shieldProficience;
+    let proficience: Proficience;
+    const heroStatus = await hero.playStatus;
+
+    if (heroStatus.task === Task.DAMAGE_TRAINING) {
+      proficience = await hero.damageProficiente;
+    } else if (heroStatus.task === Task.SHIELD_TRAINING) {
+      proficience = await hero.defenceProficience;
     } else {
       return;
     }
 
-    let timeTrained;
+    const timeTrained = getTimeStampFormated() - heroStatus.timestarted;
+    heroStatus.exp = this.generateExpTotal(timeTrained);
 
-    if (hero.actionStatus === undefined) {
-      timeTrained = getTimeStampFormated() - hero.trainShieldStartedTime;
-
-      hero.actionStatus = {
-        action: Action.SHIELD_TRAINING,
-        exp: 0,
-        time: getTimeStampFormated()
-      };
-
-      if (proficience.type === ProficienceType.DAMAGE) {
-        hero.actionStatus.action = Action.DAMAGE_TRAINING;
-      }
-      // If the user alredy invoked the command "status"
-    } else {
-      timeTrained = getTimeStampFormated() - hero.actionStatus.time;
-    }
-
-    const exp = this.generateExpTotal(timeTrained);
-
-    hero.actionStatus.exp += exp;
-    hero.actionStatus.time = getTimeStampFormated();
-
-    return getTimeStampFormated() - hero.trainShieldStartedTime;
+    heroStatus.save();
+    return getTimeStampFormated() - heroStatus.timestarted;
   }
 
   /**
@@ -185,7 +165,7 @@ class HeroService extends BaseEntityService<Hero> {
    * Updated playstatus.time with the actual timestamp and calcs user training bounties
    * @throws heroDieError if the hero died in exploration
    */
-  updateHeroTraining(hero: Hero): PlayStatus {
+  updateHeroTraining(hero: Hero): Promise<IPlayStatus> {
     return this.calcHeroTrainingBase(hero, false);
   }
 
@@ -193,7 +173,7 @@ class HeroService extends BaseEntityService<Hero> {
    * Set the adventureStarted time with undefined and calcs user training bounties
    * @throws heroDieError if the hero died in exploration
    */
-  finishHeroTraining(hero: Hero): PlayStatus {
+  finishHeroTraining(hero: Hero): Promise<IPlayStatus> {
     return this.calcHeroTrainingBase(hero, true);
   }
 
@@ -206,21 +186,16 @@ class HeroService extends BaseEntityService<Hero> {
    * @return Result of hero exploration
    * @throws heroDieError of type PlayStatus meaning that the hero died in exploration
    */
-  private calcHeroTrainingBase(hero: Hero, finishTraning: boolean): PlayStatus {
-    const monster = JsonHandle.getMonsterById(hero.adventure.idMonster);
-    const fullMonsterHp = monster.hp;
+  private async calcHeroTrainingBase(
+    hero: Hero,
+    finishTraning: boolean
+  ): Promise<IPlayStatus> {
+    const playstatus = await hero.playStatus;
+    const adventure = await playstatus.adventure;
+    const monster = await adventure.monster;
+    const weapon = await hero.weapon;
 
-    const time = getTimeStampFormated() - hero.adventureStartedTime;
-
-    if (hero.actionStatus === null) {
-      hero.actionStatus = {
-        action: Action.EXPLORING,
-        gold: 0,
-        monstersKilled: 0,
-        exp: 0,
-        time: time
-      };
-    }
+    const time = getTimeStampFormated() - playstatus.timestarted;
 
     // hit/20secs
     // Each value is a hit
@@ -228,13 +203,16 @@ class HeroService extends BaseEntityService<Hero> {
     const hits = Math.floor(time / hitConst);
 
     const damageToMonster = this.calcDamageTaken(
-      this.calcDamage(hero.weapon.damage, hero.damageProficience.level),
-      this.calcDefence(monster.shield)
+      this.calcDamage(weapon.damage, (await hero.damageProficiente).level),
+      this.calcDefence(monster.defence)
     );
 
     const damageToHero = this.calcDamageTaken(
       this.calcDamage(monster.damage),
-      this.calcDefence(hero.shield.defence, hero.shieldProficience.level)
+      this.calcDefence(
+        (await hero.shield).defence,
+        (await hero.defenceProficience).level
+      )
     );
 
     const heroLifeLost = damageToHero * hits;
@@ -249,42 +227,47 @@ class HeroService extends BaseEntityService<Hero> {
     if (heroLifeLost < hero.hpTotal) {
       hero.hpActual = hero.hpTotal - heroLifeLost;
 
-      expEarned = monster.givedXp * monstersKilled;
-      goldEarned = monster.givedGold * monstersKilled;
+      expEarned = monster.givedxp * monstersKilled;
+      goldEarned = monster.givedgold * monstersKilled;
 
-      hero.actionStatus.gold = goldEarned;
-      hero.actionStatus.exp = expEarned;
-      hero.actionStatus.time = time;
-      hero.actionStatus.monstersKilled = monstersKilled;
-
+      playstatus.gold = goldEarned;
+      playstatus.exp = expEarned;
+      playstatus.timestarted = time;
+      playstatus.monsterskilled = monstersKilled;
     } // Hero is dead
     else {
-      monstersKilled = Math.floor((damageToMonster * hitsToKillHero) / monster.hp);
-      expEarned = monster.givedXp * monstersKilled;
-      goldEarned = monster.givedGold * monstersKilled;
+      monstersKilled = Math.floor(
+        (damageToMonster * hitsToKillHero) / monster.hp
+      );
+      expEarned = monster.givedxp * monstersKilled;
+      goldEarned = monster.givedgold * monstersKilled;
 
       hero.gold += goldEarned;
       hero.monstersKilled += monstersKilled;
       hero.updateExp(expEarned);
 
       hero.hpActual = hero.hpTotal;
-      hero.adventureStartedTime = 0;
-      hero.adventure = null;
 
-      const dieError: PlayStatus = {
-        exp: hero.actionStatus.exp + expEarned,
-        gold: hero.actionStatus.gold + goldEarned,
-        monstersKilled: hero.actionStatus.monstersKilled + monstersKilled,
-        time: time - (hitsToKillHero * hitConst),
-        action: Action.EXPLORING
+      const dieError: IPlayStatus = {
+        exp: playstatus.exp + expEarned,
+        gold: playstatus.gold + goldEarned,
+        monsterskilled: playstatus.monsterskilled + monstersKilled,
+        timestarted: time - hitsToKillHero * hitConst,
+        task: playstatus.task
       };
 
-      hero.actionStatus = null;
+      hero.playStatus = null;
       this.updateHero(hero);
 
       throw new HeroDieError(dieError);
     }
-    return hero.actionStatus;
+    return {
+      exp: playstatus.exp,
+      gold: playstatus.gold,
+      monsterskilled: playstatus.monsterskilled,
+      timestarted: playstatus.timestarted,
+      task: playstatus.task
+    };
   }
 }
 

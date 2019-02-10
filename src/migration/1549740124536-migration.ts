@@ -77,16 +77,18 @@ export class Migration1549740124536 implements MigrationInterface {
     });
 
     await queryRunner.hasTable("bag").then(exists => {
-      if (!exists) {
-        queryRunner.query(
-          "CREATE TABLE bag (" +
-            "    id SERIAL PRIMARY KEY," +
-            "    idHero SERIAL NOT NULL," +
-            "    idEquip SERIAL NOT NULL," +
-            "    FOREIGN KEY(idHero) REFERENCES Hero(id)," +
-            "    FOREIGN KEY(idEquip) REFERENCES Equip(id)" +
-            ");"
-        );
+      if (exists) {
+        queryRunner.query("DROP TABLE bag CASCADE").then(() => {
+          queryRunner.query(
+            "CREATE TABLE inventory_item (" +
+              "    id SERIAL PRIMARY KEY," +
+              "    idHero SERIAL NOT NULL," +
+              "    idEquip SERIAL NOT NULL," +
+              "    FOREIGN KEY(idHero) REFERENCES Hero(id)," +
+              "    FOREIGN KEY(idEquip) REFERENCES Equip(id)" +
+              ");"
+          );
+        });
       }
     });
 

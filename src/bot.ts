@@ -86,6 +86,7 @@ connect()
     client.login(connections.superSecretDiscordToken.token);
   })
   .catch(error => {
-    console.error("Unable to connect database");
-    console.error(error);
+    if (error) {
+      console.error(error);
+    }
   });

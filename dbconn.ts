@@ -41,14 +41,34 @@ export function connect(): Promise<void> {
       console.log("> Connected to " + connection.options.database);
       console.log("Running migrations...");
 
-      connection.runMigrations().then(migrations => {
-        console.log("Finished migrations");
-      });
+      return connection
+        .runMigrations()
+        .then(migrations => {
+          if (migrations) {
+            const failMigrations = migrations
+              .filter(migration => migration.id === undefined)
+              .map(migration => migration.name);
 
-      return Promise.resolve();
+            if (failMigrations && failMigrations.length > 0) {
+              console.error("\n Migrations errors: " + failMigrations);
+              return Promise.reject();
+            }
+
+            console.log(migrations.map(migration => migration.name));
+          }
+
+          console.log("Finished migrations");
+          return Promise.resolve();
+        })
+        .catch(() => {
+          return Promise.reject();
+        });
     })
     .catch(error => {
-      console.log(error);
+      if (error) {
+        console.log(error);
+      }
+
       return Promise.reject();
     });
 }

@@ -3,16 +3,16 @@ import { MigrationInterface, QueryRunner } from "typeorm";
 export class Migration1548891232589 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.query(
-      "DROP TABLE IF EXISTS adventure; " +
-        "DROP TABLE IF EXISTS monster;" +
-        "DROP TABLE IF EXISTS playstatus;" +
-        "DROP TABLE IF EXISTS inventory_item;" +
-        "DROP TABLE IF EXISTS hero;" +
-        "DROP TABLE IF EXISTS weapon;" +
-        "DROP TABLE IF EXISTS shield;" +
-        "DROP TABLE IF EXISTS item;" +
-        "DROP TABLE IF EXISTS proficience;" +
-        "DROP TABLE IF EXISTS play_status;" +
+      "DROP TABLE IF EXISTS adventure CASCADE; " +
+        "DROP TABLE IF EXISTS monster CASCADE;" +
+        "DROP TABLE IF EXISTS playstatus CASCADE;" +
+        "DROP TABLE IF EXISTS inventory_item CASCADE;" +
+        "DROP TABLE IF EXISTS hero CASCADE;" +
+        "DROP TABLE IF EXISTS weapon CASCADE;" +
+        "DROP TABLE IF EXISTS shield CASCADE;" +
+        "DROP TABLE IF EXISTS item CASCADE;" +
+        "DROP TABLE IF EXISTS proficience CASCADE;" +
+        "DROP TABLE IF EXISTS play_status CASCADE;" +
         "CREATE TABLE proficience (" +
         "   id SERIAL PRIMARY KEY," +
         "    level INTEGER NOT NULL," +

@@ -5,9 +5,9 @@ export class Migration1548895699089 implements MigrationInterface {
     await queryRunner.renameColumn("monster", "shield", "defence");
     await queryRunner.renameColumn("play_status", "action", "task");
 
-    await queryRunner.hasTable("item_iventory").then(exists => {
+    await queryRunner.hasTable("inventory_item").then(exists => {
       if (exists) {
-        queryRunner.dropTable("item_inventory");
+        queryRunner.query("DROP TABLE inventory_item CASCADE");
       }
     });
   }

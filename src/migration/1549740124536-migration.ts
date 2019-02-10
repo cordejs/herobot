@@ -46,11 +46,12 @@ export class Migration1549740124536 implements MigrationInterface {
       }
     });
 
-    await queryRunner.hasTable("Shield").then(exists => {
+    await queryRunner.hasTable("shield").then(exists => {
       if (exists) {
-        queryRunner.dropTable("Shield").then(() => {
+        queryRunner.query("DROP TABLE shield CASCADE").then(() => {
           queryRunner.query(
-            "CREATE TABLE Shield (" +
+            "CREATE TABLE shield (" +
+              "    id SERIAL PRIMARY KEY," +
               "    idEquip SERIAL," +
               "    defence INTEGER NOT NULL," +
               "    FOREIGN KEY(idEquip) REFERENCES Equip(id)" +
@@ -60,11 +61,12 @@ export class Migration1549740124536 implements MigrationInterface {
       }
     });
 
-    await queryRunner.hasTable("Weapon").then(exists => {
+    await queryRunner.hasTable("weapon").then(exists => {
       if (exists) {
-        queryRunner.dropTable("Weapon").then(() => {
+        queryRunner.query("DROP TABLE weapon CASCADE").then(() => {
           queryRunner.query(
-            "CREATE TABLE Weapon (" +
+            "CREATE TABLE weapon (" +
+              "    id SERIAL PRIMARY KEY," +
               "    idEquip SERIAL," +
               "    damage INTEGER NOT NULL," +
               "    FOREIGN KEY(idEquip) REFERENCES Equip(id)" +

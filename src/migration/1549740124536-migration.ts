@@ -105,19 +105,16 @@ export class Migration1549740124536 implements MigrationInterface {
       }
     });
 
-    await queryRunner.hasColumn("hero", "heroClass").then(exists => {
+    await queryRunner.hasColumn("hero", "heroclass").then(exists => {
       if (exists) {
-        queryRunner.dropColumn("hero", "heroClass").then(() => {
-          queryRunner
-            .query("ALTER TABLE hero ADD idHeroClass SERIAL")
-            .then(() => {
-              queryRunner.query(
-                "ALTER TABLE hero ADD CONSTRAINT " +
-                  " fk_heroClass FOREIGN KEY (idHeroClass) REFERENCES HeroClass(id)"
-              );
-            });
-        });
+        queryRunner.dropColumn("hero", "heroclass");
       }
+      queryRunner.query("ALTER TABLE hero ADD idHeroClass SERIAL").then(() => {
+        queryRunner.query(
+          "ALTER TABLE hero ADD CONSTRAINT " +
+            " fk_heroClass FOREIGN KEY (idHeroClass) REFERENCES HeroClass(id)"
+        );
+      });
     });
   }
 

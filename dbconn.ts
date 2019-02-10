@@ -17,6 +17,12 @@ export function connect(): Promise<void> {
     log = false;
   }
 
+  /**
+   * synchronize — Indicates if database schema should be auto created on every application launch.
+   * Be careful with this option and don’t use this in production — otherwise you can lose production data.
+   * This option is useful during debug and development.
+   */
+
   console.log(conn.dbConfig.username);
   return createConnection({
     type: "postgres",
@@ -25,7 +31,8 @@ export function connect(): Promise<void> {
     username: conn.dbConfig.username,
     password: conn.dbConfig.password,
     database: conn.dbConfig.database,
-    synchronize: true,
+    synchronize: false,
+    migrationsRun: true,
     logging: log,
     maxQueryExecutionTime: 20000,
     logger: "advanced-console",
@@ -54,7 +61,13 @@ export function connect(): Promise<void> {
               return Promise.reject();
             }
 
-            console.log(migrations.map(migration => migration.name));
+            console.log("Finished migrations");
+
+            if (migrations.length > 0) {
+              console.log(migrations.map(migration => migration.name));
+            }
+
+            return Promise.resolve();
           }
 
           console.log("Finished migrations");

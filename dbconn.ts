@@ -20,37 +20,30 @@ export function connect(): Promise<void> {
     username: "postgres",
     password: "123",
     database: "botdb",
-    synchronize: false,
+    synchronize: true,
     logging: log,
     maxQueryExecutionTime: 20000,
-    migrationsRun: true,
     logger: "advanced-console",
-    entities: [
-      "src/entity/**/*.ts"
-    ],
-    migrations: [
-      "src/migration/**/*.ts"
-    ],
-    subscribers: [
-      "src/subscriber/**/*.ts"
-    ],
+    entities: ["./build/src/entity/**/*.js"],
+    migrations: ["./build/src/migration/**.js"],
+    subscribers: ["./build/src/subscriber/**/*.js"],
     cli: {
-      "entitiesDir": "src/entity",
-      "migrationsDir": "src/migration",
-      "subscribersDir": "src/subscriber"
+      migrationsDir: "./src/migration"
     }
-  }).then(connection => {
-    dbConnection = connection;
-    console.log("> Connected to " + connection.options.database +
-      "\n > Entities: " + connection.options.entities +
-      "\n > Connection: " + connection.options.name +
-      "\n > database Type: " + connection.options.type +
-      "\n > Logging: " + connection.options.logger +
-      "\n > Database Size: " + connection.options.database.length +
-      "\n\n");
-    return Promise.resolve();
-  }).catch(error => {
-    console.log(error);
-    return Promise.reject();
-  });
+  })
+    .then(connection => {
+      dbConnection = connection;
+      console.log("> Connected to " + connection.options.database);
+      console.log("Running migrations...");
+
+      connection.runMigrations().then(migrations => {
+        console.log("Finished migrations");
+      });
+
+      return Promise.resolve();
+    })
+    .catch(error => {
+      console.log(error);
+      return Promise.reject();
+    });
 }

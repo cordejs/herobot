@@ -1,7 +1,7 @@
 # HeroBot
 
 <p align="center">
-  <img src="https://github.com/lgmagalhaes88/HeroBot/blob/master/docs/logo.jpg" widht="300" height="300" style="margin-bottom: 10px">
+  <img src="https://github.com/lgmagalhaes88/HeroBot/blob/master/assets/logo.jpg" widht="300" height="300" style="margin-bottom: 10px">
 </p>
 
 <p align="center">

@@ -1,5 +1,5 @@
-//import * as firebase from "firebase";
-//import "firebase/database";
+// import * as firebase from "firebase";
+// import "firebase/database";
 import * as connections from "../../config";
 import { Entity } from "../models/entity";
 import { Emojis } from "../enums/emojis";
@@ -8,11 +8,12 @@ import { Emojis } from "../enums/emojis";
  * @deprecated
  * Contains all method for a CRUD of an entity
  */
-export class BaseEntityService<T> {
-  protected db: firebase.database.Database;
+export class FbBaseEntityService<T> {
+  // protected db: firebase.database.Database;
+  protected db = null;
 
   constructor() {
-    //const app = firebase.initializeApp(connections.firebaseConnection);
+    // const app = firebase.initializeApp(connections.firebaseConnection);
     this.db = null;
   }
 

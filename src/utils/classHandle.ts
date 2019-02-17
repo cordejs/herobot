@@ -5,8 +5,8 @@ import { ClassName } from "../enums/className";
  * @param className string name of a class
  */
 export function getHeroClass(className: string): ClassName {
-  if (className.trim().toUpperCase() === ClassName.HUNTER.toUpperCase())
-    return ClassName.HUNTER;
+  if (className.trim().toUpperCase() === ClassName.ARCHER.toUpperCase())
+    return ClassName.ARCHER;
   else if (className.trim().toUpperCase() === ClassName.MAGE.toUpperCase())
     return ClassName.MAGE;
   else if (className.trim().toUpperCase() === ClassName.THIEF.toUpperCase())

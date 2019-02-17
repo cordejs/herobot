@@ -20,12 +20,12 @@ export async function hp(msg: Discord.Message) {
   try {
     const hero = await heroRepository.findbyId(msg.author.id);
 
-    if (hero !== null) {
+    if (hero) {
       msg.channel.send(
         "Your current hp is " + hero.hpActual + " / " + hero.hpTotal
       );
     } else {
-      msg.reply(" You don't seems to have a hero");
+      msg.reply("You don't seems to have a hero");
     }
   } catch (error) {
     msg.channel.send(error);

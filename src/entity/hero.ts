@@ -1,14 +1,11 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   OneToOne,
   JoinColumn,
-  BaseEntity,
-  ManyToMany,
-  OneToMany,
   ManyToOne,
-  PrimaryColumn
+  PrimaryColumn,
+  ManyToMany
 } from "typeorm";
 import { Weapon } from "./weapon";
 import { PlayStatus } from "./playStatus";
@@ -17,10 +14,11 @@ import { HeroClass } from "./heroClass";
 import { Shield } from "./shield";
 import { InventoryItem } from "./inventory_item";
 import { JsonHandle } from "../utils/jsonHandle";
+import { getProficienceRepository } from "../services/proficienceRepository";
 
 @Entity()
-export class Hero extends BaseEntity {
-  @PrimaryColumn()
+export class Hero {
+  @PrimaryColumn({ type: "bigint" })
   id: number;
 
   @Column()
@@ -29,16 +27,16 @@ export class Hero extends BaseEntity {
   @Column()
   level: number;
 
-  @Column()
+  @Column("integer", { name: "hptotal" })
   hpTotal: number;
 
-  @Column()
+  @Column("integer", { name: "hpactual" })
   hpActual: number;
 
   @Column()
   xp: number;
 
-  @Column()
+  @Column("integer", { name: "levelmaxxp" })
   levelMaxXp: number;
 
   @Column()
@@ -47,35 +45,34 @@ export class Hero extends BaseEntity {
   @Column()
   deaths: number;
 
-  @Column()
+  @Column("varchar", { name: "monsterskilled" })
   monstersKilled: number;
 
-  @JoinColumn()
+  @JoinColumn({ name: "idshield" })
   @OneToOne(type => Shield)
   shield: Promise<Shield>;
 
-  @JoinColumn()
+  @JoinColumn({ name: "idweapon" })
   @OneToOne(type => Weapon)
   weapon: Promise<Weapon>;
 
-  @JoinColumn()
+  @JoinColumn({ name: "idplaystatus" })
   @OneToOne(type => PlayStatus)
   playStatus: Promise<PlayStatus>;
 
-  @JoinColumn()
+  @JoinColumn({ name: "iddamageproficience" })
   @OneToOne(type => Proficience)
-  damageProficiente: Promise<Proficience>;
+  damageProficience: Promise<Proficience>;
 
-  @JoinColumn()
+  @JoinColumn({ name: "iddefenceproficience" })
   @OneToOne(type => Proficience)
   defenceProficience: Promise<Proficience>;
 
-  @JoinColumn()
+  @JoinColumn({ name: "idheroclass" })
   @OneToOne(type => HeroClass)
   heroClass: Promise<HeroClass>;
 
-  @JoinColumn()
-  @ManyToOne(type => InventoryItem)
+  @ManyToMany(type => InventoryItem)
   inventoryItens: Promise<InventoryItem[]>;
 
   /**
@@ -85,7 +82,6 @@ export class Hero extends BaseEntity {
    * @constructor
    */
   constructor(name?: string, heroclass?: HeroClass, userID?: number) {
-    super();
     this.init(name, heroclass, userID);
   }
 
@@ -114,19 +110,21 @@ export class Hero extends BaseEntity {
    */
   private async init(name?: string, heroclass?: HeroClass, userID?: number) {
     const proficienceLevel = JsonHandle.getProficienceById(1);
+    const proficienceRepository = getProficienceRepository();
 
     const damageProficience = new Proficience();
     damageProficience.level = 1;
     damageProficience.levelmaxxp = proficienceLevel.exp;
 
-    await damageProficience.save();
-    this.damageProficiente = Promise.resolve(damageProficience);
+    await damageProficience;
+    this.damageProficience = Promise.resolve(damageProficience);
 
     const defenceProficience = new Proficience();
     damageProficience.level = 1;
     damageProficience.levelmaxxp = proficienceLevel.exp;
 
-    await defenceProficience.save();
+    await proficienceRepository.create(defenceProficience);
+
     this.defenceProficience = Promise.resolve(defenceProficience);
 
     if (userID !== undefined) this.id = userID;
@@ -146,9 +144,9 @@ export class Hero extends BaseEntity {
     this.monstersKilled = 0;
     this.hpActual = 100;
 
-    //this.weapon = Promise.resolve(JsonHandle.getWeaponById(1));
-    //this.shield = Promise.resolve(JsonHandle.getShieldById(1));
+    // this.weapon = Promise.resolve(JsonHandle.getWeaponById(1));
+    // this.shield = Promise.resolve(JsonHandle.getShieldById(1));
 
-    //this.inventoryItens = Promise.resolve([this.weapon, this.shield]);
+    // this.inventoryItens = Promise.resolve([this.weapon, this.shield]);
   }
 }

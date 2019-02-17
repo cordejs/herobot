@@ -8,7 +8,7 @@ import {
 import { Hero } from "./hero";
 import { Equip } from "./equip";
 
-@Entity()
+@Entity("inventory_item")
 export class InventoryItem extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;

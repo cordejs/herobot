@@ -12,11 +12,16 @@ import { EntityRepository, Repository } from "typeorm";
 @EntityRepository(Hero)
 export class HeroRepository extends Repository<Hero> {
   async createhero(hero: Hero): Promise<Hero> {
-    return super.save(hero);
+    try {
+      return super.save(hero);
+    } catch (error) {
+      console.error(error);
+      return Promise.reject(error);
+    }
   }
 
   async findbyId(id: string): Promise<Hero> {
-    return super.findOne(Number.parseInt(id));
+    return super.findOne(id);
   }
 
   updateHero(hero: Hero): Promise<Hero> {
@@ -94,7 +99,7 @@ export class HeroRepository extends Repository<Hero> {
   async attackMonster(hero: Hero, monster: Monster): Promise<void> {
     if (hero !== undefined && monster !== undefined) {
       const weapon = await hero.weapon;
-      const damageProficience = await hero.damageProficiente;
+      const damageProficience = await hero.damageProficience;
 
       monster.hp =
         monster.hp -
@@ -139,7 +144,7 @@ export class HeroRepository extends Repository<Hero> {
     const heroStatus = await hero.playStatus;
 
     if (heroStatus.task === Task.DAMAGE_TRAINING) {
-      proficience = await hero.damageProficiente;
+      proficience = await hero.damageProficience;
     } else if (heroStatus.task === Task.SHIELD_TRAINING) {
       proficience = await hero.defenceProficience;
     } else {
@@ -210,7 +215,7 @@ export class HeroRepository extends Repository<Hero> {
     const hits = Math.floor(time / hitConst);
 
     const damageToMonster = this.calcDamageTaken(
-      this.calcDamage(weapon.damage, (await hero.damageProficiente).level),
+      this.calcDamage(weapon.damage, (await hero.damageProficience).level),
       this.calcDefence(monster.defence)
     );
 

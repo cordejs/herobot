@@ -1,20 +1,17 @@
 import { Monster } from "../interfaces/monster";
 import { getTimeStampFormated } from "../utils/time";
-import { ProficienceType } from "../enums/proficienceType";
-import { Action, Task } from "../enums/action";
+import { Task } from "../enums/action";
 import { HeroDieError } from "../errors/heroDieError";
 import { randomNumber } from "../utils/random";
-import { JsonHandle } from "../utils/jsonHandle";
 import { Hero } from "../entity/hero";
 import { Proficience } from "../entity/proficience";
-import { PlayStatus } from "../entity/playStatus";
 import { IPlayStatus } from "../interfaces/playStatus";
 import { EntityRepository, Repository } from "typeorm";
 
 /** @internal */
 @EntityRepository(Hero)
 export class HeroRepository extends Repository<Hero> {
-  createhero(hero: Hero): Promise<Hero> {
+  async createhero(hero: Hero): Promise<Hero> {
     return super.save(hero);
   }
 
@@ -26,6 +23,19 @@ export class HeroRepository extends Repository<Hero> {
     return super.save(hero);
   }
 
+  removeById(id: number): Promise<void> {
+    try {
+      super
+        .createQueryBuilder()
+        .delete()
+        .from(Hero)
+        .where("id = :id", { id: id })
+        .execute();
+      return Promise.resolve();
+    } catch (error) {
+      return Promise.reject("Wasn't possible to delete Hero");
+    }
+  }
   /**
    * Calculate the total amount of damage that will be gived based in the damage value and bonus.
    * @param damage weapon

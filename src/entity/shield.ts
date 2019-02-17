@@ -1,22 +1,8 @@
-import {
-  Entity,
-  OneToOne,
-  Column,
-  PrimaryGeneratedColumn,
-  JoinColumn,
-  BaseEntity
-} from "typeorm";
+import { Entity, Column } from "typeorm";
 import { Equip } from "./equip";
 
 @Entity()
-export class Shield extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @JoinColumn()
-  @OneToOne(type => Equip)
-  equip: Promise<Equip>;
-
+export class Shield extends Equip {
   @Column()
   defence: number;
 }

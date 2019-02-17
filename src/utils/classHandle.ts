@@ -1,17 +1,17 @@
-import { HeroClass } from "../enums/heroclass";
+import { ClassName } from "../enums/className";
 
 /**
  * Inform the HeroClass of an string
  * @param className string name of a class
  */
-export function getHeroClass(className: string): HeroClass {
-  if (className.trim().toUpperCase() === HeroClass.HUNTER.toUpperCase())
-    return HeroClass.HUNTER;
-  else if (className.trim().toUpperCase() === HeroClass.MAGE.toUpperCase())
-    return HeroClass.MAGE;
-  else if (className.trim().toUpperCase() === HeroClass.THIEF.toUpperCase())
-    return HeroClass.THIEF;
-  else if (className.trim().toUpperCase() === HeroClass.WARRIOR.toUpperCase())
-    return HeroClass.WARRIOR;
-  return undefined;
+export function getHeroClass(className: string): ClassName {
+  if (className.trim().toUpperCase() === ClassName.HUNTER.toUpperCase())
+    return ClassName.HUNTER;
+  else if (className.trim().toUpperCase() === ClassName.MAGE.toUpperCase())
+    return ClassName.MAGE;
+  else if (className.trim().toUpperCase() === ClassName.THIEF.toUpperCase())
+    return ClassName.THIEF;
+  else if (className.trim().toUpperCase() === ClassName.WARRIOR.toUpperCase())
+    return ClassName.WARRIOR;
+  return null;
 }

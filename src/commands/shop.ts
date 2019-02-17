@@ -4,8 +4,11 @@ import { reactionData } from "../utils/global";
 import { Item } from "../interfaces/item";
 import { Emojis } from "../enums/emojis";
 import { Shield } from "../interfaces/shield";
-import { Weapon } from "../interfaces/weapon";
 import { getHeroRepository } from "../utils/repositoryHandler";
+import { Equip } from "../entity/equip";
+import { getShieldpository } from "../services/shieldRepository";
+import { getWeaponpository } from "../services/weaponRepository";
+import { Weapon } from "../entity/weapon";
 
 /**
  * Informs all available items from selected type.
@@ -70,7 +73,7 @@ export async function addReactions(botMessage: Discord.Message) {
 }
 
 export function addRectionData(
-  equips: Item[],
+  equips: Equip[],
   botMessage: Discord.Message,
   userMessage: Discord.Message
 ) {
@@ -84,11 +87,11 @@ export function addRectionData(
  * Informs all available items from selected type.
  * @param msg Discord last message related to the command
  */
-export function shieldShop(msg: Discord.Message) {
-  const shields = JsonHandle.getAllShieldS();
+export async function shieldShop(msg: Discord.Message) {
+  const shields = await getShieldpository().findAll();
   const items: Array<string> = new Array<string>();
 
-  shields.forEach(shield =>
+  shields.forEach(async shield =>
     items.push(
       `Id: ${shield.id}\n` +
         `Name: ${shield.name}\n` +
@@ -107,11 +110,11 @@ export function shieldShop(msg: Discord.Message) {
  * Informs all available weapons for seal
  * @param msg Discord last message related to the command
  */
-export function weaponShop(msg: Discord.Message) {
-  const weapons = JsonHandle.getAllWeapons();
+export async function weaponShop(msg: Discord.Message) {
+  const weapons = await getWeaponpository().findAll();
   const items: Array<string> = new Array<string>();
 
-  weapons.forEach(weapons =>
+  weapons.forEach(async weapons =>
     items.push(
       `Id: ${weapons.id}\n` +
         `Name: ${weapons.name}\n` +
@@ -135,7 +138,7 @@ export function backOneItem(
 
     const data = reactionData.data;
     const index = reactionData.index;
-    const equip: Item = data[index];
+    const equip: Equip = data[index];
 
     showEquipment(equip, reaction);
   }
@@ -153,7 +156,7 @@ export function fowardOneItem(
 
     const data = reactionData.data;
     const index = reactionData.index;
-    const equip: Item = data[index];
+    const equip: Equip = data[index];
 
     showEquipment(equip, reaction);
   }
@@ -168,7 +171,7 @@ export function goToLastItem(
 
     const data = reactionData.data;
     const index = reactionData.index;
-    const equip: Item = data[index];
+    const equip: Equip = data[index];
 
     showEquipment(equip, reaction);
   }
@@ -183,7 +186,7 @@ export function goToFirstItem(
 
     const data = reactionData.data;
     const index = reactionData.index;
-    const equip: Item = data[index];
+    const equip: Equip = data[index];
 
     showEquipment(equip, reaction);
   }
@@ -222,7 +225,7 @@ export function changeItemSelection(
 
     const data = reactionData.data;
     const index = reactionData.index;
-    const equip: Item = data[index];
+    const equip: Equip = data[index];
 
     showEquipment(equip, reaction);
   }
@@ -231,7 +234,7 @@ export function changeItemSelection(
 /**
  * Shows a list of equipments when user invoke
  */
-export function showEquipment(equip: Item, reaction: Discord.MessageReaction) {
+export function showEquipment(equip: Equip, reaction: Discord.MessageReaction) {
   // equip is a shield
   if ("defence" in equip) {
     reaction.message.edit(

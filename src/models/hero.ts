@@ -1,4 +1,3 @@
-import { HeroClass } from "../enums/heroclass";
 import { ProficienceType } from "../enums/proficienceType";
 import { Adventure } from "../interfaces/adventure";
 import { Proficience } from "../interfaces/proficience";
@@ -8,6 +7,7 @@ import { JsonHandle } from "../utils/jsonHandle";
 import { Entity } from "./entity";
 import { InventoryItem } from "../interfaces/inventoryItem";
 import { IPlayStatus } from "../interfaces/playStatus";
+import { ClassName } from "../enums/className";
 
 export class Hero extends Entity {
   name: string;
@@ -16,7 +16,7 @@ export class Hero extends Entity {
   hpActual: number;
   xp: number;
   levelMaxXp: number;
-  heroClass: HeroClass;
+  heroClass: ClassName;
   gold: number;
   deaths: number;
   monstersKilled: number;
@@ -37,7 +37,7 @@ export class Hero extends Entity {
    * @param userID id of user's discord
    * @constructor
    */
-  constructor(name?: string, heroclass?: HeroClass, userID?: string) {
+  constructor(name?: string, heroclass?: ClassName, userID?: string) {
     super();
     this.init(name, heroclass, userID);
   }
@@ -64,7 +64,7 @@ export class Hero extends Entity {
    * @param heroclass with class the player will be
    * @param userID id of discord user's
    */
-  private init(name?: string, heroclass?: HeroClass, userID?: string) {
+  private init(name?: string, heroclass?: ClassName, userID?: string) {
     const proficienceLevel = JsonHandle.getProficienceById(1);
 
     const damageProficience: Proficience = {

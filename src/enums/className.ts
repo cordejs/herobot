@@ -1,4 +1,4 @@
-export const enum HeroClass {
+export const enum ClassName {
   MAGE = "Mage",
   WARRIOR = "Warrior",
   HUNTER = "Hunter",

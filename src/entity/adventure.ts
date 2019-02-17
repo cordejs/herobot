@@ -9,7 +9,7 @@ import {
 import { Monster } from "./monster";
 
 @Entity()
-export class Adventure extends BaseEntity {
+export class Adventure {
   @PrimaryGeneratedColumn()
   id: number;
 

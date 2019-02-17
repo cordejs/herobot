@@ -1,10 +1,9 @@
 import * as Discord from "discord.js";
-import { Adventure } from "../interfaces/adventure";
-
-import * as adventures from "../../data/adventures.json";
 import { getTimeStampFormated } from "../utils/time";
 import { EXPLORATION_MAX_LEVEL, PREFIX } from "../utils/global";
 import { getHeroRepository } from "../utils/repositoryHandler";
+import { getAdventureRepository } from "../services/adventureRepository";
+import { Adventure } from "../entity/adventure";
 
 /**
  * Send user user to farm(Get gold, xp, and equips)
@@ -17,10 +16,11 @@ export async function explore(msg: Discord.Message, level: number) {
   if (level > 0 && level <= EXPLORATION_MAX_LEVEL) {
     try {
       const heroRepository = getHeroRepository();
+      const adventureRepository = getAdventureRepository();
       const hero = await heroRepository.findbyId(msg.author.id);
 
       if (hero !== null) {
-        const adv: Adventure = adventures[level];
+        const adv: Adventure = await adventureRepository.getByLevel(level);
 
         if (adv === undefined) {
           msg.channel.send("Hmmm, the informed adventure does not exist ");
@@ -32,9 +32,9 @@ export async function explore(msg: Discord.Message, level: number) {
 
         if (heroAdventure === null) {
           heroAdventure = adv;
-          hero.adventureStartedTime = getTimeStampFormated();
+          playStatus.timestarted = getTimeStampFormated();
 
-          heroService.updateHero(hero).then(() => {
+          heroRepository.updateHero(hero).then(() => {
             msg.channel.send("Send hero to explore " + adv.name) +
               ". Good Farmning!";
           });
@@ -46,7 +46,9 @@ export async function explore(msg: Discord.Message, level: number) {
           );
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      msg.channel.send(error);
+    }
   } else {
     msg.channel.send(
       "You must choose a number between 1 and " +

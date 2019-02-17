@@ -1,8 +1,10 @@
 import * as Discord from "discord.js";
 import { reactionData } from "../utils/global";
-import { Item } from "../interfaces/item";
 import { HeroRepository } from "../services/heroRepository";
 import { dbConnection } from "../../dbconn";
+import { Equip } from "../entity/equip";
+import { InventoryItem } from "../entity/inventory_item";
+import { getInventoryItemRepository } from "../services/inventoryItemRepository";
 
 /**
  * Buy a equip from store
@@ -40,8 +42,8 @@ export async function buy(msg: Discord.Message, equipId: string) {
       return;
     }
 
-    const equipToBuy: Item = reactionData.data.find(
-      equip => equip.id === equipId
+    const equipToBuy: Equip = reactionData.data.find(
+      equip => equip.id === Number.parseInt(equipId)
     );
 
     if (equipToBuy.price > hero.gold) {
@@ -61,26 +63,31 @@ export async function buy(msg: Discord.Message, equipId: string) {
 
     hero.gold -= equipToBuy.price;
 
-    const heroIventory = await hero.inventoryItens;
+    const heroInventory = await hero.inventoryItens;
 
-    heroIventory.push({ equip: equipToBuy });
+    const inventoryItem = new InventoryItem();
+    inventoryItem.equip = Promise.resolve(equipToBuy);
+    inventoryItem.hero = Promise.resolve(hero);
 
-    heroService
-      .updateHero(hero)
-      .then(() =>
-        msg.channel.send(
-          "Congratualitions! You now are equiping " +
-            equipToBuy.name +
-            " " +
-            equipType
-        )
-      )
-      .catch(error => {
-        console.error(error);
-        msg.channel.send(
-          "I'm so sorry in say that, but we found a when delivering your equip"
-        );
-      });
+    const inventoryItemRepository = getInventoryItemRepository();
+    await inventoryItemRepository.create(inventoryItem);
+
+    heroInventory.push(inventoryItem);
+
+    try {
+      await heroRepository.updateHero(hero);
+      msg.channel.send(
+        "Congratualitions! You now are equiping " +
+          equipToBuy.name +
+          " " +
+          equipType
+      );
+    } catch (error) {
+      console.error(error);
+      msg.channel.send(
+        "I'm so sorry in say that, but we found a when delivering your equip"
+      );
+    }
   } catch (error) {
     msg.channel.send(error);
   }

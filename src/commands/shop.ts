@@ -1,11 +1,11 @@
 import { JsonHandle } from "./../utils/jsonHandle";
 import * as Discord from "discord.js";
-import heroService from "../services/heroService";
 import { reactionData } from "../utils/global";
 import { Item } from "../interfaces/item";
 import { Emojis } from "../enums/emojis";
 import { Shield } from "../interfaces/shield";
 import { Weapon } from "../interfaces/weapon";
+import { getHeroRepository } from "../utils/repositoryHandler";
 
 /**
  * Informs all available items from selected type.
@@ -13,16 +13,25 @@ import { Weapon } from "../interfaces/weapon";
  * @param msg Discord last message related to the command
  * @param shopType Specify the type of shop (weapon/shield)
  */
-export function shop(msg: Discord.Message, shopType: string) {
-  heroService.findbyUserID(msg.author.id).then(hero => {
+export async function shop(msg: Discord.Message, shopType: string) {
+  const heroRepository = getHeroRepository();
+  const hero = await heroRepository.findbyId(msg.author.id);
+
+  try {
     if (hero === null) {
       msg.channel.send("Create a hero before check the shop ");
       return;
     }
 
-    if (shopType !== undefined && shopType.toLocaleLowerCase().trim() === "shield") {
+    if (
+      shopType !== undefined &&
+      shopType.toLocaleLowerCase().trim() === "shield"
+    ) {
       shieldShop(msg);
-    } else if (shopType !== undefined && shopType.toLocaleLowerCase().trim() === "weapon") {
+    } else if (
+      shopType !== undefined &&
+      shopType.toLocaleLowerCase().trim() === "weapon"
+    ) {
       weaponShop(msg);
     } else {
       msg.channel.send("Want to buy sword or shield ?").then(() => {
@@ -36,8 +45,10 @@ export function shop(msg: Discord.Message, shopType: string) {
             }
           )
           .then(response => {
-            const type = response.first()
-              .content.toLocaleLowerCase().trim();
+            const type = response
+              .first()
+              .content.toLocaleLowerCase()
+              .trim();
             if (type === "shield") {
               shieldShop(msg);
             } else if (type === "sword") {
@@ -46,7 +57,9 @@ export function shop(msg: Discord.Message, shopType: string) {
           });
       });
     }
-  }).catch((error) => msg.channel.send(error));
+  } catch (error) {
+    msg.channel.send(error);
+  }
 }
 
 export async function addReactions(botMessage: Discord.Message) {
@@ -78,9 +91,9 @@ export function shieldShop(msg: Discord.Message) {
   shields.forEach(shield =>
     items.push(
       `Id: ${shield.id}\n` +
-      `Name: ${shield.name}\n` +
-      `Defence: ${shield.defence}\n` +
-      `Price: ${shield.price}\n\n`
+        `Name: ${shield.name}\n` +
+        `Defence: ${shield.defence}\n` +
+        `Price: ${shield.price}\n\n`
     )
   );
 
@@ -101,9 +114,9 @@ export function weaponShop(msg: Discord.Message) {
   weapons.forEach(weapons =>
     items.push(
       `Id: ${weapons.id}\n` +
-      `Name: ${weapons.name}\n` +
-      `Damage: ${weapons.damage}\n` +
-      `Price: ${weapons.price}\n\n`
+        `Name: ${weapons.name}\n` +
+        `Damage: ${weapons.damage}\n` +
+        `Price: ${weapons.price}\n\n`
     )
   );
 
@@ -113,7 +126,10 @@ export function weaponShop(msg: Discord.Message) {
   });
 }
 
-export function backOneItem(reaction: Discord.MessageReaction, user: Discord.User) {
+export function backOneItem(
+  reaction: Discord.MessageReaction,
+  user: Discord.User
+) {
   if (user.id === reactionData.userId && reactionData.index - 1 > -1) {
     reactionData.index--;
 
@@ -125,7 +141,10 @@ export function backOneItem(reaction: Discord.MessageReaction, user: Discord.Use
   }
 }
 
-export function fowardOneItem(reaction: Discord.MessageReaction, user: Discord.User) {
+export function fowardOneItem(
+  reaction: Discord.MessageReaction,
+  user: Discord.User
+) {
   if (
     user.id === reactionData.userId &&
     reactionData.index + 1 < reactionData.data.length
@@ -140,7 +159,10 @@ export function fowardOneItem(reaction: Discord.MessageReaction, user: Discord.U
   }
 }
 
-export function goToLastItem(reaction: Discord.MessageReaction, user: Discord.User) {
+export function goToLastItem(
+  reaction: Discord.MessageReaction,
+  user: Discord.User
+) {
   if (user.id === reactionData.userId) {
     reactionData.index = reactionData.data.length - 1;
 
@@ -152,7 +174,10 @@ export function goToLastItem(reaction: Discord.MessageReaction, user: Discord.Us
   }
 }
 
-export function goToFirstItem(reaction: Discord.MessageReaction, user: Discord.User) {
+export function goToFirstItem(
+  reaction: Discord.MessageReaction,
+  user: Discord.User
+) {
   if (user.id === reactionData.userId) {
     reactionData.index = 0;
 
@@ -164,7 +189,10 @@ export function goToFirstItem(reaction: Discord.MessageReaction, user: Discord.U
   }
 }
 
-export function reactionHandle(reaction: Discord.MessageReaction, user: Discord.User) {
+export function reactionHandle(
+  reaction: Discord.MessageReaction,
+  user: Discord.User
+) {
   switch (reaction.emoji.name) {
     case Emojis.FIRST: {
       goToFirstItem(reaction, user);
@@ -208,17 +236,17 @@ export function showEquipment(equip: Item, reaction: Discord.MessageReaction) {
   if ("defence" in equip) {
     reaction.message.edit(
       `Id: ${(equip as Shield).id}\n` +
-      `Name: ${(equip as Shield).name}\n` +
-      `Defence: ${(equip as Shield).defence}\n` +
-      `Price: ${(equip as Shield).price}\n\n`
+        `Name: ${(equip as Shield).name}\n` +
+        `Defence: ${(equip as Shield).defence}\n` +
+        `Price: ${(equip as Shield).price}\n\n`
     );
     // Equip is a weapon
   } else if ("damage" in equip) {
     reaction.message.edit(
       `Id: ${(equip as Weapon).id}\n` +
-      `Name: ${(equip as Weapon).name}\n` +
-      `Damage: ${(equip as Weapon).damage}\n` +
-      `Price: ${(equip as Weapon).price}\n\n`
+        `Name: ${(equip as Weapon).name}\n` +
+        `Damage: ${(equip as Weapon).damage}\n` +
+        `Price: ${(equip as Weapon).price}\n\n`
     );
   }
 }

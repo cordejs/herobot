@@ -1,4 +1,3 @@
-import { BaseEntityService } from "./baseEntityService";
 import { Monster } from "../interfaces/monster";
 import { getTimeStampFormated } from "../utils/time";
 import { ProficienceType } from "../enums/proficienceType";
@@ -10,20 +9,17 @@ import { Hero } from "../entity/hero";
 import { Proficience } from "../entity/proficience";
 import { PlayStatus } from "../entity/playStatus";
 import { IPlayStatus } from "../interfaces/playStatus";
+import { EntityRepository, Repository } from "typeorm";
 
 /** @internal */
-class HeroService extends BaseEntityService<Hero> {
+@EntityRepository(Hero)
+export class HeroRepository extends Repository<Hero> {
   createhero(hero: Hero): Promise<Hero> {
     return super.save(hero);
   }
 
-  findbyUserID(id: string): Promise<Hero> {
-    //return super.find(id);
-    return null;
-  }
-
-  remove(id: number): Promise<void> {
-    return super.deleteById(id);
+  async findbyId(id: string): Promise<Hero> {
+    return super.findOne(Number.parseInt(id));
   }
 
   updateHero(hero: Hero): Promise<Hero> {
@@ -174,7 +170,7 @@ class HeroService extends BaseEntityService<Hero> {
    * Set the adventureStarted time with undefined and calcs user training bounties
    * @throws heroDieError if the hero died in exploration
    */
-  finishHeroTraining(hero: Hero): Promise<IPlayStatus> {
+  async finishHeroTraining(hero: Hero): Promise<IPlayStatus> {
     return this.calcHeroTrainingBase(hero, true);
   }
 
@@ -271,6 +267,3 @@ class HeroService extends BaseEntityService<Hero> {
     };
   }
 }
-
-const heroService = new HeroService();
-export default heroService;

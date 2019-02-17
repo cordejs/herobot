@@ -24,7 +24,7 @@ export async function createHero(msg: Discord.Message) {
   // First check if the user already have an hero
   const hero = await heroRepository.findbyId(msg.author.id);
 
-  if (hero !== null && hero !== undefined) {
+  if (hero) {
     msg.channel.send(
       "You already have a hero created called `" + hero.name + "`"
     );
@@ -67,16 +67,22 @@ export async function createHero(msg: Discord.Message) {
       if (getHeroClass(className) !== undefined) {
         const classHero = getHeroClass(className.toString());
         const heroClassRepository = getHeroClassepository();
-        const _class = await heroClassRepository.findByName(classHero);
 
         try {
-          await heroRepository.createhero(
-            new Hero(heroName, _class, Number.parseInt(msg.author.id))
-          );
-          msg.channel.send("You're now a " + className);
+          const _class = await heroClassRepository.findByName(classHero);
+
+          try {
+            await heroRepository.createhero(
+              new Hero(heroName, _class, Number.parseInt(msg.author.id))
+            );
+
+            msg.channel.send("You're now a " + className);
+          } catch (error) {
+            console.log("Fail at hero creation. Error: " + error);
+            msg.channel.send("Wasn't possible to create your hero");
+          }
         } catch (error) {
-          console.log("Fail at hero creation. Error: " + error);
-          msg.channel.send("Wasn't possible to create your hero");
+          msg.channel.send(error);
         }
       } else {
         msg.channel.send(

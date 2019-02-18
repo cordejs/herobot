@@ -125,7 +125,7 @@ export const Hunter: IHeroClass = {
 };
 
 export const Trickster: IHeroClass = {
-  name: ClassNameEvolve.HUNTER,
+  name: ClassNameEvolve.TRICKSTER,
   attackspeedbuff: 1,
   damagebuff: 5,
   expbuff: 0,

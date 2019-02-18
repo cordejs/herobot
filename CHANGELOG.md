@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.1.0-firebase - 2019-02-12
+
+Old Firebase based app
+
+___
+
 ## 0.1.0 - 2019-01-24
 
 ### Added
@@ -15,6 +21,8 @@ All notable changes to this project will be documented in this file.
 
 - Bot sends hero to exploration even when he is already explorating #119
 
+___
+
 ## 0.0.3 - 2019-01-23
 
 ### Bugs Fixed
@@ -25,11 +33,15 @@ All notable changes to this project will be documented in this file.
 - inventory command showing nothing #112
 - xp command with "undefined" values #111
 
+___
+
 ## 0.0.2 - 2018-12-15
 
 - Minor bug fixes
 - Refatored database services
 - changed prefix from **_** to **!**
+
+___
 
 ## 0.0.1 - 2018-06-20
 

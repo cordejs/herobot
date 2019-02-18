@@ -3,57 +3,72 @@ import { ClassName, ClassNameEvolve } from "../enums/className";
 
 export class Migration1550502138205 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
-    queryRunner.query(
-      `INSERT INTO heroclass (name, attackspeedbuff, damagebuff, expbuff, goldbuff, hpbuff, shieldbuff) ` +
-        +`SELECT ${ClassName.WARRIOR}, 0, 0, 0, 0, 5, 0`
-    );
-
-    queryRunner.query(
-      `INSERT INTO heroclass (name, attackspeedbuff, damagebuff, expbuff, goldbuff, hpbuff, shieldbuff) ` +
-        +`SELECT ${ClassName.MAGE}, 0, 0, 3, 0, 0, 0`
-    );
-    queryRunner.query(
+    await queryRunner.query(
       `INSERT INTO heroclass (name, attackspeedbuff, damagebuff, expbuff, goldbuff, hpbuff, shieldbuff)` +
-        +` SELECT ${ClassName.THIEF}, 0, 0, 0, 1, 0, 0`
-    );
-    queryRunner.query(
-      `INSERT INTO heroclass (name, attackspeedbuff, damagebuff, expbuff, goldbuff, hpbuff, shieldbuff) ` +
-        +`SELECT ${ClassName.ARCHER}, 0, 0, 0, 0, 5, 0`
+        `SELECT '${ClassName.WARRIOR}', 0, 0, 0, 0, 5, 0` +
+        `WHERE NOT EXISTS(SELECT name FROM heroclass WHERE name='${
+          ClassName.WARRIOR
+        }')`
     );
 
-    queryRunner.query(
+    await queryRunner.query(
+      `INSERT INTO heroclass (name, attackspeedbuff, damagebuff, expbuff, goldbuff, hpbuff, shieldbuff) ` +
+        `SELECT '${ClassName.MAGE.toString()}', 0, 0, 3, 0, 0, 0` +
+        `WHERE NOT EXISTS(SELECT name FROM heroclass WHERE name='${ClassName.MAGE.toString()}')`
+    );
+
+    await queryRunner.query(
       `INSERT INTO heroclass (name, attackspeedbuff, damagebuff, expbuff, goldbuff, hpbuff, shieldbuff)` +
-        `SELECT ${ClassNameEvolve.KNIGHT}, 0, 0, 0, 1, 10, 0`
+        ` SELECT '${ClassName.THIEF.toString()}', 0, 0, 0, 1, 0, 0` +
+        `WHERE NOT EXISTS(SELECT name FROM heroclass WHERE name='${ClassName.THIEF.toString()}')`
     );
 
-    queryRunner.query(
+    await queryRunner.query(
       `INSERT INTO heroclass (name, attackspeedbuff, damagebuff, expbuff, goldbuff, hpbuff, shieldbuff) ` +
-        +`SELECT ${ClassNameEvolve.PALADIN}, 0, 5, 0, 1, 5, 0`
+        `SELECT '${ClassName.ARCHER.toString()}', 0, 0, 0, 0, 5, 0` +
+        `WHERE NOT EXISTS(SELECT name FROM heroclass WHERE name='${ClassName.ARCHER.toString()}')`
     );
 
-    queryRunner.query(
-      `INSERT INTO heroclass (name, attackspeedbuff, damagebuff, expbuff, goldbuff, hpbuff, shieldbuff) ` +
-        +` SELECT ${ClassNameEvolve.NECRO}, 0, 0, 0, 0, 5, 0`
+    await queryRunner.query(
+      `INSERT INTO heroclass (name, attackspeedbuff, damagebuff, expbuff, goldbuff, hpbuff, shieldbuff)` +
+        `SELECT '${ClassNameEvolve.KNIGHT.toString()}', 0, 0, 0, 1, 10, 0` +
+        `WHERE NOT EXISTS(SELECT name FROM heroclass WHERE name='${ClassNameEvolve.KNIGHT.toString()}')`
     );
 
-    queryRunner.query(
+    await queryRunner.query(
       `INSERT INTO heroclass (name, attackspeedbuff, damagebuff, expbuff, goldbuff, hpbuff, shieldbuff) ` +
-        +`SELECT ${ClassNameEvolve.LADIN}, 0, 0, 0, 1, 5, 0`
+        `SELECT '${ClassNameEvolve.PALADIN.toString()}', 0, 5, 0, 1, 5, 0` +
+        `WHERE NOT EXISTS(SELECT name FROM heroclass WHERE name='${ClassNameEvolve.PALADIN.toString()}')`
     );
 
-    queryRunner.query(
+    await queryRunner.query(
       `INSERT INTO heroclass (name, attackspeedbuff, damagebuff, expbuff, goldbuff, hpbuff, shieldbuff) ` +
-        +`SELECT ${ClassNameEvolve.NINJA}, 0, 5, 0, 1, 0, 0`
+        ` SELECT '${ClassNameEvolve.NECRO.toString()}', 0, 0, 0, 0, 5, 0` +
+        `WHERE NOT EXISTS(SELECT name FROM heroclass WHERE name='${ClassNameEvolve.NECRO.toString()}')`
     );
 
-    queryRunner.query(
+    await queryRunner.query(
       `INSERT INTO heroclass (name, attackspeedbuff, damagebuff, expbuff, goldbuff, hpbuff, shieldbuff) ` +
-        +` SELECT ${ClassNameEvolve.HUNTER}, 1, 10, 0, 1, 0, 0`
+        `SELECT '${ClassNameEvolve.LADIN.toString()}', 0, 0, 0, 1, 5, 0` +
+        `WHERE NOT EXISTS(SELECT name FROM heroclass WHERE name='${ClassNameEvolve.LADIN.toString()}')`
     );
 
-    queryRunner.query(
+    await queryRunner.query(
       `INSERT INTO heroclass (name, attackspeedbuff, damagebuff, expbuff, goldbuff, hpbuff, shieldbuff) ` +
-        +`SELECT ${ClassNameEvolve.TRICKSTER}, 1, 5, 0, 1, 5, 0`
+        `SELECT '${ClassNameEvolve.NINJA.toString()}', 0, 5, 0, 1, 0, 0` +
+        `WHERE NOT EXISTS(SELECT name FROM heroclass WHERE name='${ClassNameEvolve.NINJA.toString()}')`
+    );
+
+    await queryRunner.query(
+      `INSERT INTO heroclass (name, attackspeedbuff, damagebuff, expbuff, goldbuff, hpbuff, shieldbuff) ` +
+        ` SELECT '${ClassNameEvolve.HUNTER.toString()}', 1, 10, 0, 1, 0, 0` +
+        `WHERE NOT EXISTS(SELECT name FROM heroclass WHERE name='${ClassNameEvolve.HUNTER.toString()}')`
+    );
+
+    await queryRunner.query(
+      `INSERT INTO heroclass (name, attackspeedbuff, damagebuff, expbuff, goldbuff, hpbuff, shieldbuff) ` +
+        `SELECT '${ClassNameEvolve.TRICKSTER.toString()}', 1, 5, 0, 1, 5, 0` +
+        `WHERE NOT EXISTS(SELECT name FROM heroclass WHERE name='${ClassNameEvolve.TRICKSTER.toString()}')`
     );
   }
 

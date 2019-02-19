@@ -2,6 +2,7 @@
  * 1º evolution of class after begginer
  */
 export const enum ClassName {
+  BEGGINNER = "Begginner",
   MAGE = "Mage",
   WARRIOR = "Warrior",
   ARCHER = "Archer",

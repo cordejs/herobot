@@ -5,6 +5,14 @@ export class Migration1550502138205 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.query(
       `INSERT INTO heroclass (name, attackspeedbuff, damagebuff, expbuff, goldbuff, hpbuff, shieldbuff)` +
+        `SELECT '${ClassName.BEGGINNER}', 0, 0, 0, 0, 0, 0` +
+        `WHERE NOT EXISTS(SELECT name FROM heroclass WHERE name='${
+          ClassName.BEGGINNER
+        }')`
+    );
+
+    await queryRunner.query(
+      `INSERT INTO heroclass (name, attackspeedbuff, damagebuff, expbuff, goldbuff, hpbuff, shieldbuff)` +
         `SELECT '${ClassName.WARRIOR}', 0, 0, 0, 0, 5, 0` +
         `WHERE NOT EXISTS(SELECT name FROM heroclass WHERE name='${
           ClassName.WARRIOR

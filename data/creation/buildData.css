@@ -1,0 +1,64 @@
+textarea {
+  resize: none;
+  width: 100%;
+}
+
+button {
+  cursor: pointer;
+  background-color: #008cba; /* Green */
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+}
+
+.title {
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 5px 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+.content {
+  margin: auto;
+  width: 400px;
+  margin-top: 3%;
+}
+
+.inline {
+  width: 100%;
+  padding-bottom: 5px;
+}
+
+.inline-item {
+  display: inline-block;
+  width: 100%;
+  margin: 5px;
+}
+
+.inline-left {
+  width: 100%;
+  float: left;
+}
+
+.inline-right {
+  width: 100%;
+  float: right;
+  margin-bottom: 10px;
+}
+
+.card {
+  box-shadow: 2px 5px 8px 5px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  padding: 15px 30px;
+}

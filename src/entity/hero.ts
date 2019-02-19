@@ -14,7 +14,7 @@ import { HeroClass } from "./heroClass";
 import { Shield } from "./shield";
 import { InventoryItem } from "./inventory_item";
 import { JsonHandle } from "../utils/jsonHandle";
-import { getProficienceRepository } from "../services/proficienceRepository";
+import { getProficienceRepository } from "../repositories/proficienceRepository";
 
 @Entity()
 export class Hero {

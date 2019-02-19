@@ -1,10 +1,10 @@
 import * as Discord from "discord.js";
 import { reactionData } from "../utils/global";
-import { HeroRepository } from "../services/heroRepository";
+import { HeroRepository } from "../repositories/heroRepository";
 import { dbConnection } from "../../dbconn";
 import { Equip } from "../entity/equip";
 import { InventoryItem } from "../entity/inventory_item";
-import { getInventoryItemRepository } from "../services/inventoryItemRepository";
+import { getInventoryItemRepository } from "../repositories/inventoryItemRepository";
 
 /**
  * Buy a equip from store

@@ -2,7 +2,7 @@ import * as Discord from "discord.js";
 import { getTimeStampFormated } from "../utils/time";
 import { EXPLORATION_MAX_LEVEL, PREFIX } from "../utils/global";
 import { getHeroRepository } from "../utils/repositoryHandler";
-import { getAdventureRepository } from "../services/adventureRepository";
+import { getAdventureRepository } from "../repositories/adventureRepository";
 import { Adventure } from "../entity/adventure";
 
 /**

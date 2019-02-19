@@ -1,7 +1,7 @@
 import * as Discord from "discord.js";
 import { PREFIX } from "../utils/global";
 import { getHeroRepository } from "../utils/repositoryHandler";
-import { HeroRepository } from "../services/heroRepository";
+import { HeroRepository } from "../repositories/heroRepository";
 
 /**
  * Removes a user's hero

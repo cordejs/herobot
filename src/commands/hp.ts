@@ -1,5 +1,5 @@
 import * as Discord from "discord.js";
-import { HeroRepository } from "../services/heroRepository";
+import { HeroRepository } from "../repositories/heroRepository";
 import { getHeroRepository } from "../utils/repositoryHandler";
 
 /**

@@ -2,9 +2,9 @@ import * as Discord from "discord.js";
 import { getHeroClass } from "../utils/classHandle";
 import { Emojis } from "../enums/emojis";
 import { getHeroRepository } from "../utils/repositoryHandler";
-import { HeroRepository } from "../services/heroRepository";
+import { HeroRepository } from "../repositories/heroRepository";
 import { Hero } from "../entity/hero";
-import { getHeroClassepository } from "../services/heroClassRepository";
+import { getHeroClassepository } from "../repositories/heroClassRepository";
 
 /**
  * Create a new user selecting a name and a class for him.

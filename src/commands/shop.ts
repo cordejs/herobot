@@ -6,8 +6,8 @@ import { Emojis } from "../enums/emojis";
 import { Shield } from "../interfaces/shield";
 import { getHeroRepository } from "../utils/repositoryHandler";
 import { Equip } from "../entity/equip";
-import { getShieldpository } from "../services/shieldRepository";
-import { getWeaponpository } from "../services/weaponRepository";
+import { getShieldpository } from "../repositories/shieldRepository";
+import { getWeaponpository } from "../repositories/weaponRepository";
 import { Weapon } from "../entity/weapon";
 
 /**

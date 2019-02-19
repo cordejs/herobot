@@ -1,7 +1,7 @@
 import { Repository, EntityRepository } from "typeorm";
 import { dbConnection } from "../../dbconn";
 import { HeroClass } from "../entity/heroClass";
-import { ClassName } from "../enums/className";
+import { ClassName, ClassNameEvolve } from "../enums/className";
 import { Emojis } from "../enums/emojis";
 
 @EntityRepository(HeroClass)
@@ -11,7 +11,7 @@ export class HeroClassRepository extends Repository<HeroClass> {
    * @returns HeroClass object
    * @throws QueryError
    */
-  async findByName(heroClass: ClassName): Promise<HeroClass> {
+  async findByName(heroClass: ClassName | ClassNameEvolve): Promise<HeroClass> {
     try {
       return await super.findOne({ name: heroClass.valueOf() });
     } catch (error) {

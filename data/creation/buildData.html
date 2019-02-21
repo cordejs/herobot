@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="./buildData.css" />
+    <script src="./generate.js"></script>
+  </head>
+
+  <body>
+    <div class="content card">
+      <div class="inline">
+        <div class="inline-item">
+          <h5 class="title">Level Type</h5>
+          <select id="levelType">
+            <option value="level">HeroLevel</option>
+            <option value="proficience">ProficienceLevel</option>
+          </select>
+        </div>
+
+        <div class="inline-item">
+          <h5 class="title">Amount of levels</h5>
+          <input type="number" id="repsVal" value="100" />
+        </div>
+      </div>
+
+      <div class="inline-right">
+        <button
+          class="inline-item"
+          onclick="generate(document.getElementById('repsVal').value, document.getElementById('levelType').value)"
+        >
+          Generate JSON
+        </button>
+
+        <button class="inline-item">Copy</button>
+      </div>
+
+      <div class="inline">
+        <textarea
+          name="result"
+          id="txtAreaResult"
+          cols="40"
+          rows="20"
+        ></textarea>
+      </div>
+    </div>
+  </body>
+</html>

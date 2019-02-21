@@ -12,6 +12,7 @@
   href="https://circleci.com/gh/lgmagalhaes88/HeroBot/tree/master">
   <img href="https://app.codacy.com/app/lucasgsm88/HeroBot?utm_source=github.com&utm_medium=referral&utm_content=lgmagalhaes88/HeroBot&utm_campaign=Badge_Grade_Dashboard" src="https://api.codacy.com/project/badge/Grade/ff4c6e85363843db8f9531829c3a2fb7">
 
+
 </p>
 
 A Discord bot to play RPG.

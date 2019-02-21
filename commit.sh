@@ -8,3 +8,5 @@ fi
 git add .
 git commit -m "$commit_message"
 git push
+
+read -p "Press any key to continue..."

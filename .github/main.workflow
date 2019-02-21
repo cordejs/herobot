@@ -44,6 +44,6 @@ action "Tag with commit hash" {
 
 action "Push commit hash image" {
   uses = "actions/docker/cli@c08a5fc9e0286844156fefff2c141072048141f6"
-  args = "push lgmagalhaes88/herobot:$GITHUB_SHA"
+  args = "push lucasgsm88/herobot:$GITHUB_SHA"
   needs = ["Tag with commit hash"]
 }

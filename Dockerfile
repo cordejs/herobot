@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:latest
 
 RUN mkdir -p /app
 WORKDIR /app
@@ -6,11 +6,13 @@ WORKDIR /app
 COPY package-lock.json /app
 COPY package.json /app
 
-RUN /usr/local/bin/npm install --production
+RUN /usr/local/bin/npm install
 
 COPY . /app
 
 RUN /usr/local/bin/npm run build
 
+COPY . .
+
 ENTRYPOINT ["/usr/local/bin/npm"]
-CMD ["start"]
+CMD ["npm" , "bot"]

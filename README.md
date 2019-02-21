@@ -1,4 +1,6 @@
 # HeroBot
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Flgmagalhaes88%2FHeroBot.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Flgmagalhaes88%2FHeroBot?ref=badge_shield)
+
 
 <p align="center">
   <img src="https://github.com/lgmagalhaes88/HeroBot/blob/master/assets/logo.jpg" widht="300" height="300" style="margin-bottom: 10px">
@@ -15,3 +17,6 @@
 </p>
 
 A Discord bot to play RPG.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Flgmagalhaes88%2FHeroBot.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Flgmagalhaes88%2FHeroBot?ref=badge_large)

@@ -1,21 +1,33 @@
+#!/usr/bin/env bash
 set -e
-echo "Enter release version: "
-read VERSION
 
-read -p "Releasing $VERSION - are you sure? (y/n)" -n 1 -r
-echo    # (optional) move to a new line
+VERSION=${1}
+if [ -z ${VERSION} ]; then
+  echo "VERSION not set"
+  exit 1
+fi
+
+TAG=${2}
+if [ -z ${TAG} ]; then
+  echo "TAG not set (e.g.\"latest\" or \"beta\")"
+  exit 1
+fi
+
+if [[ `git status --porcelain` ]]; then
+  echo "There are pending changes, refusing to release."
+  exit 1
+fi
+
+read -p "Release v${VERSION} with tag ${TAG}? " -n 1 -r
+echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-  echo "Releasing $VERSION ..."
-  npm test
-  VERSION=$VERSION npm run build
+    echo "Creating Github release branch release/v${VERSION}"
+    git checkout -b release/v${VERSION}
+    git add .
+    git commit -m "Release ${VERSION}"
+    git tag v${VERSION}
+    git push origin --tags
 
-  # commit
-  git add -A
-  git commit -m "[build] $VERSION"
-  npm version "$VERSION" --message "[release] $VERSION"
-
-  # publish
-  git push origin refs/tags/v"$VERSION"
-  git push
+    echo "All done!"
 fi

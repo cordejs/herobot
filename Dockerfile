@@ -1,18 +1,16 @@
 FROM node:latest
 
-RUN mkdir -p /app
-WORKDIR /app
+# Create Directory for the Container
+WORKDIR /usr/herobot
 
-COPY package-lock.json /app
-COPY package.json /app
+COPY package.json .
 
-RUN /usr/local/bin/npm install
-
-COPY . /app
-
-RUN /usr/local/bin/npm run build
+# Grab dependencies and transpile src directory to dist
+RUN npm install
 
 COPY . .
 
-ENTRYPOINT ["/usr/local/bin/npm"]
+RUN npm run build
+
+# Start the server
 CMD ["npm" , "bot"]

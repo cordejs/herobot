@@ -1,6 +1,6 @@
 {
   "name": "herobot",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A discord bot to play RPG",
   "main": "./src/bot.ts",
   "dependencies": {

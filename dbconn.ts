@@ -37,7 +37,7 @@ export function connect(): Promise<void> {
     maxQueryExecutionTime: 20000,
     logger: "advanced-console",
     entities: ["./build/src/entity/**/*.js"],
-    migrations: ["./build/src/migration/**.js"],
+    migrations: ["./build/src/migration/**/*.js"],
     subscribers: ["./build/src/subscriber/**/*.js"],
     cli: {
       migrationsDir: "./src/migration"

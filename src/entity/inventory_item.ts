@@ -9,15 +9,15 @@ import { Hero } from "./hero";
 import { Equip } from "./equip";
 
 @Entity("inventory_item")
-export class InventoryItem extends BaseEntity {
+export class InventoryItem {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @JoinColumn()
+  @JoinColumn({ name: "idhero" })
   @OneToOne(type => Hero)
   hero: Promise<Hero>;
 
-  @JoinColumn()
+  @JoinColumn({ name: "idequip" })
   @OneToOne(type => Equip)
   equip: Promise<Equip>;
 }

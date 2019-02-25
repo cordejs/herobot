@@ -14,61 +14,53 @@ export class Migration1548891232589 implements MigrationInterface {
         "DROP TABLE IF EXISTS proficience CASCADE;" +
         "DROP TABLE IF EXISTS play_status CASCADE;" +
         "CREATE TABLE proficience (" +
-        "   id SERIAL PRIMARY KEY," +
+        "   id INTEGER PRIMARY KEY," +
         "    level INTEGER NOT NULL," +
         "    xp INTEGER NOT NULL," +
         "    levelMaxXp INTEGER NOT NULL" +
         ");" +
         "CREATE TABLE monster (" +
-        "    id SERIAL PRIMARY KEY," +
+        "    id INTEGER PRIMARY KEY," +
         "    name CHARACTER(30) NOT NULL," +
         "    level INTEGER NOT NULL," +
         "    damage INTEGER NOT NULL," +
         "    hp INTEGER NOT NULL," +
-        "    shield INTEGER NOT NULL," +
+        "    defence INTEGER NOT NULL," +
         "    givedxp INTEGER NOT NULL," +
         "    givedgold INTEGER NOT NULL" +
         ");" +
         "CREATE TABLE item (" +
-        "    id SERIAL PRIMARY KEY," +
+        "    id INTEGER PRIMARY KEY," +
         "    name CHARACTER(50) NOT NULL," +
         "    price INTEGER NOT NULL" +
         ");" +
         "CREATE TABLE shield (" +
-        "    id SERIAL PRIMARY KEY," +
         "    defence INTEGER NOT NULL," +
-        "    idItem SERIAL," +
-        "    FOREIGN KEY(idItem) REFERENCES item(id)" +
-        ");" +
+        ") INHERITS (equip);" +
         "CREATE TABLE weapon (" +
-        "    id SERIAL PRIMARY KEY," +
         "    damage INTEGER NOT NULL," +
-        "    idItem SERIAL," +
-        "    FOREIGN KEY(idItem) REFERENCES item(id)" +
-        ");" +
+        ") INHERITS (equip);" +
         "CREATE TABLE adventure (" +
-        "    id SERIAL PRIMARY KEY," +
+        "    id INTEGER PRIMARY KEY," +
         "    level INTEGER NOT NULL," +
         "    name CHARACTER(40) NOT NULL," +
-        "    idMonster SERIAL NOT NULL," +
-        "    FOREIGN KEY(idMonster) REFERENCES monster(id)" +
+        "    monsterid INTEGER NULL REFERENCES monster(id)," +
         ");" +
         "CREATE TABLE play_status (" +
-        "    id SERIAL PRIMARY KEY," +
-        "    action CHARACTER(30) NOT NULL," +
-        "    monsterskilled INTEGER NOT NULL," +
-        "    exp INTEGER NOT NULL," +
-        "    timeStarted INTEGER NOT NULL" +
+        "    id INTEGER PRIMARY KEY," +
+        "    task CHARACTER(30) NULL," +
+        "    monsterskilled INTEGER NOT NULL DEFAULT 0," +
+        "    exp INTEGER NOT NULL DEFAULT 0," +
+        "    timeStarted INTEGER NOT NULL DEFAULT 0" +
         ");" +
         "CREATE TABLE inventory_item (" +
-        "    id SERIAL PRIMARY KEY," +
+        "    id INTEGER PRIMARY KEY," +
         "    amount INTEGER NOT NULL," +
         "    equiped BIT(1) NOT NULL," +
-        "    idItem SERIAL," +
-        "    FOREIGN KEY(idItem) REFERENCES item(id)" +
+        "    itemid INTEGER REFERENCES (id)," +
         ");" +
         "CREATE TABLE hero (" +
-        "    id SERIAL PRIMARY KEY," +
+        "    id INTEGER PRIMARY KEY," +
         "    name CHARACTER(30) NOT NULL," +
         "    level INTEGER NOT NULL," +
         "    hpTotal INTEGER NOT NULL," +
@@ -79,16 +71,11 @@ export class Migration1548891232589 implements MigrationInterface {
         "    deaths INTEGER NOT NULL," +
         "    monstersKilled INTEGER NOT NULL," +
         "    heroClass CHARACTER(30) NOT NULL," +
-        "    idShield SERIAL," +
-        "    idWeapon SERIAL," +
-        "    idPlayStatus SERIAL," +
-        "    idDamageProficience SERIAL," +
-        "    idDefenceProficience SERIAL," +
-        "    FOREIGN KEY(idShield) REFERENCES shield(id)," +
-        "    FOREIGN KEY(idWeapon) REFERENCES weapon(id)," +
-        "    FOREIGN KEY(idPlayStatus) REFERENCES play_status(id)," +
-        "    FOREIGN KEY(idDamageProficience) REFERENCES proficience(id)," +
-        "    FOREIGN KEY(idDefenceProficience) REFERENCES proficience(id)" +
+        "    shieldid INTEGER REFERENCES shield(id)," +
+        "    weaponid INTEGER REFERENCES weapon(id)," +
+        "    playstatusid INTEGER REFERENCES play_status(id)," +
+        "    damageproficienceid INTEGER REFERENCES proficience(id)," +
+        "    defenceproficienceid INTEGER REFERENCES proficience(id)," +
         ");"
     );
   }

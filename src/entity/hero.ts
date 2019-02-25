@@ -3,7 +3,6 @@ import {
   Column,
   OneToOne,
   JoinColumn,
-  ManyToOne,
   PrimaryColumn,
   ManyToMany
 } from "typeorm";
@@ -14,7 +13,6 @@ import { HeroClass } from "./heroClass";
 import { Shield } from "./shield";
 import { InventoryItem } from "./inventory_item";
 import { JsonHandle } from "../utils/jsonHandle";
-import { getProficienceRepository } from "../repositories/proficienceRepository";
 
 @Entity()
 export class Hero {
@@ -48,16 +46,16 @@ export class Hero {
   @Column("varchar", { name: "monsterskilled" })
   monstersKilled: number;
 
-  @JoinColumn({ name: "idshield" })
+  @JoinColumn({ name: "idshield", referencedColumnName: "id" })
   @OneToOne(type => Shield)
   shield: Promise<Shield>;
 
-  @JoinColumn({ name: "idweapon" })
+  @JoinColumn({ name: "idweapon", referencedColumnName: "id" })
   @OneToOne(type => Weapon)
   weapon: Promise<Weapon>;
 
-  @JoinColumn({ name: "idplaystatus" })
   @OneToOne(type => PlayStatus)
+  @JoinColumn({ name: "idplaystatus" })
   playStatus: Promise<PlayStatus>;
 
   @JoinColumn({ name: "iddamageproficience" })
@@ -75,24 +73,45 @@ export class Hero {
   @ManyToMany(type => InventoryItem)
   inventoryItens: Promise<InventoryItem[]>;
 
-  /**
-   * @param name name of the player
-   * @param heroclass player's class
-   * @param userID id of user's discord
-   * @constructor
-   */
-  constructor(name?: string, heroclass?: HeroClass, userID?: number) {
-    this.init(name, heroclass, userID);
+  constructor(name: string, userId: number) {
+    this.id = userId;
+    this.name = name;
+    this.level = 1;
+    this.levelMaxXp = 100;
+    this.xp = 0;
+    this.hpTotal = 100;
+
+    this.gold = 0;
+    this.deaths = 0;
+    this.monstersKilled = 0;
+    this.hpActual = 100;
   }
 
   /**
-   * Restore all user's informations to their default value
+   * Return the value of all basics attributes(no foreign keys) of the class
+   * to the save values when a new Hero is created.
    */
-  async reset(): Promise<void> {
-    const heroClass = await this.heroClass;
-    this.init(this.name, heroClass, this.id);
+  async reset() {
+    this.level = 1;
+    this.levelMaxXp = 100;
+    this.xp = 0;
+    this.hpTotal = 100;
+
+    this.gold = 0;
+    this.deaths = 0;
+    this.monstersKilled = 0;
+    this.hpActual = 100;
   }
 
+  /**
+   * sum the actual amount of exp of the hero with the value
+   * informed in parameter. If the result is a value bigger than the
+   * maximum amount of experience for the level, the hero has his level
+   * upgraded. The experience is reseted and the remain of experience that
+   * left (if left) is added to to the actual value of exp(in the case, 0)
+   *
+   * @param value amount of experience to update
+   */
   updateExp(value: number): void {
     if (value + this.xp >= this.levelMaxXp) {
       this.xp = value + this.xp - this.levelMaxXp;
@@ -100,53 +119,5 @@ export class Hero {
       this.levelMaxXp = JsonHandle.getLevelById(this.level).exp;
     }
     this.xp += value;
-  }
-
-  /**
-   * Set the default values of the properties
-   * @param name player's name
-   * @param heroclass with class the player will be
-   * @param userID id of discord user's
-   */
-  private async init(name?: string, heroclass?: HeroClass, userID?: number) {
-    const proficienceLevel = JsonHandle.getProficienceById(1);
-    const proficienceRepository = getProficienceRepository();
-
-    const damageProficience = new Proficience();
-    damageProficience.level = 1;
-    damageProficience.levelmaxxp = proficienceLevel.exp;
-
-    await damageProficience;
-    this.damageProficience = Promise.resolve(damageProficience);
-
-    const defenceProficience = new Proficience();
-    damageProficience.level = 1;
-    damageProficience.levelmaxxp = proficienceLevel.exp;
-
-    await proficienceRepository.create(defenceProficience);
-
-    this.defenceProficience = Promise.resolve(defenceProficience);
-
-    if (userID !== undefined) this.id = userID;
-    if (name !== undefined) this.name = name;
-
-    if (heroclass !== undefined) {
-      this.heroClass = Promise.resolve(heroclass);
-    }
-
-    this.level = 1;
-    this.levelMaxXp = 100;
-    this.xp = 0;
-    this.hpTotal = 100;
-    this.gold = 0;
-
-    this.deaths = 0;
-    this.monstersKilled = 0;
-    this.hpActual = 100;
-
-    // this.weapon = Promise.resolve(JsonHandle.getWeaponById(1));
-    // this.shield = Promise.resolve(JsonHandle.getShieldById(1));
-
-    // this.inventoryItens = Promise.resolve([this.weapon, this.shield]);
   }
 }

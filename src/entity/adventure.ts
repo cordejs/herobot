@@ -3,8 +3,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   OneToOne,
-  JoinColumn,
-  BaseEntity
+  JoinColumn
 } from "typeorm";
 import { Monster } from "./monster";
 
@@ -19,7 +18,7 @@ export class Adventure {
   @Column()
   name: string;
 
-  @JoinColumn()
+  @JoinColumn({ name: "idmonster" })
   @OneToOne(type => Monster)
   monster: Promise<Monster>;
 }

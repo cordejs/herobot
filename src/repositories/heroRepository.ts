@@ -7,17 +7,93 @@ import { Hero } from "../entity/hero";
 import { Proficience } from "../entity/proficience";
 import { IPlayStatus } from "../interfaces/playStatus";
 import { EntityRepository, Repository } from "typeorm";
+import { JsonHandle } from "../utils/jsonHandle";
+import { getProficienceRepository } from "./proficienceRepository";
+import { getHeroClassepository } from "./heroClassRepository";
+import { PlayStatus } from "../entity/playStatus";
+import { getPlayStatusRepository } from "./playStatusRepository";
+import { getWeaponpository } from "./weaponRepository";
+import { getShieldpository } from "./shieldRepository";
+import { InventoryItem } from "../entity/inventory_item";
+import { getInventoryItemRepository } from "./inventoryItemRepository";
 
-/** @internal */
 @EntityRepository(Hero)
 export class HeroRepository extends Repository<Hero> {
-  async createhero(hero: Hero): Promise<Hero> {
+  /**
+   * @param name  name of the player
+   * @param userID id of user's discord
+   */
+  async createhero(name: string, userID: number): Promise<Hero> {
     try {
-      return super.save(hero);
+      const hero = new Hero(name, userID);
+      await this.initHero(hero, true);
+      return Promise.resolve(hero);
     } catch (error) {
       console.error(error);
       return Promise.reject(error);
     }
+  }
+
+  private async initHero(hero: Hero, newHero: boolean) {
+    hero.heroClass = getHeroClassepository().findDefaultClassName();
+    hero.weapon = Promise.resolve(await getWeaponpository().findFirstWeapon());
+    hero.shield = Promise.resolve(await getShieldpository().findFirstShield());
+
+    const inventoryItens: InventoryItem[] = [];
+
+    const weaponInventoryItem = new InventoryItem();
+    weaponInventoryItem.hero = Promise.resolve(hero);
+    weaponInventoryItem.equip = hero.weapon;
+
+    const shieldInventoryItem = new InventoryItem();
+    shieldInventoryItem.hero = Promise.resolve(hero);
+    shieldInventoryItem.equip = hero.shield;
+
+    if (newHero) {
+      const playStatus = new PlayStatus();
+      await getPlayStatusRepository().insert(playStatus);
+      hero.playStatus = Promise.resolve(playStatus);
+
+      const proficienceRepository = getProficienceRepository();
+
+      let damageProficience = await hero.damageProficience;
+      let defenceProficience = await hero.defenceProficience;
+
+      damageProficience = new Proficience();
+      defenceProficience = new Proficience();
+
+      await proficienceRepository.insert(defenceProficience);
+      await proficienceRepository.insert(damageProficience);
+
+      hero.damageProficience = Promise.resolve(damageProficience);
+      hero.defenceProficience = Promise.resolve(defenceProficience);
+
+      hero.heroClass = getHeroClassepository().findDefaultClassName();
+      hero.weapon = Promise.resolve(getWeaponpository().findFirstWeapon());
+      hero.shield = Promise.resolve(getShieldpository().findFirstShield());
+
+      await getInventoryItemRepository().insert(weaponInventoryItem);
+      await getInventoryItemRepository().insert(shieldInventoryItem);
+
+      inventoryItens.push(shieldInventoryItem, weaponInventoryItem);
+      hero.inventoryItens = Promise.resolve(inventoryItens);
+    } else {
+      await hero.reset();
+
+      hero.playStatus = Promise.resolve(
+        new PlayStatus((await hero.playStatus).id)
+      );
+      hero.damageProficience = Promise.resolve(
+        new Proficience((await hero.damageProficience).id)
+      );
+      hero.defenceProficience = Promise.resolve(
+        new Proficience((await hero.defenceProficience).id)
+      );
+
+      hero.inventoryItens = Promise.resolve(inventoryItens);
+    }
+
+    super.save(hero);
   }
 
   async findbyId(id: string): Promise<Hero> {
@@ -153,8 +229,6 @@ export class HeroRepository extends Repository<Hero> {
 
     const timeTrained = getTimeStampFormated() - heroStatus.timestarted;
     heroStatus.exp = this.generateExpTotal(timeTrained);
-
-    heroStatus.save();
     return getTimeStampFormated() - heroStatus.timestarted;
   }
 

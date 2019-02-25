@@ -2,34 +2,46 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  BaseEntity,
   JoinColumn,
   OneToOne
 } from "typeorm";
 import { Task } from "../enums/action";
 import { Adventure } from "./adventure";
 
-@Entity()
-export class PlayStatus extends BaseEntity {
+@Entity("play_status")
+export class PlayStatus {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column("int")
-  task: Task;
+  @Column({ enum: Task, nullable: true })
+  task?: Task;
 
-  @Column()
+  @Column({ default: 0 })
   monsterskilled: number;
 
-  @Column()
+  @Column({ default: 0 })
   exp: number;
 
-  @Column()
+  @Column({ default: 0 })
   gold: number;
 
-  @Column()
+  @Column({ default: 0 })
   timestarted: number;
 
-  @JoinColumn()
-  @OneToOne(type => Adventure)
+  @JoinColumn({ name: "idadventure", referencedColumnName: "id" })
+  @OneToOne(() => Adventure, { nullable: true })
   adventure: Promise<Adventure>;
+
+  constructor(id?: number) {
+    if (id) {
+      this.id = id;
+    }
+
+    this.exp = 0;
+    this.gold = 0;
+    this.monsterskilled = 0;
+    this.task = null;
+    this.timestarted = 0;
+    this.adventure = null;
+  }
 }

@@ -10,4 +10,7 @@ export class Equip {
 
   @Column()
   price: number;
+
+  @Column()
+  level: number;
 }

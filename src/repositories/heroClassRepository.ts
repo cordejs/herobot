@@ -23,6 +23,22 @@ export class HeroClassRepository extends Repository<HeroClass> {
       );
     }
   }
+
+  /**
+   * Returns the fist class of a hero in the game (Begginner)
+   */
+  async findDefaultClassName(): Promise<HeroClass> {
+    try {
+      return await super.findOne({ name: ClassName.BEGGINNER });
+    } catch (error) {
+      console.log(error);
+      return Promise.reject(
+        "We found a problem when creating your assignature" +
+          +" of new hero. Try again later " +
+          Emojis.SAD_CRYING
+      );
+    }
+  }
 }
 
 export function getHeroClassepository(): HeroClassRepository {

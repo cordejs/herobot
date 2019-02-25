@@ -51,44 +51,15 @@ export async function createHero(msg: Discord.Message) {
           " I know that you exists"
       );
     } else {
-      await msg.channel.send("Hello " + heroName + ". What is your class ?");
-
-      const getClass = await msg.channel.awaitMessages(
-        classResponse => classResponse.author.id === msg.author.id,
-        {
-          max: 1,
-          time: 10000,
-          errors: ["time"]
-        }
-      );
-
-      const className = getClass.first().content;
-
-      if (getHeroClass(className) !== undefined) {
-        const classHero = getHeroClass(className.toString());
-        const heroClassRepository = getHeroClassepository();
-
-        try {
-          const _class = await heroClassRepository.findByName(classHero);
-
-          try {
-            await heroRepository.createhero(
-              new Hero(heroName, _class, Number.parseInt(msg.author.id))
-            );
-
-            msg.channel.send("You're now a " + className);
-          } catch (error) {
-            console.log("Fail at hero creation. Error: " + error);
-            msg.channel.send("Wasn't possible to create your hero");
-          }
-        } catch (error) {
-          msg.channel.send(error);
-        }
-      } else {
-        msg.channel.send(
-          "You said your name, but not witch class you wanna be. We can not " +
-            "create a hero for you in that way"
+      try {
+        await heroRepository.createhero(
+          heroName,
+          Number.parseInt(msg.author.id)
         );
+        msg.channel.send("Welcome to the game " + heroName + "!");
+      } catch (error) {
+        console.log("Fail at hero creation. Error: " + error);
+        msg.channel.send("Wasn't possible to create your hero");
       }
     }
   }

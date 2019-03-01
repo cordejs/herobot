@@ -1,8 +1,9 @@
+import { EmojiPeople } from "../enums/emojis";
+
 // import * as firebase from "firebase";
 // import "firebase/database";
 // import * as connections from "../../config";
 // import { Entity } from "../models/entity";
-import { Emojis } from "../enums/emojis";
 
 /**
  * @deprecated
@@ -45,7 +46,7 @@ export class FbBaseEntityService<T> {
         console.log(error);
         return Promise.reject<T>(
           "I found an problem trying to load your hero informations " +
-            Emojis.SAD_CRYING +
+            EmojiPeople["😰"] +
             ". Try again later"
         );
       });
@@ -64,7 +65,7 @@ export class FbBaseEntityService<T> {
         console.log(error);
         return Promise.reject<T>(
           "I found a problem when trying to collect the information " +
-            Emojis.SAD_CRYING +
+            EmojiPeople["😰"] +
             ". Try again later"
         );
       });
@@ -88,7 +89,7 @@ export class FbBaseEntityService<T> {
         console.log(error);
         return Promise.reject<void>(
           "I found a problem when trying to delete the information " +
-            Emojis.SAD_CRYING +
+            EmojiPeople["😰"] +
             ". Try again later"
         );
       });

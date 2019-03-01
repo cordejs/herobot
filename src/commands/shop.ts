@@ -2,13 +2,13 @@ import { JsonHandle } from "./../utils/jsonHandle";
 import * as Discord from "discord.js";
 import { reactionData } from "../utils/global";
 import { Item } from "../interfaces/item";
-import { Emojis } from "../enums/emojis";
 import { Shield } from "../interfaces/shield";
 import { getHeroRepository } from "../utils/repositoryHandler";
 import { Equip } from "../entity/equip";
 import { getShieldpository } from "../repositories/shieldRepository";
 import { getWeaponpository } from "../repositories/weaponRepository";
 import { Weapon } from "../entity/weapon";
+import { EmojiSymbols } from "../enums/emojis";
 
 /**
  * Informs all available items from selected type.
@@ -66,10 +66,10 @@ export async function shop(msg: Discord.Message, shopType: string) {
 }
 
 export async function addReactions(botMessage: Discord.Message) {
-  await botMessage.react(Emojis.FIRST);
-  await botMessage.react(Emojis.BACK);
-  await botMessage.react(Emojis.NEXT);
-  await botMessage.react(Emojis.LAST);
+  await botMessage.react(EmojiSymbols["⏪"]);
+  await botMessage.react(EmojiSymbols["◀"]);
+  await botMessage.react(EmojiSymbols["▶"]);
+  await botMessage.react(EmojiSymbols["⏩"]);
 }
 
 export function addRectionData(
@@ -197,19 +197,19 @@ export function reactionHandle(
   user: Discord.User
 ) {
   switch (reaction.emoji.name) {
-    case Emojis.FIRST: {
+    case EmojiSymbols["⏪"]: {
       goToFirstItem(reaction, user);
       break;
     }
-    case Emojis.BACK: {
+    case EmojiSymbols["◀"]: {
       backOneItem(reaction, user);
       break;
     }
-    case Emojis.NEXT: {
+    case EmojiSymbols["▶"]: {
       fowardOneItem(reaction, user);
       break;
     }
-    case Emojis.LAST: {
+    case EmojiSymbols["⏩"]: {
       goToLastItem(reaction, user);
       break;
     }

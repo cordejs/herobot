@@ -1,10 +1,7 @@
 import * as Discord from "discord.js";
-import { getHeroClass } from "../utils/classHandle";
-import { Emojis } from "../enums/emojis";
 import { getHeroRepository } from "../utils/repositoryHandler";
 import { HeroRepository } from "../repositories/heroRepository";
-import { Hero } from "../entity/hero";
-import { getHeroClassepository } from "../repositories/heroClassRepository";
+import { EmojiPeople } from "../enums/emojis";
 
 /**
  * Create a new user selecting a name and a class for him.
@@ -47,7 +44,7 @@ export async function createHero(msg: Discord.Message) {
     if (heroName === undefined || heroName.trim() === "") {
       msg.channel.send(
         "You can not create a hero without name " +
-          Emojis.SLIGHTLY_SAD +
+          EmojiPeople["😰"] +
           " I know that you exists"
       );
     } else {

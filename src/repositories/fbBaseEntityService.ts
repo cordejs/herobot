@@ -1,14 +1,21 @@
-import * as connections from "../../config";
-import { Entity } from "../models/entity";
+// import * as firebase from "firebase";
+// import "firebase/database";
+// import * as connections from "../../config";
+// import { Entity } from "../models/entity";
 import { Emojis } from "../enums/emojis";
 
 /**
+ * @deprecated
  * Contains all method for a CRUD of an entity
  */
-export class BaseEntityService<T> {
-  protected db;
+export class FbBaseEntityService<T> {
+  // protected db: firebase.database.Database;
+  protected db = null;
 
-  constructor() {}
+  constructor() {
+    // const app = firebase.initializeApp(connections.firebaseConnection);
+    this.db = null;
+  }
 
   /**
    * Save a entity into database based in the informed route
@@ -92,28 +99,28 @@ export class BaseEntityService<T> {
    * @param route path where the entity is located
    * @param entity object that will be removed
    */
-  protected update(route: string, entity: Entity): Promise<void> {
-    const id = entity.id;
-    this.adjustEntity(entity);
-    delete entity.id;
+  // protected update(route: string, entity: Entity): Promise<void> {
+  //   const id = entity.id;
+  //   this.adjustEntity(entity);
+  //   delete entity.id;
 
-    return this.db
-      .ref(route + "/" + id)
-      .update(entity)
-      .then(function() {
-        return new Promise<void>(resolve => {
-          resolve();
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        return Promise.reject<void>(
-          "I found an problem when trying to update your hero's informations " +
-            Emojis.SAD_CRYING +
-            ". Try again later"
-        );
-      });
-  }
+  //   return this.db
+  //     .ref(route + "/" + id)
+  //     .update(entity)
+  //     .then(function () {
+  //       return new Promise<void>(resolve => {
+  //         resolve();
+  //       });
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //       return Promise.reject<void>(
+  //         "I found an problem when trying to update your hero's informations " +
+  //         Emojis.SAD_CRYING +
+  //         ". Try again later"
+  //       );
+  //     });
+  // }
 
   /**
    * Remove all actual values of an entity from database and put the actual properties of the
@@ -121,34 +128,34 @@ export class BaseEntityService<T> {
    * @param route path to set the values
    * @param entity who will have properties changed
    */
-  protected set(route: string, entity: Entity): Promise<void> {
-    delete entity.id;
-    return this.db
-      .ref(route)
-      .set(entity)
-      .then(function() {
-        return new Promise<void>(resolve => {
-          resolve();
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        return Promise.reject<void>(
-          "I found an problem when trying to set your hero's informations " +
-            Emojis.SAD_CRYING +
-            ". Try again later"
-        );
-      });
-  }
+  // protected set(route: string, entity: Entity): Promise<void> {
+  //   delete entity.id;
+  //   return this.db
+  //     .ref(route)
+  //     .set(entity)
+  //     .then(function () {
+  //       return new Promise<void>(resolve => {
+  //         resolve();
+  //       });
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //       return Promise.reject<void>(
+  //         "I found an problem when trying to set your hero's informations " +
+  //         Emojis.SAD_CRYING +
+  //         ". Try again later"
+  //       );
+  //     });
+  // }
 
-  private adjustEntity(entity: Entity) {
-    Object.getOwnPropertyNames(entity).forEach(proper => {
-      Object.defineProperty(
-        entity,
-        proper.replace("_", ""),
-        Object.getOwnPropertyDescriptor(entity, proper)
-      );
-      delete Object(entity)["_" + proper];
-    });
-  }
+  // private adjustEntity(entity: Entity) {
+  //   Object.getOwnPropertyNames(entity).forEach(proper => {
+  //     Object.defineProperty(
+  //       entity,
+  //       proper.replace("_", ""),
+  //       Object.getOwnPropertyDescriptor(entity, proper)
+  //     );
+  //     delete Object(entity)["_" + proper];
+  //   });
+  // }
 }

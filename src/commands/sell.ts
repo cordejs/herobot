@@ -1,66 +1,79 @@
 import * as Discord from "discord.js";
-import heroService from "../services/heroService";
-import { InventoryItem } from "../interfaces/inventoryItem";
+import { getHeroRepository } from "../utils/repositoryHandler";
+import { InventoryItem } from "../entity/inventory_item";
 
 /**
  * Inform the situation of the hero in his exploration or trainning
  * @since 0.2
  * @param msg Discord last message related to the command
  */
-export function sell(msg: Discord.Message, itemID: string) {
-    heroService.findbyUserID(msg.author.id).then(hero => {
-        if (hero === null) {
-            msg.channel.send("Create a hero before check his `status`");
-            return;
-        }
-        else if (itemID !== "" && itemID !== null && itemID !== undefined) {
-            const itemToSell: InventoryItem = hero.inventory.find(itemInventory => itemInventory.item.id == itemID);
-            if (itemToSell !== undefined) {
-                msg.channel.send("Are you sure that want to sell " + itemToSell.item.name + " for $" + itemToSell.item.price + " ?")
-                    .then(() => {
-                        msg.channel.awaitMessages(responseName => responseName.author.id === msg.author.id,
-                            {
-                                max: 1,
-                                time: 10000,
-                                errors: ["time"]
-                            }
-                        ).then(response => {
-                            const ans = response.first().content.toLocaleLowerCase().trim();
+export async function sell(msg: Discord.Message, itemID: string) {
+  try {
+    const heroRepository = getHeroRepository();
+    const hero = await heroRepository.findbyId(msg.author.id);
 
-                            if (ans === "yes" || ans === "y") {
+    if (hero === null) {
+      msg.channel.send("Create a hero before check his `status`");
+      return;
+    } else if (itemID !== "" && itemID !== null && itemID !== undefined) {
+      const inventoryItens = await hero.inventoryItens;
 
-                                if (hero.inventory.length === 0 || hero.inventory === undefined) {
-                                    hero.inventory = [];
-                                    hero.inventory.push({ item: hero.weapon, amount: 1, equiped: true });
-                                    hero.inventory.push({ item: hero.shield, amount: 1, equiped: true });
-                                }
+      const itemToSell: InventoryItem = inventoryItens.find(
+        itemInventory => itemInventory.id == Number.parseInt(itemID)
+      );
 
-                                hero.inventory.push({ item: hero.weapon, amount: 1, equiped: true });
-                                hero.inventory.push({ item: hero.weapon, amount: 1, equiped: true });
+      const equiptoSell = await itemToSell.equip;
 
-                                hero.gold += itemToSell.item.price;
-                                const index = hero.inventory.indexOf(itemToSell, 0);
+      if (itemToSell !== undefined) {
+        await msg.channel.send(
+          "Are you sure that want to sell " +
+            equiptoSell.name +
+            " for $" +
+            equiptoSell.price +
+            " ?"
+        );
 
-                                if (index > -1) {
-                                    hero.inventory.splice(index, 1);
-                                }
-                                heroService.updateHero(hero)
-                                    .then(() => msg.channel.send("Item sold! Your current gold is $" + hero.gold))
-                                    .catch(error => {
-                                        console.log(error);
-                                        msg.channel.send(error);
-                                    });
-
-                            } else {
-                                msg.channel.send("Hmm. Ok then");
-                            }
-                        }).catch(error => {
-                            console.log("User dot not respond sell command. Output: " + error);
-                        });
-                    });
+        try {
+          const response = await msg.channel.awaitMessages(
+            responseName => responseName.author.id === msg.author.id,
+            {
+              max: 1,
+              time: 10000,
+              errors: ["time"]
             }
-        } else {
-            msg.channel.send("You do not choose a item to sell");
+          );
+
+          const ans = response
+            .first()
+            .content.toLocaleLowerCase()
+            .trim();
+
+          if (ans === "yes" || ans === "y") {
+            hero.gold += equiptoSell.price;
+            const index = inventoryItens.indexOf(itemToSell, 0);
+
+            if (index > -1) {
+              inventoryItens.splice(index, 1);
+            }
+
+            try {
+              await heroRepository.updateHero(hero);
+              msg.channel.send("Item sold! Your current gold is $" + hero.gold);
+            } catch (error) {
+              console.log(error);
+              msg.channel.send(error);
+            }
+          } else {
+            msg.channel.send("Hmm. Ok then");
+          }
+        } catch (error) {
+          console.log("User dot not respond sell command. Output: " + error);
         }
-    }).catch(error => msg.channel.send(error));
+      }
+    } else {
+      msg.channel.send("You do not choose a item to sell");
+    }
+  } catch (error) {
+    msg.channel.send(error);
+  }
 }

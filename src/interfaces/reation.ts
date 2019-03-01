@@ -1,6 +1,6 @@
 import * as Discord from "discord.js";
 import { itemType } from "../enums/itemType";
-import { Item } from "./item";
+import { Equip } from "../entity/equip";
 
 /**
  * Store the list of shields/weapons that the user is seeing to buy in "shop" command
@@ -12,8 +12,8 @@ import { Item } from "./item";
  */
 export interface Reaction {
   userId: string;
-  data: Item[];
+  data: Equip[];
   index: number;
   message: Discord.Message;
   arrayType: itemType;
-};
+}

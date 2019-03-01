@@ -1,7 +1,6 @@
 ---
 name: ISSUE_TEMPLATE
 about: Problem found in a command
-
 ---
 
 **Command**

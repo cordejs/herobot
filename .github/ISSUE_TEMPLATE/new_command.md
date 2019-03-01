@@ -1,7 +1,6 @@
 ---
 name: NEW_COMMAND
 about: Proposal for a new command
-
 ---
 
 **Command**

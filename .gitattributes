@@ -16,7 +16,3 @@
 # Never perform LF normalization on these files
 *.ico    binary
 *.png    binary
-
-# Show sql language
-*.sql linguist-detectable=true
-*.sql linguist-language=sql

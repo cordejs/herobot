@@ -2,7 +2,6 @@ workflow "Build and push Docker image" {
   on = "push"
   resolves = [
     "Tag with latest",
-    "Push commit hash image",
     "Push latest image",
   ]
 }
@@ -34,16 +33,4 @@ action "Push latest image" {
     "Login to Docker registry",
     "Tag with latest",
   ]
-}
-
-action "Tag with commit hash" {
-  uses = "actions/docker/cli@c08a5fc9e0286844156fefff2c141072048141f6"
-  needs = ["Build Docker image"]
-  args = "tag build lucasgsm88/herobot:$GITHUB_SHA"
-}
-
-action "Push commit hash image" {
-  uses = "actions/docker/cli@c08a5fc9e0286844156fefff2c141072048141f6"
-  args = "push lucasgsm88/herobot:$GITHUB_SHA"
-  needs = ["Tag with commit hash"]
 }

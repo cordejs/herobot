@@ -49,3 +49,25 @@ function generateLevelsJSON(reps = 200) {
 
   document.getElementById("txtAreaResult").value = json;
 }
+
+/**
+ * Used to format emojis description in a enum
+ * @param {string} text
+ */
+function convert(text) {
+  let splited = text.split("//");
+  let result = "";
+  for (let i = 1; i < splited.length; i++) {
+    let secondSplit = splited[i].split(" ");
+    let description = "";
+
+    for (let i2 = 2; i2 < secondSplit.length; i2++) {
+      description += secondSplit[i2].replace(/(\r\n|\n|\r)/gm, "") + " ";
+    }
+
+    result += "/** " + description + "*/";
+    result += "\n";
+    result += `"${secondSplit[1]}" = "${secondSplit[1]}",\n`;
+  }
+  document.getElementById("txtoutput").innerHTML = result;
+}

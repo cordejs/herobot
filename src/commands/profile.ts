@@ -1,15 +1,25 @@
 import * as Discord from "discord.js";
-import heroService from "../services/heroService";
+import { getHeroRepository } from "../utils/repositoryHandler";
 
 /**
  * Shows hero's profile
  * @since 0.1
  * @param msg Discord last message related to the command
  */
-export function profile(msg: Discord.Message) {
-  heroService.findbyUserID(msg.author.id).then(hero => {
-    msg.channel.send(
-      "Name: `" +
+export async function profile(msg: Discord.Message) {
+  let heroRepository;
+  let hero;
+
+  try {
+    heroRepository = getHeroRepository();
+    hero = await heroRepository.findbyId(msg.author.id);
+  } catch (error) {
+    msg.channel.send(error);
+    return;
+  }
+
+  msg.channel.send(
+    "Name: `" +
       hero.name +
       "`\n" +
       "Gold: **$" +
@@ -51,17 +61,16 @@ export function profile(msg: Discord.Message) {
       hero.shield.name +
       "`\n" +
       "Damage: **" +
-      heroService.calcDamage(
+      heroRepository.calcDamage(
         hero.weapon.damage,
         hero.damageProficience.level
       ) +
       "**\n" +
       "Defence: **" +
-      heroService.calcDefence(
+      heroRepository.calcDefence(
         hero.shield.defence,
         hero.shieldProficience.level
       ) +
       "**"
-    );
-  }).catch((error) => msg.channel.send(error));
+  );
 }

@@ -1,29 +1,30 @@
 import * as Discord from "discord.js";
 import { getTime } from "../utils/time";
 import { HeroDieError } from "../errors/heroDieError";
-import heroService from "../services/heroService";
+import { getHeroRepository } from "../utils/repositoryHandler";
 
 /**
  * Returns hero from exploration / training
  *  * @since 0.1
  * @param msg message caller
  */
-export function back(msg: Discord.Message): void {
-  heroService.findbyUserID(msg.author.id).then(hero => {
+export async function back(msg: Discord.Message): Promise<void> {
+  const heroRepository = getHeroRepository();
+
+  try {
+    const hero = await heroRepository.findbyId(msg.author.id);
+    const playStatus = await hero.playStatus;
+
     if (hero === null) {
       msg.channel.send("You seems not to have a hero to call him back");
-    } else if (
-      hero.adventureStartedTime !== 0 ||
-      hero.trainDamageStartedTime !== 0 ||
-      hero.trainShieldStartedTime !== 0
-    ) {
+    } else if (playStatus.task !== null) {
       try {
-        const status = heroService.finishHeroTraining(hero);
+        const status = await heroRepository.finishHeroTraining(hero);
 
         msg.channel.send(
-          `You killed ${status.monstersKilled} monsters. ` +
-          `Got ${status.gold} of gold and ${status.exp} of experience.` +
-          ` You explored for ${getTime(status.time)}`
+          `You killed ${status} monsters. ` +
+            `Got ${status.gold} of gold and ${status.exp} of experience.` +
+            ` You explored for ${getTime(status.timestarted)}`
         );
       } catch (error) {
         // hero died in exploration
@@ -35,5 +36,7 @@ export function back(msg: Discord.Message): void {
         "Well.. Your hero are not training or exploring. YOU HAVE TO DO SOMETHING ABOUT THIS"
       );
     }
-  }).catch((error) => msg.channel.send(error));
+  } catch (error) {
+    msg.channel.send(error);
+  }
 }

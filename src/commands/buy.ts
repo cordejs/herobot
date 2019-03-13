@@ -1,7 +1,10 @@
 import * as Discord from "discord.js";
 import { reactionData } from "../utils/global";
-import { Item } from "../interfaces/item";
-import heroService from "../services/heroService";
+import { HeroRepository } from "../repositories/heroRepository";
+import { dbConnection } from "../../dbconn";
+import { Equip } from "../entity/equip";
+import { InventoryItem } from "../entity/inventory_item";
+import { getInventoryItemRepository } from "../repositories/inventoryItemRepository";
 
 /**
  * Buy a equip from store
@@ -9,7 +12,7 @@ import heroService from "../services/heroService";
  * @param msg message caller
  * @param equipId id of the equip that user wants to buy
  */
-export function buy(msg: Discord.Message, equipId: string): void {
+export async function buy(msg: Discord.Message, equipId: string) {
   if (equipId === undefined) {
     msg.channel.send(
       "How do you expect to buy something without informn what to buy ?"
@@ -27,47 +30,65 @@ export function buy(msg: Discord.Message, equipId: string): void {
     return;
   }
 
-  heroService
-    .findbyUserID(msg.author.id)
-    .then(hero => {
-      if (hero === null) {
-        msg.channel.send(
-          "You can not buy an equip because you don't have a hero"
-        );
-        return;
-      }
+  const heroRepository = dbConnection.getCustomRepository(HeroRepository);
 
-      const equipToBuy: Item = reactionData.data.find(
-        equip => equip.id === equipId
+  try {
+    const hero = await heroRepository.findbyId(msg.author.id);
+
+    if (hero === null) {
+      msg.channel.send(
+        "You can not buy an equip because you don't have a hero"
       );
+      return;
+    }
 
-      if (equipToBuy.price > hero.gold) {
-        msg.channel.send("NOT ENOUGH CASH!");
-        return;
-      }
+    const equipToBuy: Equip = reactionData.data.find(
+      equip => equip.id === Number.parseInt(equipId)
+    );
 
-      let equipType = "";
-      if ("damage" in equipToBuy) {
-        hero.weapon = equipToBuy;
-        equipType = "weapon";
-      } else if ("shield" in equipToBuy) {
-        hero.shield = equipToBuy;
-        equipType = "shield";
-      }
+    if (equipToBuy.price > hero.gold) {
+      msg.channel.send("NOT ENOUGH CASH!");
+      return;
+    }
 
-      hero.gold -= equipToBuy.price;
+    let equipType = "";
 
-      if (hero.inventory === undefined) {
-        hero.inventory = [];
-      }
+    if ("damage" in equipToBuy) {
+      hero.weapon = equipToBuy;
+      equipType = "weapon";
+    } else if ("shield" in equipToBuy) {
+      hero.shield = equipToBuy;
+      equipType = "shield";
+    }
 
-      hero.inventory.push({ amount: 1, equiped: false, item: equipToBuy });
+    hero.gold -= equipToBuy.price;
 
-      heroService.updateHero(hero).then(() =>
-        msg.channel.send("Congratualitions! You now are equiping " + equipToBuy.name + " " + equipType))
-        .catch(error => {
-          console.error(error);
-          msg.channel.send("I'm so sorry in say that, but we found a when delivering your equip");
-        });
-    }).catch((error) => msg.channel.send(error));
+    const heroInventory = await hero.inventoryItens;
+
+    const inventoryItem = new InventoryItem();
+    inventoryItem.equip = Promise.resolve(equipToBuy);
+    inventoryItem.hero = Promise.resolve(hero);
+
+    const inventoryItemRepository = getInventoryItemRepository();
+    await inventoryItemRepository.create(inventoryItem);
+
+    heroInventory.push(inventoryItem);
+
+    try {
+      await heroRepository.updateHero(hero);
+      msg.channel.send(
+        "Congratualitions! You now are equiping " +
+          equipToBuy.name +
+          " " +
+          equipType
+      );
+    } catch (error) {
+      console.error(error);
+      msg.channel.send(
+        "I'm so sorry in say that, but we found a when delivering your equip"
+      );
+    }
+  } catch (error) {
+    msg.channel.send(error);
+  }
 }

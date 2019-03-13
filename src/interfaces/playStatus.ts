@@ -1,4 +1,5 @@
-import { Action } from "../enums/action";
+import { Action, Task } from "../enums/action";
+import { Adventure } from "./adventure";
 
 /**
  * Used to define the the last time that the player sent the command "status"
@@ -9,10 +10,12 @@ import { Action } from "../enums/action";
  * when he say the command and when the command "back" is said, the bot get all informations from here
  * and save in player data.
  */
-export interface PlayStatus {
-  action: Action;
-  gold?: number;
-  monstersKilled?: number;
+export interface IPlayStatus {
+  id?: number;
+  task: Task;
+  monsterskilled: number;
   exp: number;
-  time: number;
+  gold: number;
+  timestarted: number;
+  adventure?: Adventure;
 }

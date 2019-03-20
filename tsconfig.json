@@ -6,7 +6,6 @@
     "target": "esnext",
     "noImplicitAny": false,
     "moduleResolution": "node",
-    "sourceMap": true,
     "outDir": "build",
     "declaration": false,
     "esModuleInterop": true,

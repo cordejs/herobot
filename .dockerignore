@@ -1,6 +1,0 @@
-node_modules
-assets
-database
-.env
-.env.example
-*.sh

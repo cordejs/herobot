@@ -2,7 +2,7 @@ import { Repository, EntityRepository } from "typeorm";
 import { dbConnection } from "../../dbconn";
 import { HeroClass } from "../entity/heroClass";
 import { ClassName, ClassNameEvolve } from "../enums/className";
-import { Emojis } from "../enums/emojis";
+import { EmojiPeople } from "../enums/emojis";
 
 @EntityRepository(HeroClass)
 export class HeroClassRepository extends Repository<HeroClass> {
@@ -19,7 +19,7 @@ export class HeroClassRepository extends Repository<HeroClass> {
       return Promise.reject(
         "We found a problem when searching for our clasess list. " +
           +" Please, try again later " +
-          Emojis.SAD_CRYING
+          EmojiPeople["😰"]
       );
     }
   }
@@ -35,7 +35,7 @@ export class HeroClassRepository extends Repository<HeroClass> {
       return Promise.reject(
         "We found a problem when creating your assignature" +
           +" of new hero. Try again later " +
-          Emojis.SAD_CRYING
+          EmojiPeople["😰"]
       );
     }
   }

@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.1.2 - 2019-03-14
+
+- Fixed dependencies vulnerabilities and build error due to [install 9.15.1 fail #1984](https://github.com/highlightjs/highlight.js/issues/1984)
+- Removed trash files
+
 ## 0.1.1 - 2019-02-25
 
 Fixed dependencies vulnerabilities

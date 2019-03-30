@@ -72,6 +72,8 @@ export class HeroRepository extends Repository<Hero> {
       hero.weapon = Promise.resolve(getWeaponpository().findFirstWeapon());
       hero.shield = Promise.resolve(getShieldpository().findFirstShield());
 
+      await super.save(hero);
+
       await getInventoryItemRepository().insert(weaponInventoryItem);
       await getInventoryItemRepository().insert(shieldInventoryItem);
 
@@ -92,8 +94,6 @@ export class HeroRepository extends Repository<Hero> {
 
       hero.inventoryItens = Promise.resolve(inventoryItens);
     }
-
-    super.save(hero);
   }
 
   async findbyId(id: string): Promise<Hero> {

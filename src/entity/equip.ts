@@ -1,7 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { PrimaryGeneratedColumn, Column } from "typeorm";
 
-@Entity()
-export class Equip {
+export abstract class Equip {
   @PrimaryGeneratedColumn()
   id: number;
 

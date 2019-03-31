@@ -3,20 +3,13 @@ jobs:
   build:
     docker:
       - image: circleci/node:10
-
-      # Service container image available at `host: localhost`
-      - image: circleci/postgres:11.2
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: 123
-          POSTGRES_DB: testdb
-
+    paralelism: 4
     steps:
       - checkout
 
       # Install npm
       - run:
-          name: update-npm
+          name: Update-npm
           command: "sudo npm install -g npm@5"
 
       # Restore dependencies if they are saved
@@ -25,16 +18,34 @@ jobs:
 
       # Install dependendencies
       - run:
-          name: install-dependencies
+          name: Install dependencies
           command: npm install
-
-      # Install postgres sql
-      - run: sudo apt install -y postgresql-client || true
 
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
 
-      - run: npm run build
-      - run: npm run migrations
+      - run:
+          name: Build Project
+          command: npm run build
+  test:
+    docker:
+      # Service container image available at `host: localhost`
+      - image: circleci/postgres:11.2
+
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: 123
+          POSTGRES_DB: testdb
+
+    paralelism: 4
+    steps:
+      # Install postgres sql
+      - run:
+          name: Install postgree's server
+          command: sudo apt install -y postgresql-client || true
+
+      - run:
+          name: Migrate database
+          command: npm run migrations

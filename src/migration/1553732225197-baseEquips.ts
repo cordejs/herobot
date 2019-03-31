@@ -2,27 +2,13 @@ import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class BaseEquips1553732225197 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.query(`
-        WITH rows AS (
-            INSERT INTO equip
-                (name, price, level)
-            VALUES
-                ('Wood Sword', 10, 1)
-            RETURNING id, 10 as damage
-        )
-        INSERT INTO weapon SELECT id, damage FROM rows;
-        `);
+    queryRunner.query(`
+    insert into equip (name, level, damage, price, type)
+        values('wood sword', 1, 1, 1, 'weapon');
 
-    await queryRunner.query(`
-        WITH rows AS (
-            INSERT INTO equip
-                (name, price, level)
-            VALUES
-                ('Wood Shield', 10, 1)
-            RETURNING id, 10 as damage
-        )
-        INSERT INTO shield SELECT id, damage FROM rows;
-        `);
+    insert into equip (name, level, defence, price, type)
+        values('wood shield', 1, 1, 1, 'shield');
+    `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {}

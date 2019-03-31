@@ -1,7 +1,7 @@
-import { Entity, Column } from "typeorm";
+import { Entity, Column, ChildEntity } from "typeorm";
 import { Equip } from "./equip";
 
-@Entity()
+@ChildEntity("weapon")
 export class Weapon extends Equip {
   @Column()
   damage: number;

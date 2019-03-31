@@ -11,8 +11,8 @@ import { PlayStatus } from "./playStatus";
 import { Proficience } from "./proficience";
 import { HeroClass } from "./heroClass";
 import { Shield } from "./shield";
-import { InventoryItem } from "./inventory_item";
 import { JsonHandle } from "../utils/jsonHandle";
+import { InventoryEquip } from "./inventoryEquip";
 
 @Entity()
 export class Hero {
@@ -46,32 +46,32 @@ export class Hero {
   @Column("varchar", { name: "monsterskilled" })
   monstersKilled: number;
 
+  @OneToOne(type => Shield, { onDelete: "CASCADE" })
   @JoinColumn({ name: "idshield", referencedColumnName: "id" })
-  @OneToOne(type => Shield)
   shield: Promise<Shield>;
 
   @JoinColumn({ name: "idweapon", referencedColumnName: "id" })
   @OneToOne(type => Weapon)
   weapon: Promise<Weapon>;
 
-  @OneToOne(type => PlayStatus)
+  @OneToOne(type => PlayStatus, { onDelete: "CASCADE" })
   @JoinColumn({ name: "idplaystatus" })
   playStatus: Promise<PlayStatus>;
 
   @JoinColumn({ name: "iddamageproficience" })
-  @OneToOne(type => Proficience)
+  @OneToOne(type => Proficience, { onDelete: "CASCADE" })
   damageProficience: Promise<Proficience>;
 
   @JoinColumn({ name: "iddefenceproficience" })
-  @OneToOne(type => Proficience)
+  @OneToOne(type => Proficience, { onDelete: "CASCADE" })
   defenceProficience: Promise<Proficience>;
 
   @JoinColumn({ name: "idheroclass" })
-  @OneToOne(type => HeroClass)
+  @OneToOne(type => HeroClass, { onDelete: "CASCADE" })
   heroClass: Promise<HeroClass>;
 
-  @ManyToMany(type => InventoryItem)
-  inventoryItens: Promise<InventoryItem[]>;
+  @ManyToMany(type => InventoryEquip, { onDelete: "CASCADE" })
+  inventoryItens: Promise<InventoryEquip[]>;
 
   constructor(name: string, userId: number) {
     this.id = userId;

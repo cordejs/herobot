@@ -7,15 +7,14 @@ import { Hero } from "../entity/hero";
 import { Proficience } from "../entity/proficience";
 import { IPlayStatus } from "../interfaces/playStatus";
 import { EntityRepository, Repository } from "typeorm";
-import { JsonHandle } from "../utils/jsonHandle";
 import { getProficienceRepository } from "./proficienceRepository";
 import { getHeroClassepository } from "./heroClassRepository";
 import { PlayStatus } from "../entity/playStatus";
 import { getPlayStatusRepository } from "./playStatusRepository";
 import { getWeaponpository } from "./weaponRepository";
 import { getShieldpository } from "./shieldRepository";
-import { InventoryItem } from "../entity/inventory_item";
-import { getInventoryItemRepository } from "./inventoryItemRepository";
+import { InventoryEquip } from "../entity/inventoryEquip";
+import { getInventoryEquipRepository } from "./inventoryItemRepository";
 
 @EntityRepository(Hero)
 export class HeroRepository extends Repository<Hero> {
@@ -39,13 +38,13 @@ export class HeroRepository extends Repository<Hero> {
     hero.weapon = Promise.resolve(await getWeaponpository().findFirstWeapon());
     hero.shield = Promise.resolve(await getShieldpository().findFirstShield());
 
-    const inventoryItens: InventoryItem[] = [];
+    const inventoryItens: InventoryEquip[] = [];
 
-    const weaponInventoryItem = new InventoryItem();
+    const weaponInventoryItem = new InventoryEquip();
     weaponInventoryItem.hero = Promise.resolve(hero);
     weaponInventoryItem.equip = hero.weapon;
 
-    const shieldInventoryItem = new InventoryItem();
+    const shieldInventoryItem = new InventoryEquip();
     shieldInventoryItem.hero = Promise.resolve(hero);
     shieldInventoryItem.equip = hero.shield;
 
@@ -62,20 +61,22 @@ export class HeroRepository extends Repository<Hero> {
       damageProficience = new Proficience();
       defenceProficience = new Proficience();
 
+      hero.heroClass = Promise.resolve(
+        getHeroClassepository().findDefaultClassName()
+      );
+      hero.weapon = Promise.resolve(getWeaponpository().findFirstWeapon());
+      hero.shield = Promise.resolve(getShieldpository().findFirstShield());
+
       await proficienceRepository.insert(defenceProficience);
       await proficienceRepository.insert(damageProficience);
 
       hero.damageProficience = Promise.resolve(damageProficience);
       hero.defenceProficience = Promise.resolve(defenceProficience);
 
-      hero.heroClass = getHeroClassepository().findDefaultClassName();
-      hero.weapon = Promise.resolve(getWeaponpository().findFirstWeapon());
-      hero.shield = Promise.resolve(getShieldpository().findFirstShield());
-
       await super.save(hero);
 
-      await getInventoryItemRepository().insert(weaponInventoryItem);
-      await getInventoryItemRepository().insert(shieldInventoryItem);
+      await getInventoryEquipRepository().insert(weaponInventoryItem);
+      await getInventoryEquipRepository().insert(shieldInventoryItem);
 
       inventoryItens.push(shieldInventoryItem, weaponInventoryItem);
       hero.inventoryItens = Promise.resolve(inventoryItens);

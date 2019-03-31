@@ -1,6 +1,6 @@
 import * as Discord from "discord.js";
 import { getHeroRepository } from "../utils/repositoryHandler";
-import { InventoryItem } from "../entity/inventory_item";
+import { InventoryEquip } from "../entity/inventoryEquip";
 
 /**
  * Inform the situation of the hero in his exploration or trainning
@@ -18,7 +18,7 @@ export async function sell(msg: Discord.Message, itemID: string) {
     } else if (itemID !== "" && itemID !== null && itemID !== undefined) {
       const inventoryItens = await hero.inventoryItens;
 
-      const itemToSell: InventoryItem = inventoryItens.find(
+      const itemToSell: InventoryEquip = inventoryItens.find(
         itemInventory => itemInventory.id == Number.parseInt(itemID)
       );
 

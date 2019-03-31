@@ -1,5 +1,12 @@
-import { PrimaryGeneratedColumn, Column } from "typeorm";
+import {
+  PrimaryGeneratedColumn,
+  Column,
+  Entity,
+  TableInheritance
+} from "typeorm";
 
+@Entity()
+@TableInheritance({ column: { name: "type", type: "varchar" } })
 export abstract class Equip {
   @PrimaryGeneratedColumn()
   id: number;

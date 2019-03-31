@@ -3,13 +3,14 @@ import {
   PrimaryGeneratedColumn,
   JoinColumn,
   OneToOne,
-  BaseEntity
+  Column
 } from "typeorm";
 import { Hero } from "./hero";
 import { Equip } from "./equip";
+import { Potion } from "./potion";
 
-@Entity("inventory_item")
-export class InventoryItem {
+@Entity("inventory_potion")
+export class InventoryPotion {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -17,7 +18,10 @@ export class InventoryItem {
   @OneToOne(type => Hero)
   hero: Promise<Hero>;
 
-  @JoinColumn({ name: "idequip" })
+  @Column()
+  amount: number;
+
+  @JoinColumn({ name: "idpotion" })
   @OneToOne(type => Equip)
-  equip: Promise<Equip>;
+  equip: Promise<Potion>;
 }

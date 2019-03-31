@@ -27,9 +27,9 @@ jobs:
           command: npm run build
   test:
     docker:
+      - image: circleci/node:10
       # Service container image available at `host: localhost`
       - image: circleci/postgres:11.2
-
         environment:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: 123

@@ -1,14 +1,12 @@
-import { JsonHandle } from "./../utils/jsonHandle";
 import * as Discord from "discord.js";
 import { reactionData } from "../utils/global";
-import { Item } from "../interfaces/item";
-import { Shield } from "../interfaces/shield";
 import { getHeroRepository } from "../utils/repositoryHandler";
 import { Equip } from "../entity/equip";
 import { getShieldpository } from "../repositories/shieldRepository";
 import { getWeaponpository } from "../repositories/weaponRepository";
 import { Weapon } from "../entity/weapon";
 import { EmojiSymbols } from "../enums/emojis";
+import { Shield } from "../entity/shield";
 
 /**
  * Informs all available items from selected type.

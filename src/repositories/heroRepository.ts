@@ -1,4 +1,3 @@
-import { Monster } from "../interfaces/monster";
 import { getTimeStampFormated } from "../utils/time";
 import { Task } from "../enums/action";
 import { HeroDieError } from "../errors/heroDieError";
@@ -15,6 +14,7 @@ import { getWeaponpository } from "./weaponRepository";
 import { getShieldpository } from "./shieldRepository";
 import { InventoryEquip } from "../entity/inventoryEquip";
 import { getInventoryEquipRepository } from "./inventoryItemRepository";
+import { Monster } from "../entity/monster";
 
 @EntityRepository(Hero)
 export class HeroRepository extends Repository<Hero> {
@@ -182,7 +182,7 @@ export class HeroRepository extends Repository<Hero> {
         monster.hp -
         this.calcDamageTaken(
           this.calcDamage(weapon.damage, damageProficience.level),
-          this.calcDefence(monster.shield)
+          this.calcDefence(monster.defence)
         );
     }
   }

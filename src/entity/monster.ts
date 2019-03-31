@@ -6,7 +6,6 @@ import {
   OneToOne,
   BaseEntity
 } from "typeorm";
-import { EquipDrop } from "../interfaces/equipDrop";
 import { Equip } from "./equip";
 
 @Entity()

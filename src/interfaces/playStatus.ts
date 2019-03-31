@@ -1,5 +1,5 @@
 import { Action, Task } from "../enums/action";
-import { Adventure } from "./adventure";
+import { Adventure } from "../entity/adventure";
 
 /**
  * Used to define the the last time that the player sent the command "status"

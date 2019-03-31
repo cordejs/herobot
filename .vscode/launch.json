@@ -7,8 +7,17 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
-      "program": "${workspaceFolder}\\src\\bot.ts",
+      "name": "Debug Bot Without Build",
+      "console": "integratedTerminal",
+      "program": "${workspaceFolder}/src/bot.ts",
+      "outFiles": ["${workspaceFolder}/build/**/*.js"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Bot With Build",
+      "console": "integratedTerminal",
+      "program": "${workspaceFolder}/src/bot.ts",
       "preLaunchTask": "npm: build",
       "outFiles": ["${workspaceFolder}/build/**/*.js"]
     }

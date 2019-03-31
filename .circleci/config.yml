@@ -9,19 +9,15 @@ jobs:
       - run:
           name: Update-npm
           command: "sudo npm install -g npm@5"
-
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
-
       - run:
           name: Install dependencies
           command: npm install
-
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-
       - run:
           name: Build Project
           command: npm run build
@@ -34,19 +30,16 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: 123
           POSTGRES_DB: testdb
-
     steps:
+      - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
-
       - run:
           name: Install postgree's server
           command: sudo apt install -y postgresql-client || true
-
       - run:
           name: Migrate database
           command: npm run migrations
-
 workflows:
   version: 2
   build_and_test:

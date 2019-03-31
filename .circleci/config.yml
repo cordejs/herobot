@@ -36,8 +36,6 @@ jobs:
           POSTGRES_DB: testdb
 
     steps:
-      - checkout
-
       - run:
           name: Install postgree's server
           command: sudo apt install -y postgresql-client || true

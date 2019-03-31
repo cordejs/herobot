@@ -6,17 +6,13 @@ jobs:
     paralelism: 4
     steps:
       - checkout
-
-      # Install npm
       - run:
           name: Update-npm
           command: "sudo npm install -g npm@5"
 
-      # Restore dependencies if they are saved
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
 
-      # Install dependendencies
       - run:
           name: Install dependencies
           command: npm install
@@ -41,7 +37,8 @@ jobs:
 
     paralelism: 4
     steps:
-      # Install postgres sql
+      - checkout
+
       - run:
           name: Install postgree's server
           command: sudo apt install -y postgresql-client || true

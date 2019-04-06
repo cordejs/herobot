@@ -98,7 +98,7 @@ export class HeroRepository extends Repository<Hero> {
   }
 
   async findbyId(id: string): Promise<Hero> {
-    return super.findOne(id);
+    return super.findOne(Number.parseInt(id));
   }
 
   updateHero(hero: Hero): Promise<Hero> {

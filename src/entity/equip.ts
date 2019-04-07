@@ -19,4 +19,7 @@ export abstract class Equip {
 
   @Column()
   level: number;
+
+  @Column()
+  sellPrice: number;
 }

@@ -40,7 +40,4 @@ export class Monster extends BaseEntity {
 
   @Column()
   equipDropChance: number;
-
-  @Column()
-  gold: number;
 }

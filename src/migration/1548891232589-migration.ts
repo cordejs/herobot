@@ -39,6 +39,7 @@ export class Migration1548891232589 implements MigrationInterface {
         "defence INTEGER," +
         "damage INTEGER," +
         "price INTEGER NOT NULL" +
+        "sellprice INTEGER NOT NULL" +
         ");"
     );
 

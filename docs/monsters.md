@@ -16,7 +16,7 @@
 | Horror Box           | 12    | 22     | 16      | 74  | 14      | 25        |
 | Eyeant               | 13    | 26     | 19      | 78  | 16      | 28        |
 | Watchman of Darkness | 14    | 30     | 22      | 82  | 18      | 31        |
-| Fire-breathing Rat   | 15    | 34     | 25      | 86  | 20      | 34        |
+| Avipteryx            | 15    | 34     | 25      | 86  | 20      | 34        |
 | Mandrake             | 16    | 38     | 28      | 90  | 22      | 37        |
 | Graveyard Watchman   | 17    | 42     | 31      | 94  | 24      | 40        |
 | Deathviper           | 18    | 46     | 34      | 98  | 26      | 43        |

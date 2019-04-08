@@ -1,7 +1,7 @@
 # Data Info
 
 This folder contains all information `about`, `equips`, `adventures`, `monsters` etc.
-All information is stored in the database and they can be found in [migrations](https://github.com/lucasgmagalhaes/herobot/tree/postgree-orm/src/migration) or in [database](<[migrations](https://github.com/lucasgmagalhaes/herobot/tree/postgree-orm/database)>)
+All information is stored in the database and they can be found in [migrations](https://github.com/lucasgmagalhaes/herobot/tree/postgree-orm/src/migration) or in [database](https://github.com/lucasgmagalhaes/herobot/tree/postgree-orm/database)
 backup.
 
 Some helpfull page that are used to make markdown documents:

@@ -6,6 +6,6 @@ backup.
 
 Some helpfull page that are used to make markdown documents:
 
-[csv to sql](http://convertcsv.com/csv-to-sql.htm)
-[herobot data excel](https://docs.google.com/spreadsheets/d/1fwz6pjHTW4osIXE2XH2h7Zxw3AheaCxbxJD1rZxflR0/edit?usp=sharing)
-[excel to markdown](https://thisdavej.com/copy-table-in-excel-and-paste-as-a-markdown-table/)
+[csv to sql](http://convertcsv.com/csv-to-sql.htm)  
+[herobot data excel](https://docs.google.com/spreadsheets/d/1fwz6pjHTW4osIXE2XH2h7Zxw3AheaCxbxJD1rZxflR0/edit?usp=sharing)  
+[excel to markdown](https://thisdavej.com/copy-table-in-excel-and-paste-as-a-markdown-table/)  

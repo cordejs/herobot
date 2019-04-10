@@ -1,5 +1,4 @@
 #!/bin/sh
-# Thanks https://github.com/shikhir-arora for the install files
 
 function failed {
     echo "$(tput setaf 1)$@$(tput sgr0)"
@@ -34,7 +33,7 @@ fi
 # After installing the modules, karma-simple (which includes the node_modules) will be moved out of the temporary folder and that temporary folder will be deleted
 
 directory=$(pwd)
-tempinstalldir=karmatmp
+tempinstalldir=temp
 
 rm -r "$tempinstalldir" 1>/dev/null 2>&1
 mkdir "$tempinstalldir"
@@ -49,8 +48,7 @@ echo "HeroBot downloaded!"
 echo ""
 echo "Downloading HeroBot dependencies with pnpm."
 cd $directory/$tempinstalldir/herobot || failed "Could not enter the herobot folder - please check permissions!"
-curl -L https://unpkg.com/@pnpm/self-installer | node
-pnpm install 
+npm install 
 
 cd "$directory"
 mv "$tempinstalldir"/herobot herobot

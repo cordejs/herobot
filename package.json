@@ -28,7 +28,7 @@
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.3.3",
     "typings": "^2.1.1",
-    "uglify-js": "^3.5.2"
+    "uglify-js": "^3.5.4"
   },
   "scripts": {
     "build-watch": "tsc --watch",

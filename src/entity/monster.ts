@@ -6,7 +6,6 @@ import {
   OneToOne,
   BaseEntity
 } from "typeorm";
-import { EquipDrop } from "../interfaces/equipDrop";
 import { Equip } from "./equip";
 
 @Entity()
@@ -41,7 +40,4 @@ export class Monster extends BaseEntity {
 
   @Column()
   equipDropChance: number;
-
-  @Column()
-  gold: number;
 }

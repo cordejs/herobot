@@ -4,6 +4,7 @@
     "allowJs": true,
     "module": "commonjs",
     "target": "esnext",
+    "sourceMap": true,
     "noImplicitAny": false,
     "moduleResolution": "node",
     "outDir": "build",

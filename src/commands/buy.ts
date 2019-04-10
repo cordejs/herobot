@@ -3,8 +3,8 @@ import { reactionData } from "../utils/global";
 import { HeroRepository } from "../repositories/heroRepository";
 import { dbConnection } from "../../dbconn";
 import { Equip } from "../entity/equip";
-import { InventoryItem } from "../entity/inventory_item";
-import { getInventoryItemRepository } from "../repositories/inventoryItemRepository";
+import { InventoryEquip } from "../entity/inventoryEquip";
+import { getInventoryEquipRepository } from "../repositories/inventoryItemRepository";
 
 /**
  * Buy a equip from store
@@ -65,11 +65,11 @@ export async function buy(msg: Discord.Message, equipId: string) {
 
     const heroInventory = await hero.inventoryItens;
 
-    const inventoryItem = new InventoryItem();
+    const inventoryItem = new InventoryEquip();
     inventoryItem.equip = Promise.resolve(equipToBuy);
     inventoryItem.hero = Promise.resolve(hero);
 
-    const inventoryItemRepository = getInventoryItemRepository();
+    const inventoryItemRepository = getInventoryEquipRepository();
     await inventoryItemRepository.create(inventoryItem);
 
     heroInventory.push(inventoryItem);

@@ -1,10 +1,10 @@
 import { Repository, EntityRepository } from "typeorm";
 import { dbConnection } from "../../dbconn";
-import { InventoryItem } from "../entity/inventory_item";
+import { InventoryEquip } from "../entity/inventoryEquip";
 
-@EntityRepository(InventoryItem)
-export class InventoryItemRepository extends Repository<InventoryItem> {}
+@EntityRepository(InventoryEquip)
+export class InventoryItemRepository extends Repository<InventoryEquip> {}
 
-export function getInventoryItemRepository(): InventoryItemRepository {
+export function getInventoryEquipRepository(): InventoryItemRepository {
   return dbConnection.getCustomRepository(InventoryItemRepository);
 }

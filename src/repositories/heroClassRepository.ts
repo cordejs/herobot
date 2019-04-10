@@ -29,7 +29,7 @@ export class HeroClassRepository extends Repository<HeroClass> {
    */
   async findDefaultClassName(): Promise<HeroClass> {
     try {
-      return await super.findOne({ name: ClassName.BEGGINNER });
+      return await super.findOne({ where: { name: ClassName.BEGGINNER } });
     } catch (error) {
       console.log(error);
       return Promise.reject(

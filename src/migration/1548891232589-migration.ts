@@ -148,6 +148,14 @@ export class Migration1548891232589 implements MigrationInterface {
         "    FOREIGN KEY(idhero) REFERENCES hero(id)" +
         ");"
     );
+
+    await queryRunner.query(
+      'CREATE TABLE "Aventure_Monsters"' +
+        '"MonsterId" BIGINT' +
+        '"AdventureId" BIGINT' +
+        'FOREIGN KEY("monsterId") REFERENCES "Monster"' +
+        'FOREIGN KEY("monsterId") REFERENCES "Adventure"'
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {}

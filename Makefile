@@ -1,7 +1,7 @@
 .PHONY: build watch clean install
 default: build
 
-TYPESCRIPT_VERSION=2.0.7
+TYPESCRIPT_VERSION=3.1.3
 INSTALL_DIR=./node_modules/typescript/bin/
 TSC=$(INSTALL_DIR)tsc
 	

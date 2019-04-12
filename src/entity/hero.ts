@@ -47,26 +47,26 @@ export class Hero {
   monstersKilled: number;
 
   @OneToOne(type => Shield, { onDelete: "CASCADE" })
-  @JoinColumn({ name: "idshield", referencedColumnName: "id" })
+  @JoinColumn({ name: "shieldId", referencedColumnName: "id" })
   shield: Promise<Shield>;
 
-  @JoinColumn({ name: "idweapon", referencedColumnName: "id" })
+  @JoinColumn({ name: "weaponId", referencedColumnName: "id" })
   @OneToOne(type => Weapon)
   weapon: Promise<Weapon>;
 
   @OneToOne(type => PlayStatus, { onDelete: "CASCADE" })
-  @JoinColumn({ name: "idplaystatus" })
+  @JoinColumn({ name: "playStatusId" })
   playStatus: Promise<PlayStatus>;
 
-  @JoinColumn({ name: "iddamageproficience" })
+  @JoinColumn({ name: "damageProficienceId" })
   @OneToOne(type => Proficience, { onDelete: "CASCADE" })
   damageProficience: Promise<Proficience>;
 
-  @JoinColumn({ name: "iddefenceproficience" })
+  @JoinColumn({ name: "defenceProficienceId" })
   @OneToOne(type => Proficience, { onDelete: "CASCADE" })
   defenceProficience: Promise<Proficience>;
 
-  @JoinColumn({ name: "idheroclass" })
+  @JoinColumn({ name: "heroClassId" })
   @OneToOne(type => HeroClass, { onDelete: "CASCADE" })
   heroClass: Promise<HeroClass>;
 

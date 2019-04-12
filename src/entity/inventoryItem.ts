@@ -14,14 +14,14 @@ export class InventoryPotion {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @JoinColumn({ name: "idhero" })
+  @JoinColumn({ name: "heroId" })
   @OneToOne(type => Hero)
   hero: Promise<Hero>;
 
   @Column()
   amount: number;
 
-  @JoinColumn({ name: "idpotion" })
+  @JoinColumn({ name: "potionId" })
   @OneToOne(type => Equip)
   equip: Promise<Potion>;
 }

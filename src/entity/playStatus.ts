@@ -28,7 +28,7 @@ export class PlayStatus {
   @Column({ default: 0 })
   timestarted: number;
 
-  @JoinColumn({ name: "idadventure", referencedColumnName: "id" })
+  @JoinColumn({ name: "adventureId", referencedColumnName: "id" })
   @OneToOne(() => Adventure, { nullable: true })
   adventure: Promise<Adventure>;
 

@@ -14,13 +14,13 @@ export class InventoryEquip {
   id: number;
 
   @OneToOne(type => Hero)
-  @JoinColumn({ name: "idhero" })
+  @JoinColumn({ name: "heroId" })
   hero: Promise<Hero>;
 
   @Column()
   equiped: boolean;
 
   @OneToOne(type => Equip)
-  @JoinColumn({ name: "idequip" })
+  @JoinColumn({ name: "equipId" })
   equip: Promise<Equip>;
 }

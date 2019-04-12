@@ -2,14 +2,20 @@
 
 | Name                 | level | damage | defence | hp  | givedxp | givedgold |
 | -------------------- | ----- | ------ | ------- | --- | ------- | --------- |
+| Blue Slime           | 1     | 4      | 2       | 30  | 1       | 1         |
 | Slime                | 1     | 5      | 1       | 30  | 1       | 1         |
+| Red Slime            | 1     | 6      | 2       | 28  | 2       | 1         |
+| Mr.Splinter          | 2     | 5      | 3       | 31  | 1       | 4         |
 | Fang Rat             | 2     | 6      | 2       | 33  | 2       | 3         |
+| Back Rat             | 2     | 7      | 1       | 35  | 3       | 2         |
 | Harpy                | 3     | 7      | 3       | 36  | 3       | 5         |
 | Goblin               | 4     | 8      | 4       | 39  | 4       | 7         |
+| Goblin Archer        | 4     | 9      | 3       | 36  | 4       | 7         |
+| Goblin Warrior       | 4     | 8      | 5       | 45  | 5       | 6         |
 | Zombie               | 5     | 9      | 5       | 42  | 5       | 9         |
 | Wisp                 | 6     | 10     | 6       | 45  | 6       | 11        |
 | Scout                | 7     | 11     | 7       | 48  | 7       | 13        |
-| Rat                  | 8     | 12     | 8       | 51  | 8       | 15        |
+| Fat Rat              | 8     | 12     | 8       | 51  | 8       | 15        |
 | Driller              | 9     | 13     | 9       | 54  | 9       | 17        |
 | Sand Viper           | 10    | 14     | 10      | 57  | 10      | 19        |
 | Earthsoul            | 11    | 18     | 13      | 70  | 12      | 22        |

@@ -1,11 +1,5 @@
 # Hero Table Level
 
-## How this is calculated
-
-(level + 1,5) _ ( 100 + level ) + ( level _ level )
-
-## Table example of the values
-
 | Level | Exp   |
 | ----- | ----- |
 | 1     | 254   |

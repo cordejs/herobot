@@ -1,4 +1,4 @@
-# Hero Table Level
+# Proficience Table Level 1-100
 
 | Level | Exp   |
 | ----- | ----- |

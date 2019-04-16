@@ -20,5 +20,5 @@ export class Adventure {
 
   @JoinColumn({ name: "monsterId" })
   @OneToOne(type => Monster)
-  monster: Promise<Monster>;
+  monster: Promise<Monster[]>;
 }

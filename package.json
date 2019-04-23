@@ -4,7 +4,7 @@
   "description": "A discord bot to play RPG",
   "main": "./src/bot.ts",
   "dependencies": {
-    "@types/node": "11.13.6",
+    "@types/node": "11.13.7",
     "discord.js": "^11.4.2",
     "dotenv": "^7.0.0",
     "event-stream": "^4.0.1",

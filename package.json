@@ -6,7 +6,7 @@
   "dependencies": {
     "@types/node": "11.13.8",
     "discord.js": "^11.4.2",
-    "dotenv": "^7.0.0",
+    "dotenv": "^8.0.0",
     "event-stream": "^4.0.1",
     "nodemon": "1.19.0",
     "pg": "^7.9.0",
